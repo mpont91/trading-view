@@ -4,7 +4,12 @@ import Logs from '../components/Logs.vue'
 import type { Log } from '../types'
 import { getLogs } from '../api'
 
-const logs: Log[] = await getLogs()
+let logs: Log[] = []
+try {
+  logs = await getLogs()
+} catch (error: unknown) {
+  //TODO: Show error message
+}
 ---
 
 <IndexLayout>

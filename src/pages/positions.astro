@@ -4,7 +4,12 @@ import PositionsTable from '../components/PositionsTable.vue'
 import type { Position } from '../types'
 import { getPositions } from '../api'
 
-const positions: Position[] = await getPositions()
+let positions: Position[] = []
+try {
+  positions = await getPositions()
+} catch (error: unknown) {
+  //TODO: Show error message
+}
 ---
 
 <IndexLayout>
