@@ -1,5 +1,9 @@
 ---
 import IndexLayout from '../layouts/IndexLayout.astro'
+import PositionsTable from '../components/PositionsTable.vue'
+import type { Position } from '../types'
+
+const positions: Position[] = [] //TODO: Get positions
 ---
 
 <IndexLayout>
@@ -7,7 +11,8 @@ import IndexLayout from '../layouts/IndexLayout.astro'
     <h1
       class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
     >
-      Home
+      Positions
     </h1>
   </header>
+  <PositionsTable positions={positions} client:load />
 </IndexLayout>

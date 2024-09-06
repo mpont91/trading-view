@@ -1,0 +1,45 @@
+<template>
+  <ol class="relative border-s dark:border-gray-700">
+    <li v-for="log in logs" :key="log.timestamp" class="mb-10 ms-4">
+      <div
+        class="absolute w-3 h-3 rounded-full mt-1.5 -start-1.5 border border-white"
+        :class="{
+          'dark:border-red-900 dark:bg-red-700': log.level === 'error',
+          'dark:border-blue-900 dark:bg-blue-700': log.level === 'info',
+        }"
+      ></div>
+      <time class="mb-1 text-sm font-normal leading-none dark:text-gray-400">
+        {{ formatDate(log.timestamp) }}
+      </time>
+      <p class="text-base font-normal dark:text-gray-100">
+        {{ log.message }}
+      </p>
+    </li>
+  </ol>
+</template>
+
+<script setup lang="ts">
+import type { Log } from '../types.js'
+import type { PropType } from 'vue'
+
+defineProps({
+  logs: {
+    type: Array as PropType<Log[]>,
+    default: [],
+  },
+})
+
+function formatDate(date?: string) {
+  if (!date) return ''
+
+  const d = new Date(date)
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  const hours = String(d.getHours()).padStart(2, '0')
+  const minutes = String(d.getMinutes()).padStart(2, '0')
+  const seconds = String(d.getSeconds()).padStart(2, '0')
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
+</script>
