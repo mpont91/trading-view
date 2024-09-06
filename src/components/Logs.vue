@@ -19,14 +19,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Log } from '../types.js'
-import type { PropType } from 'vue'
+import { ref, onMounted } from 'vue'
+import type { Log } from '../types'
+import { getLogs } from '../api'
 
-defineProps({
-  logs: {
-    type: Array as PropType<Log[]>,
-    default: [],
-  },
+const logs = ref<Log[]>([])
+
+onMounted(async () => {
+  try {
+    logs.value = await getLogs()
+  } catch (error: unknown) {
+    //TODO: Show error message
+  }
 })
 
 function formatDate(date?: string) {

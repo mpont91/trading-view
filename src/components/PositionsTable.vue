@@ -44,14 +44,18 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import type { Position } from '../types'
-import type { PropType } from 'vue'
+import { getPositions } from '../api'
 
-defineProps({
-  positions: {
-    type: Array as PropType<Position[]>,
-    default: [],
-  },
+const positions = ref<Position[]>([])
+
+onMounted(async () => {
+  try {
+    positions.value = await getPositions()
+  } catch (error: unknown) {
+    //TODO: Show error message
+  }
 })
 
 function formatDate(date?: string) {

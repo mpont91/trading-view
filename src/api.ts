@@ -1,7 +1,7 @@
 import type { Log, Position } from './types'
 import { FetchPLogsException, FetchPositionsException } from './exceptions.ts'
 
-const api = import.meta.env.API
+const api = import.meta.env.PUBLIC_API
 
 export async function getPositions(): Promise<Position[]> {
   try {

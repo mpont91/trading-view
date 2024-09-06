@@ -1,15 +1,6 @@
 ---
 import IndexLayout from '../layouts/IndexLayout.astro'
 import PositionsTable from '../components/PositionsTable.vue'
-import type { Position } from '../types'
-import { getPositions } from '../api'
-
-let positions: Position[] = []
-try {
-  positions = await getPositions()
-} catch (error: unknown) {
-  //TODO: Show error message
-}
 ---
 
 <IndexLayout>
@@ -20,5 +11,5 @@ try {
       Positions
     </h1>
   </header>
-  <PositionsTable positions={positions} client:load />
+  <PositionsTable client:load />
 </IndexLayout>
