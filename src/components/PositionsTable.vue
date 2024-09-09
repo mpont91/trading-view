@@ -17,7 +17,7 @@
           <th scope="col" class="px-6 py-3">Buy datetime</th>
           <th scope="col" class="px-6 py-3">Sell price</th>
           <th scope="col" class="px-6 py-3">Sell datetime</th>
-          <th colspan="2" scope="col" class="px-6 py-3">Profit</th>
+          <th colspan="2" scope="col" class="px-6 py-3">PnL</th>
         </tr>
       </thead>
       <tbody>
@@ -40,10 +40,10 @@
             {{ formatDate(position.sell_at) }}
           </td>
           <td class="px-6 py-4 dark:text-white">
-            {{ formatAmount(position.profit) }}
+            {{ formatAmount(position.pnl) }}
           </td>
           <td class="px-6 py-4 dark:text-white">
-            {{ formatPercentage(position.profit_percentage) }}
+            {{ formatPercentage(position.pnl_percentage) }}
           </td>
         </tr>
       </tbody>

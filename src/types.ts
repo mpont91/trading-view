@@ -7,8 +7,8 @@ export interface Position {
   buy_at: string
   sell_price?: number
   sell_at?: string
-  profit?: number
-  profit_percentage?: number
+  pnl?: number
+  pnl_percentage?: number
 }
 
 export interface Log {
