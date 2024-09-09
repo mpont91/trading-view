@@ -1,5 +1,12 @@
 <template>
-  <div class="relative overflow-x-auto">
+  <div
+    v-if="hasError === true"
+    class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+    role="alert"
+  >
+    Couldn't fetch the positions!
+  </div>
+  <div v-else-if="hasError === false" class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
       <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
         <tr>
@@ -48,13 +55,15 @@ import { ref, onMounted } from 'vue'
 import type { Position } from '../types'
 import { getPositions } from '../api'
 
+const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])
 
 onMounted(async () => {
   try {
     positions.value = await getPositions()
+    hasError.value = false
   } catch (error: unknown) {
-    //TODO: Show error message
+    hasError.value = true
   }
 })
 

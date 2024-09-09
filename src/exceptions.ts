@@ -3,8 +3,13 @@ export class FetchPositionsException extends Error {
     super('Error fetching positions')
   }
 }
-export class FetchPLogsException extends Error {
+export class FetchLogsException extends Error {
   constructor(error: unknown) {
     super('Error fetching logs')
+  }
+}
+export class HealthCheckException extends Error {
+  constructor(error: unknown) {
+    super('Error getting the health check')
   }
 }

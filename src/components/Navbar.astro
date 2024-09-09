@@ -1,12 +1,12 @@
+---
+import { Image } from 'astro:assets'
+---
+
 <nav class="dark:bg-gray-800 dark:border-gray-700">
   <div
     class="container flex flex-wrap items-center justify-between mx-auto p-4"
   >
-    <span
-      class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-    >
-      Trading Bot
-    </span>
+    <Image src="/logo.webp" alt="Trading bot logo" width="50" height="50" />
     <div class="block w-auto">
       <ul
         class="flex font-medium rounded-lg bg-gray-50 space-x-8 rtl:space-x-reverse flex-row bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700"
@@ -18,10 +18,10 @@
         </li>
         <li>
           <a
-            href="/status"
+            href="/logs"
             class="block dark:text-white dark:hover:text-blue-500"
           >
-            Status
+            Logs
           </a>
         </li>
         <li>

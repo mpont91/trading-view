@@ -1,5 +1,9 @@
 import type { Log, Position } from './types'
-import { FetchPLogsException, FetchPositionsException } from './exceptions.ts'
+import {
+  FetchLogsException,
+  FetchPositionsException,
+  HealthCheckException,
+} from './exceptions.ts'
 
 const api = import.meta.env.PUBLIC_API
 
@@ -19,6 +23,15 @@ export async function getLogs(): Promise<Log[]> {
     const json = await response.json()
     return json.data
   } catch (error: unknown) {
-    throw new FetchPLogsException(error)
+    throw new FetchLogsException(error)
+  }
+}
+
+export async function getHealthCheck(): Promise<boolean> {
+  try {
+    const response: Response = await fetch(api)
+    return response.ok
+  } catch (error: unknown) {
+    throw new HealthCheckException(error)
   }
 }

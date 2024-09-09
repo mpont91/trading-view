@@ -1,21 +1,31 @@
 <template>
-  <ol class="relative border-s dark:border-gray-700">
-    <li v-for="log in logs" :key="log.timestamp" class="mb-10 ms-4">
-      <div
-        class="absolute w-3 h-3 rounded-full mt-1.5 -start-1.5 border border-white"
-        :class="{
-          'dark:border-red-900 dark:bg-red-700': log.level === 'error',
-          'dark:border-blue-900 dark:bg-blue-700': log.level === 'info',
-        }"
-      ></div>
-      <time class="mb-1 text-sm font-normal leading-none dark:text-gray-400">
-        {{ formatDate(log.timestamp) }}
-      </time>
-      <p class="text-base font-normal dark:text-gray-100">
-        {{ log.message }}
-      </p>
-    </li>
-  </ol>
+  <div
+    v-if="hasError === true"
+    class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+    role="alert"
+  >
+    Couldn't fetch the logs!
+  </div>
+  <div v-else-if="hasError === false" class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
+      <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">Date</th>
+          <th scope="col" class="px-6 py-3">Type</th>
+          <th scope="col" class="px-6 py-3">Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="log in logs" class="border-b dark:border-gray-700">
+          <td class="px-6 py-4 dark:text-white">
+            {{ formatDate(log.timestamp) }}
+          </td>
+          <td class="px-6 py-4 dark:text-white">{{ log.level }}</td>
+          <td class="px-6 py-4 dark:text-white">{{ log.message }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -23,13 +33,15 @@ import { ref, onMounted } from 'vue'
 import type { Log } from '../types'
 import { getLogs } from '../api'
 
+const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])
 
 onMounted(async () => {
   try {
     logs.value = await getLogs()
+    hasError.value = false
   } catch (error: unknown) {
-    //TODO: Show error message
+    hasError.value = true
   }
 })
 

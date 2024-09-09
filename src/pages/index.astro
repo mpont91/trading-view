@@ -1,5 +1,6 @@
 ---
 import IndexLayout from '../layouts/IndexLayout.astro'
+import HealthCheck from '../components/HealthCheck.vue'
 ---
 
 <IndexLayout>
@@ -10,4 +11,5 @@ import IndexLayout from '../layouts/IndexLayout.astro'
       Home
     </h1>
   </header>
+  <HealthCheck client:load />
 </IndexLayout>
