@@ -17,11 +17,13 @@
       </thead>
       <tbody>
         <tr v-for="log in logs" class="border-b dark:border-gray-700">
-          <td class="px-6 py-4 dark:text-white">
+          <td class="px-6 py-4 dark:text-white text-nowrap">
             {{ formatDate(log.timestamp) }}
           </td>
-          <td class="px-6 py-4 dark:text-white">{{ log.level }}</td>
-          <td class="px-6 py-4 dark:text-white">{{ log.message }}</td>
+          <td class="px-6 py-4 dark:text-white text-nowrap">{{ log.level }}</td>
+          <td class="px-6 py-4 dark:text-white message-column">
+            {{ log.message }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -59,3 +61,9 @@ function formatDate(date?: string) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 </script>
+<style scoped>
+.message-column {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+</style>
