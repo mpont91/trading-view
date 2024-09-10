@@ -54,6 +54,7 @@
 import { ref, onMounted } from 'vue'
 import type { Position } from '../types'
 import { getPositions } from '../api'
+import { formatDate, formatAmount, formatPercentage } from '../utils.ts'
 
 const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])
@@ -66,31 +67,5 @@ onMounted(async () => {
     hasError.value = true
   }
 })
-
-function formatDate(date?: string) {
-  if (!date) return ''
-
-  const d = new Date(date)
-  const year = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  const hours = String(d.getHours()).padStart(2, '0')
-  const minutes = String(d.getMinutes()).padStart(2, '0')
-  const seconds = String(d.getSeconds()).padStart(2, '0')
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-}
-
-function formatAmount(amount?: number) {
-  if (!amount) return ''
-
-  return `$ ${amount.toFixed(2)}`
-}
-
-function formatPercentage(percentage?: number) {
-  if (!percentage) return ''
-
-  return `${percentage.toFixed(2)}%`
-}
 </script>
 <style scoped></style>
