@@ -1,6 +1,6 @@
 ---
 import IndexLayout from '../layouts/IndexLayout.astro'
-import HealthCheck from '../components/HealthCheck.vue'
+import Dashboard from '../components/Dashboard.vue'
 ---
 
 <IndexLayout>
@@ -8,8 +8,8 @@ import HealthCheck from '../components/HealthCheck.vue'
     <h1
       class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
     >
-      Home
+      Dashboard
     </h1>
   </header>
-  <HealthCheck client:load />
+  <Dashboard client:load />
 </IndexLayout>

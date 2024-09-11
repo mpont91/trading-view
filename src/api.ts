@@ -1,5 +1,6 @@
 import type { Log, Position } from './types'
 import {
+  DashboardException,
   FetchLogsException,
   FetchPositionsException,
   HealthCheckException,
@@ -33,5 +34,14 @@ export async function getHealthCheck(): Promise<boolean> {
     return response.ok
   } catch (error: unknown) {
     throw new HealthCheckException(error)
+  }
+}
+
+export async function getDashboard(): Promise<boolean> {
+  try {
+    const response: Response = await fetch(api + 'dashboard')
+    return response.ok
+  } catch (error: unknown) {
+    throw new DashboardException(error)
   }
 }

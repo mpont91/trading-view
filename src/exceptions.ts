@@ -10,6 +10,12 @@ export class FetchLogsException extends Error {
 }
 export class HealthCheckException extends Error {
   constructor(error: unknown) {
-    super('Error getting the health check')
+    super('Error getting the healthcheck')
+  }
+}
+
+export class DashboardException extends Error {
+  constructor(error: unknown) {
+    super('Error getting the dashboard')
   }
 }
