@@ -16,3 +16,31 @@ export interface Log {
   level: string
   message: string
 }
+
+export interface Dashboard {
+  active: boolean
+  last_activity: string
+  uptime: number
+  opened_positions: Position[]
+  performance: {
+    total_trades: number
+    successful_trades: number
+    failed_trades: number
+    total_pnl: number
+    total_pnl_percentage: number
+    best_performing_pair: {
+      pair: string
+      pnl: number
+      pnl_percentage: number
+    }
+    worst_performing_pair: {
+      pair: string
+      pnl: number
+      pnl_percentage: number
+    }
+  }
+  logs: {
+    total_errors: number
+    last_log: Log
+  }
+}

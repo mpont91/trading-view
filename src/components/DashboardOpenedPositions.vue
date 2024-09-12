@@ -15,15 +15,26 @@
           </tr>
         </thead>
         <tbody class="text-gray-300 text-sm font-light">
-          <tr class="border-b border-gray-700 hover:bg-gray-600">
-            <td class="py-3 px-6 text-left">BTCUSDC</td>
-            <td class="py-3 px-6 text-left">2024-09-10 12:00:00</td>
-            <td class="py-3 px-6 text-left">$59,123.87</td>
-            <td class="py-3 px-6 text-left">$61,320.45</td>
-            <td class="py-3 px-6 text-left">$58,112.99</td>
+          <tr
+            v-for="position in positions"
+            class="border-b border-gray-700 hover:bg-gray-600"
+          >
+            <td class="py-3 px-6 text-left">{{ position.pair }}</td>
+            <td class="py-3 px-6 text-left">{{ position.buy_at }}</td>
+            <td class="py-3 px-6 text-left">{{ position.buy_price }}</td>
+            <td class="py-3 px-6 text-left">{{ position.stop_profit }}</td>
+            <td class="py-3 px-6 text-left">{{ position.stop_loss }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </template>
+<script setup>
+defineProps({
+  positions: {
+    type: Array,
+    default: [],
+  },
+})
+</script>

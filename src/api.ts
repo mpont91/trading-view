@@ -1,4 +1,4 @@
-import type { Log, Position } from './types'
+import type { Dashboard, Log, Position } from './types'
 import {
   DashboardException,
   FetchLogsException,
@@ -37,10 +37,10 @@ export async function getHealthCheck(): Promise<boolean> {
   }
 }
 
-export async function getDashboard(): Promise<boolean> {
+export async function getDashboard(): Promise<Dashboard> {
   try {
     const response: Response = await fetch(api + 'dashboard')
-    return response.ok
+    return (await response.json()).data
   } catch (error: unknown) {
     throw new DashboardException(error)
   }
