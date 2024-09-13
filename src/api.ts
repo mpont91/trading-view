@@ -40,7 +40,7 @@ export async function getHealthCheck(): Promise<boolean> {
 export async function getDashboard(): Promise<Dashboard> {
   try {
     const response: Response = await fetch(api + 'dashboard')
-    return (await response.json()).data
+    return (await response.json()).data as Dashboard
   } catch (error: unknown) {
     throw new DashboardException(error)
   }

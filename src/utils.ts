@@ -1,25 +1,34 @@
-export function formatDate(date?: string) {
+export function formatDate(date?: string): string {
   if (!date) return ''
 
-  const d = new Date(date)
-  const year = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  const hours = String(d.getHours()).padStart(2, '0')
-  const minutes = String(d.getMinutes()).padStart(2, '0')
-  const seconds = String(d.getSeconds()).padStart(2, '0')
+  const d: Date = new Date(date)
+  const year: number = d.getFullYear()
+  const month: string = String(d.getMonth() + 1).padStart(2, '0')
+  const day: string = String(d.getDate()).padStart(2, '0')
+  const hours: string = String(d.getHours()).padStart(2, '0')
+  const minutes: string = String(d.getMinutes()).padStart(2, '0')
+  const seconds: string = String(d.getSeconds()).padStart(2, '0')
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
-export function formatAmount(amount?: number) {
-  if (!amount) return ''
+export function formatTime(seconds: number): string {
+  const days: number = Math.floor(seconds / (3600 * 24))
+  const hours: number = Math.floor((seconds % (3600 * 24)) / 3600)
+  const minutes: number = Math.floor((seconds % 3600) / 60)
+  const remainingSeconds: number = Math.floor(seconds % 60)
+
+  return `${days} days ${hours} hours ${minutes} minutes ${remainingSeconds} seconds`
+}
+
+export function formatAmount(amount?: number): string {
+  if (amount === null || amount === undefined) return ''
 
   return `$ ${amount.toFixed(2)}`
 }
 
-export function formatPercentage(percentage?: number) {
-  if (!percentage) return ''
+export function formatPercentage(percentage?: number): string {
+  if (percentage === null || percentage === undefined) return ''
 
   return `${percentage.toFixed(2)}%`
 }

@@ -1,18 +1,9 @@
 <template>
-  <button
-    type="button"
-    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-    @click="refresh"
-  >
-    Refresh
-  </button>
-  <div
+  <RefreshButton @click="refresh" />
+  <ErrorMessage
     v-if="hasError === true"
-    class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-    role="alert"
-  >
-    Couldn't fetch the positions!
-  </div>
+    message="Couldn't fetch the positions!"
+  />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
       <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
@@ -21,9 +12,11 @@
           <th scope="col" class="px-6 py-3">Quantity</th>
           <th scope="col" class="px-6 py-3">Amount</th>
           <th scope="col" class="px-6 py-3">Buy price</th>
-          <th scope="col" class="px-6 py-3">Buy datetime</th>
+          <th scope="col" class="px-6 py-3">Buy at</th>
+          <th scope="col" class="px-6 py-3">Stop profit</th>
+          <th scope="col" class="px-6 py-3">Stop loss</th>
           <th scope="col" class="px-6 py-3">Sell price</th>
-          <th scope="col" class="px-6 py-3">Sell datetime</th>
+          <th scope="col" class="px-6 py-3">Sell at</th>
           <th colspan="2" scope="col" class="px-6 py-3">PnL</th>
         </tr>
       </thead>
@@ -39,6 +32,12 @@
           </td>
           <td class="px-6 py-4 dark:text-white">
             {{ formatDate(position.buy_at) }}
+          </td>
+          <td class="px-6 py-4 dark:text-white">
+            {{ formatAmount(position.stop_profit) }}
+          </td>
+          <td class="px-6 py-4 dark:text-white">
+            {{ formatAmount(position.stop_loss) }}
           </td>
           <td class="px-6 py-4 dark:text-white">
             {{ formatAmount(position.sell_price) }}
@@ -62,6 +61,8 @@ import { ref, onMounted } from 'vue'
 import type { Position } from '../types'
 import { getPositions } from '../api'
 import { formatDate, formatAmount, formatPercentage } from '../utils.ts'
+import RefreshButton from './RefreshButton.vue'
+import ErrorMessage from './ErrorMessage.vue'
 
 const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])

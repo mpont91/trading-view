@@ -1,10 +1,13 @@
 export interface Position {
   id: number
+  is_closed: boolean
   pair: string
   quantity: number
   amount: number
   buy_price: number
   buy_at: string
+  stop_profit: number
+  stop_loss: number
   sell_price?: number
   sell_at?: string
   pnl?: number

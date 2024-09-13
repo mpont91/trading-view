@@ -1,22 +1,43 @@
 <template>
-  <div class="mx-auto py-4">
-    <button
-      type="button"
-      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      @click="refresh"
-    >
-      Refresh
-    </button>
-    <DashboardStatus v-if="dashboard" />
+  <RefreshButton @click="refresh" />
+  <ErrorMessage
+    v-if="hasError === true"
+    message="Couldn't fetch the dashboard!"
+  />
+  <div v-else-if="hasError === false" class="mx-auto py-4">
+    <DashboardStatus
+      v-if="dashboard"
+      :active="dashboard.active"
+      :last-activity="dashboard.last_activity"
+      :uptime="dashboard.uptime"
+    />
     <DashboardPerformance
       v-if="dashboard"
-      :performance="dashboard.performance"
+      :total-trades="dashboard.performance.total_trades"
+      :successful-trades="dashboard.performance.successful_trades"
+      :failed-trades="dashboard.performance.failed_trades"
+      :pnl="dashboard.performance.total_pnl"
+      :pnl-percentage="dashboard.performance.total_pnl_percentage"
+      :best-performing-pair="dashboard.performance.best_performing_pair?.pair"
+      :best-performing-pnl="dashboard.performance.best_performing_pair?.pnl"
+      :best-performing-pnl-percentage="
+        dashboard.performance.best_performing_pair?.pnl_percentage
+      "
+      :worst-performing-pair="dashboard.performance.worst_performing_pair?.pair"
+      :worst-performing-pnl="dashboard.performance.worst_performing_pair?.pnl"
+      :worst-performing-pnl-percentage="
+        dashboard.performance.worst_performing_pair?.pnl_percentage
+      "
     />
     <DashboardOpenedPositions
       v-if="dashboard"
       :positions="dashboard.opened_positions"
     />
-    <DashboardLogs v-if="dashboard" />
+    <DashboardLogs
+      v-if="dashboard"
+      :total-errors="dashboard.logs.total_errors"
+      :last-log="dashboard.logs.last_log"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -26,9 +47,12 @@ import DashboardStatus from './DashboardStatus.vue'
 import DashboardOpenedPositions from './DashboardOpenedPositions.vue'
 import DashboardPerformance from './DashboardPerformance.vue'
 import DashboardLogs from './DashboardLogs.vue'
+import RefreshButton from './RefreshButton.vue'
+import ErrorMessage from './ErrorMessage.vue'
+import type { Dashboard } from '/../types.ts'
 
 const hasError = ref<null | boolean>(null)
-const dashboard = ref()
+const dashboard = ref<Dashboard>()
 
 onMounted(async () => {
   await refresh()
@@ -38,6 +62,7 @@ async function refresh() {
   dashboard.value = null
   try {
     dashboard.value = await getDashboard()
+    hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
   }
