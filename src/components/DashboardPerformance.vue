@@ -21,8 +21,10 @@
       <div class="bg-blue-900 text-blue-300 p-4 rounded-lg">
         <p>
           Total PnL:
-          <span class="font-semibold"> {{ formatAmount(pnl) }} </span> -
-          {{ formatPercentage(pnlPercentage) }}
+          <span class="font-semibold">
+            {{ formatAmount(pnl) }}
+          </span>
+          ({{ formatPercentage(pnlPercentage) }})
         </p>
       </div>
     </div>
@@ -35,11 +37,10 @@
           </p>
           <p>
             PnL:
-            <span class="font-semibold">{{
-              formatAmount(bestPerformingPnl)
-            }}</span>
-            -
-            {{ formatPercentage(bestPerformingPnlPercentage) }}
+            <span class="font-semibold">
+              {{ formatAmount(bestPerformingPnl) }}
+            </span>
+            ({{ formatPercentage(bestPerformingPnlPercentage) }})
           </p>
         </div>
       </div>
@@ -51,11 +52,10 @@
           </p>
           <p>
             PnL:
-            <span class="font-semibold">{{
-              formatAmount(worstPerformingPnl)
-            }}</span>
-            -
-            {{ formatPercentage(worstPerformingPnlPercentage) }}
+            <span class="font-semibold">
+              {{ formatAmount(worstPerformingPnl) }}
+            </span>
+            ({{ formatPercentage(worstPerformingPnlPercentage) }})
           </p>
         </div>
       </div>
