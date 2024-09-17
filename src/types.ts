@@ -21,7 +21,6 @@ export interface Market {
   updated_at: string
 }
 
-
 export interface Log {
   timestamp: string
   level: string

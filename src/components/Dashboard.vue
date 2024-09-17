@@ -32,6 +32,7 @@
     <DashboardOpenedPositions
       v-if="dashboard"
       :positions="dashboard.opened_positions"
+      :markets="markets"
     />
     <DashboardLogs
       v-if="dashboard"
@@ -42,17 +43,18 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getDashboard } from '../api'
+import { getDashboard, getMarkets } from '../api'
 import DashboardStatus from './DashboardStatus.vue'
 import DashboardOpenedPositions from './DashboardOpenedPositions.vue'
 import DashboardPerformance from './DashboardPerformance.vue'
 import DashboardLogs from './DashboardLogs.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import type { Dashboard } from '/../types.ts'
+import type { Dashboard, Market } from '/../types.ts'
 
 const hasError = ref<null | boolean>(null)
 const dashboard = ref<Dashboard>()
+const markets = ref<Market>()
 
 onMounted(async () => {
   await refresh()
@@ -60,8 +62,14 @@ onMounted(async () => {
 
 async function refresh() {
   dashboard.value = null
+  markets.value = null
   try {
-    dashboard.value = await getDashboard()
+    const [fetchedDashboard, fetchedMarkets] = await Promise.all([
+      getDashboard(),
+      getMarkets(),
+    ])
+    dashboard.value = fetchedDashboard
+    markets.value = fetchedMarkets
     hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
