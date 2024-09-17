@@ -32,3 +32,29 @@ export function formatPercentage(percentage?: number): string {
 
   return `${percentage.toFixed(2)}%`
 }
+
+export function formatNumber(number?: number): string {
+  if (number === null || number === undefined) return ''
+
+  if (number >= 9999) {
+    return `${number.toFixed(0)}`
+  }
+
+  if (number >= 999) {
+    return `${number.toFixed(1)}`
+  }
+
+  if (number >= 99) {
+    return `${number.toFixed(2)}`
+  }
+
+  if (number >= 9) {
+    return `${number.toFixed(3)}`
+  }
+
+  if (number >= 1) {
+    return `${number.toFixed(4)}`
+  }
+
+  return `${number.toFixed(6)}`
+}

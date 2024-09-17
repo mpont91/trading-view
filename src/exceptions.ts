@@ -3,6 +3,11 @@ export class FetchPositionsException extends Error {
     super('Error fetching positions')
   }
 }
+export class FetchMarketsException extends Error {
+  constructor(error: unknown) {
+    super('Error fetching markets')
+  }
+}
 export class FetchLogsException extends Error {
   constructor(error: unknown) {
     super('Error fetching logs')

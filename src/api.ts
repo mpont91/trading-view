@@ -1,8 +1,9 @@
-import type { Dashboard, Log, Position } from './types'
+import type { Dashboard, Log, Position, Market } from './types'
 import {
   DashboardException,
   FetchLogsException,
   FetchPositionsException,
+  FetchMarketsException,
   HealthCheckException,
 } from './exceptions.ts'
 
@@ -15,6 +16,16 @@ export async function getPositions(): Promise<Position[]> {
     return json.data
   } catch (error: unknown) {
     throw new FetchPositionsException(error)
+  }
+}
+
+export async function getMarkets(): Promise<Market[]> {
+  try {
+    const response: Response = await fetch(api + 'markets')
+    const json = await response.json()
+    return json.data
+  } catch (error: unknown) {
+    throw new FetchMarketsException(error)
   }
 }
 

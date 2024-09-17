@@ -14,6 +14,14 @@ export interface Position {
   pnl_percentage?: number
 }
 
+export interface Market {
+  pair: string
+  price: number
+  signal: string
+  updated_at: string
+}
+
+
 export interface Log {
   timestamp: string
   level: string

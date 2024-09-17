@@ -28,15 +28,15 @@
       </div>
       <SearchField v-model="search" />
     </div>
-      <TableNavigation
-          :current-page="currentPage"
-          :pages="totalPages"
-          :items-per-page="logsPerPage"
-          :length="filteredLogs.length"
-          @next-page="nextPage"
-          @prev-page="prevPage"
-          class="mb-4"
-      />
+    <TableNavigation
+      :current-page="currentPage"
+      :pages="totalPages"
+      :items-per-page="logsPerPage"
+      :length="filteredLogs.length"
+      @next-page="nextPage"
+      @prev-page="prevPage"
+      class="mb-4"
+    />
     <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
       <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
         <tr>
