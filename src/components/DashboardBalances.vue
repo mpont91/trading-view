@@ -46,7 +46,7 @@ const props = defineProps({
 })
 
 function calculateAmount(currency: string, quantity: number) {
-  if ((currency = 'USDC')) return quantity
+  if (currency === 'USDC') return quantity
 
   const market = props.markets.find(
     (market) => market.pair === `${currency}USDC`,
