@@ -1,4 +1,4 @@
-import type { Dashboard, Log, Position, Market } from './types'
+import type { Dashboard, Log, Position, Market, Balance } from './types'
 import {
   DashboardException,
   FetchLogsException,
@@ -22,6 +22,16 @@ export async function getPositions(): Promise<Position[]> {
 export async function getMarkets(): Promise<Market[]> {
   try {
     const response: Response = await fetch(api + 'markets')
+    const json = await response.json()
+    return json.data
+  } catch (error: unknown) {
+    throw new FetchMarketsException(error)
+  }
+}
+
+export async function getBalances(): Promise<Balance[]> {
+  try {
+    const response: Response = await fetch(api + 'balances')
     const json = await response.json()
     return json.data
   } catch (error: unknown) {

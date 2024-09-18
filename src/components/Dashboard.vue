@@ -11,6 +11,7 @@
       :last-activity="dashboard.last_activity"
       :uptime="dashboard.uptime"
     />
+    <DashboardBalances :balances="balances" :markets="markets" />
     <DashboardPerformance
       v-if="dashboard"
       :total-trades="dashboard.performance.total_trades"
@@ -43,18 +44,20 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getDashboard, getMarkets } from '../api'
+import { getDashboard, getMarkets, getBalances } from '../api'
 import DashboardStatus from './DashboardStatus.vue'
 import DashboardOpenedPositions from './DashboardOpenedPositions.vue'
 import DashboardPerformance from './DashboardPerformance.vue'
 import DashboardLogs from './DashboardLogs.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import type { Dashboard, Market } from '/../types.ts'
+import type { Dashboard, Market, Balance } from '../types.ts'
+import DashboardBalances from './DashboardBalances.vue'
 
 const hasError = ref<null | boolean>(null)
-const dashboard = ref<Dashboard>()
-const markets = ref<Market>()
+const dashboard = ref<Dashboard | null>(null)
+const markets = ref<Market[]>()
+const balances = ref<Balance[]>()
 
 onMounted(async () => {
   await refresh()
@@ -62,14 +65,15 @@ onMounted(async () => {
 
 async function refresh() {
   dashboard.value = null
-  markets.value = null
+  markets.value = []
+  balances.value = []
   try {
-    const [fetchedDashboard, fetchedMarkets] = await Promise.all([
-      getDashboard(),
-      getMarkets(),
-    ])
+    const [fetchedDashboard, fetchedMarkets, fetchedBalances] =
+      await Promise.all([getDashboard(), getMarkets(), getBalances()])
+
     dashboard.value = fetchedDashboard
     markets.value = fetchedMarkets
+    balances.value = fetchedBalances
     hasError.value = false
   } catch (error: unknown) {
     hasError.value = true

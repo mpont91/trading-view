@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
-import type { Position } from '../types'
+import type { Market, Position } from '../types'
 import { getMarkets, getPositions } from '../api'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'

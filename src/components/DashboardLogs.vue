@@ -6,7 +6,7 @@
         Total errors: <span class="font-semibold">{{ totalErrors }}</span>
       </p>
       <p>Last log:</p>
-      <div class="bg-neutral-600 p-3 mt-2 rounded-lg">
+      <div v-if="lastLog" class="bg-neutral-600 p-3 mt-2 rounded-lg">
         <p><span class="font-semibold">Level:</span> {{ lastLog.level }}</p>
         <p>
           <span class="font-semibold">Message:</span>
@@ -23,9 +23,16 @@
 <script setup lang="ts">
 import { formatDate } from '../utils.ts'
 import type { Log } from '../types.ts'
+import type { PropType } from 'vue'
 
-defineProps<{
-  totalErrors: number
-  lastLog: Log
-}>()
+defineProps({
+  totalErrors: {
+    type: Number,
+    default: 0,
+  },
+  lastLog: {
+    type: Object as PropType<Log | null>,
+    default: null,
+  },
+})
 </script>

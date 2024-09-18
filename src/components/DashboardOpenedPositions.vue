@@ -9,15 +9,16 @@
 <script setup lang="ts">
 import type { Market, Position } from '../types.ts'
 import PositionsDataTable from './PositionsDataTable.vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   positions: {
-    type: Array<Position>,
-    default: [],
+    type: Array as PropType<Position[]>,
+    default: () => [],
   },
   markets: {
-    type: Array<Market>,
-    default: [],
+    type: Array as PropType<Market[]>,
+    default: () => [],
   },
 })
 </script>

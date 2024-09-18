@@ -1,6 +1,7 @@
 export interface Position {
   id: number
   is_closed: boolean
+  is_trailing: boolean
   pair: string
   quantity: number
   amount: number
@@ -8,10 +9,18 @@ export interface Position {
   buy_at: string
   stop_profit: number
   stop_loss: number
+  trailing_highest?: number
+  trailing_lowest?: number
   sell_price?: number
   sell_at?: string
   pnl?: number
   pnl_percentage?: number
+}
+
+export interface Balance {
+  currency: string
+  quantity: number
+  updated_at: string
 }
 
 export interface Market {

@@ -8,6 +8,11 @@ export class FetchMarketsException extends Error {
     super('Error fetching markets')
   }
 }
+export class FetchBalancesException extends Error {
+  constructor(error: unknown) {
+    super('Error fetching balances')
+  }
+}
 export class FetchLogsException extends Error {
   constructor(error: unknown) {
     super('Error fetching logs')

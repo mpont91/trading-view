@@ -4,14 +4,14 @@
       <tr>
         <th scope="col" class="px-6 py-3">Pair</th>
         <th scope="col" class="px-6 py-3">Quantity</th>
-        <th scope="col" class="px-6 py-3">Amount ($)</th>
-        <th scope="col" class="px-6 py-3">Buy price ($)</th>
+        <th scope="col" class="px-6 py-3">Amount</th>
+        <th scope="col" class="px-6 py-3">Buy price</th>
         <th scope="col" class="px-6 py-3">Buy at</th>
-        <th scope="col" class="px-6 py-3">Stop profit ($)</th>
-        <th scope="col" class="px-6 py-3">Stop loss ($)</th>
-        <th scope="col" class="px-6 py-3">Sell price ($)</th>
+        <th scope="col" class="px-6 py-3">Stop profit/loss</th>
+        <th scope="col" class="px-6 py-3">Trailing highest/lowest</th>
+        <th scope="col" class="px-6 py-3">Sell price</th>
         <th scope="col" class="px-6 py-3">Sell at</th>
-        <th colspan="2" scope="col" class="px-6 py-3">PnL</th>
+        <th scope="col" class="px-6 py-3">PnL</th>
       </tr>
     </thead>
     <tbody>
@@ -36,11 +36,15 @@
         <td class="px-6 py-4 dark:text-white">
           {{ formatDate(position.buy_at) }}
         </td>
-        <td class="px-6 py-4 dark:text-white">
-          {{ formatNumber(position.stop_profit) }}
-        </td>
-        <td class="px-6 py-4 dark:text-white">
+        <td class="px-6 py-4 dark:text-white text-nowrap">
+          {{ formatNumber(position.stop_profit) }} /
           {{ formatNumber(position.stop_loss) }}
+        </td>
+        <td class="px-6 py-4 dark:text-white text-nowrap">
+          <span v-if="position.trailing_highest && position.trailing_lowest">
+            {{ formatNumber(position.trailing_highest) }} /
+            {{ formatNumber(position.trailing_lowest) }}
+          </span>
         </td>
         <td class="px-6 py-4 dark:text-white">
           {{ formatNumber(position.sell_price) }}
@@ -52,15 +56,13 @@
           {{
             formatAmount(position.is_closed ? position.pnl : pnlLive(position))
           }}
-        </td>
-        <td class="px-6 py-4 dark:text-white text-nowrap">
-          {{
+          ({{
             formatPercentage(
               position.is_closed
                 ? position.pnl_percentage
                 : pnlPercentageLive(position),
             )
-          }}
+          }})
         </td>
       </tr>
     </tbody>
@@ -73,16 +75,17 @@ import {
   formatNumber,
   formatPercentage,
 } from '../utils.ts'
-import type { Market, Position } from '/../types.ts'
+import type { Market, Position } from '../types.ts'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   positions: {
-    type: Array<Position>,
-    default: [],
+    type: Array as PropType<Position[]>,
+    default: () => [],
   },
   markets: {
-    type: Array<Market>,
-    default: [],
+    type: Array as PropType<Market[]>,
+    default: () => [],
   },
 })
 
