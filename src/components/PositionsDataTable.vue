@@ -2,6 +2,7 @@
   <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
     <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
       <tr>
+        <th scope="col" class="px-6 py-3">ID</th>
         <th scope="col" class="px-6 py-3">Pair</th>
         <th scope="col" class="px-6 py-3">Quantity</th>
         <th scope="col" class="px-6 py-3">Amount</th>
@@ -25,6 +26,7 @@
         }"
         class="border-b dark:border-gray-700"
       >
+        <td class="px-6 py-4 dark:text-white">{{ position.id }}</td>
         <td class="px-6 py-4 dark:text-white">{{ position.pair }}</td>
         <td class="px-6 py-4 dark:text-white">{{ position.quantity }}</td>
         <td class="px-6 py-4 dark:text-white">
