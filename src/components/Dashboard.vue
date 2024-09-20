@@ -20,11 +20,17 @@
       :pnl="dashboard.performance.total_pnl"
       :pnl-percentage="dashboard.performance.total_pnl_percentage"
       :best-performing-pair="dashboard.performance.best_performing_pair?.pair"
+      :best-performing-trades="
+        dashboard.performance.best_performing_pair?.trades
+      "
       :best-performing-pnl="dashboard.performance.best_performing_pair?.pnl"
       :best-performing-pnl-percentage="
         dashboard.performance.best_performing_pair?.pnl_percentage
       "
       :worst-performing-pair="dashboard.performance.worst_performing_pair?.pair"
+      :worst-performing-trades="
+        dashboard.performance.worst_performing_pair?.trades
+      "
       :worst-performing-pnl="dashboard.performance.worst_performing_pair?.pnl"
       :worst-performing-pnl-percentage="
         dashboard.performance.worst_performing_pair?.pnl_percentage

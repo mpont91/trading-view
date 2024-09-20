@@ -49,11 +49,13 @@ export interface Dashboard {
     total_pnl_percentage: number
     best_performing_pair: {
       pair: string
+      trades: number
       pnl: number
       pnl_percentage: number
     }
     worst_performing_pair: {
       pair: string
+      trades: number
       pnl: number
       pnl_percentage: number
     }
