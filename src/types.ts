@@ -23,11 +23,24 @@ export interface Balance {
   updated_at: string
 }
 
+export type Buy = 'BUY'
+export type Sell = 'SELL'
+export type Hold = 'HOLD'
+export type Signal = Buy | Sell | Hold | null
+
 export interface Market {
   pair: string
   price: number
-  signal: string
+  signal: Signal
   updated_at: string
+}
+
+export interface Prediction {
+  id: number
+  pair: string
+  current_price: number
+  signal: Signal
+  created_at: string
 }
 
 export interface Log {

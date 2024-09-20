@@ -1,10 +1,18 @@
-import type { Dashboard, Log, Position, Market, Balance } from './types'
+import type {
+  Dashboard,
+  Log,
+  Position,
+  Market,
+  Balance,
+  Prediction,
+} from './types'
 import {
   DashboardException,
   FetchLogsException,
   FetchPositionsException,
   FetchMarketsException,
   HealthCheckException,
+  FetchPredictionsException,
 } from './exceptions.ts'
 
 const api = import.meta.env.PUBLIC_API
@@ -26,6 +34,16 @@ export async function getMarkets(): Promise<Market[]> {
     return json.data
   } catch (error: unknown) {
     throw new FetchMarketsException(error)
+  }
+}
+
+export async function getPredictions(): Promise<Prediction[]> {
+  try {
+    const response: Response = await fetch(api + 'predictions')
+    const json = await response.json()
+    return json.data
+  } catch (error: unknown) {
+    throw new FetchPredictionsException(error)
   }
 }
 
