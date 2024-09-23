@@ -1,4 +1,5 @@
 <template>
+  <RefreshButton @click="refresh" />
   <ErrorMessage
     v-if="hasError === true"
     message="Couldn't fetch the markets!"
@@ -29,20 +30,28 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getMarkets } from '../api.ts'
 import type { Market } from '../types'
+import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import { formatAmount, formatDate } from '../utils.ts'
 
-defineProps({
-  markets: {
-    type: Array as PropType<Market[]>,
-    default: () => [],
-  },
-  hasError: {
-    type: Boolean,
-    default: null,
-  },
+const hasError = ref<null | boolean>(null)
+const markets = ref<Market[]>([])
+
+onMounted(async () => {
+  await refresh()
 })
+
+async function refresh() {
+  markets.value = []
+  try {
+    markets.value = await getMarkets()
+    hasError.value = false
+  } catch (error: unknown) {
+    hasError.value = true
+  }
+}
 </script>
 <style scoped></style>

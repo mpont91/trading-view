@@ -1,16 +1,10 @@
 <template>
+  <RefreshButton @click="refresh" />
   <ErrorMessage
     v-if="hasError === true"
     message="Couldn't fetch the predictions!"
   />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
-    <header>
-      <h1
-        class="mt-8 mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white"
-      >
-        Predictions
-      </h1>
-    </header>
     <div class="flex">
       <div v-for="pair in pairs" :key="pair" class="flex items-center me-4">
         <input
@@ -32,7 +26,7 @@
       :current-page="currentPage"
       :pages="totalPages"
       :items-per-page="predictionsPerPage"
-      :length="filteredPredictions.length"
+      :length="totalItems"
       @next-page="nextPage"
       @prev-page="prevPage"
       class="mb-4"
@@ -48,7 +42,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="prediction in paginatedPredictions"
+          v-for="prediction in predictions"
           class="border-b dark:border-gray-700"
         >
           <td class="px-6 py-4 dark:text-white">{{ prediction.pair }}</td>
@@ -66,81 +60,74 @@
       :current-page="currentPage"
       :pages="totalPages"
       :items-per-page="predictionsPerPage"
-      :length="filteredPredictions.length"
+      :length="totalItems"
       @next-page="nextPage"
       @prev-page="prevPage"
     />
   </div>
 </template>
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import type { Prediction } from '../types'
 import ErrorMessage from './ErrorMessage.vue'
 import { formatAmount, formatDate } from '../utils.ts'
 import TableNavigation from './TableNavigation.vue'
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
+import { getMarkets, getPredictions } from '../api.ts'
+import type { Market } from '../types'
+import RefreshButton from './RefreshButton.vue'
 
-const currentPage = ref(1)
+const hasError = ref<null | boolean>(null)
+const markets = ref<Market[]>([])
+const predictions = ref<Prediction[]>([])
+const pairs = ref([])
 const predictionsPerPage = ref(50)
 const filterPair = ref('')
+const currentPage = ref(1)
+const totalPages = ref(0)
+const totalItems = ref(0)
 
-const props = defineProps({
-  predictions: {
-    type: Array as PropType<Prediction[]>,
-    default: () => [],
-  },
-  pairs: {
-    type: Array as PropType<string[]>,
-    default: () => [],
-  },
-  hasError: {
-    type: Boolean,
-    default: null,
-  },
+onMounted(async () => {
+  await refresh()
 })
 
-onMounted(() => {
-  if (props.pairs.length > 0) {
-    filterPair.value = props.pairs[0]
+async function refresh() {
+  predictions.value = []
+  markets.value = []
+  try {
+    const [fetchedPredictions, fetchedMarkets] = await Promise.all([
+      getPredictions({
+        page: currentPage.value,
+        limit: predictionsPerPage.value,
+      }),
+      getMarkets(),
+    ])
+
+    markets.value = fetchedMarkets
+    pairs.value = markets.value.map((m) => m.pair)
+    filterPair.value = pairs.value[0]
+
+    predictions.value = fetchedPredictions.data
+    totalPages.value = fetchedPredictions.pagination.totalPages
+    totalItems.value = fetchedPredictions.pagination.totalItems
+    markets.value = fetchedMarkets
+    hasError.value = false
+  } catch (error: unknown) {
+    hasError.value = true
   }
-})
+}
 
-const filteredPredictions = computed(() => {
-  return props.predictions.filter(
-    (prediction) => prediction.pair === filterPair.value,
-  )
-})
-
-const paginatedPredictions = computed(() => {
-  const start = (currentPage.value - 1) * predictionsPerPage.value
-  const end = start + predictionsPerPage.value
-  return filteredPredictions.value.slice(start, end)
-})
-
-const totalPages = computed(() => {
-  return Math.ceil(filteredPredictions.value.length / predictionsPerPage.value)
-})
-
-function prevPage() {
+async function prevPage() {
   if (currentPage.value > 1) {
     currentPage.value--
+    await refresh()
   }
 }
 
-function nextPage() {
+async function nextPage() {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
+    await refresh()
   }
 }
-
-watch(
-  () => props.pairs,
-  (newPairs) => {
-    if (newPairs.length > 0) {
-      filterPair.value = newPairs[0]
-    }
-  },
-  { immediate: true },
-)
 </script>
 <style scoped></style>

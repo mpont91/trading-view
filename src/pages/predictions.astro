@@ -1,6 +1,6 @@
 ---
 import IndexLayout from '../layouts/IndexLayout.astro'
-import MarketsTable from '../components/MarketsTable.vue'
+import PredictionsTable from '../components/PredictionsTable.vue'
 ---
 
 <IndexLayout>
@@ -8,8 +8,8 @@ import MarketsTable from '../components/MarketsTable.vue'
     <h1
       class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-5xl dark:text-white"
     >
-      Markets
+      Predictions
     </h1>
   </header>
-  <MarketsTable client:load />
+  <PredictionsTable client:load />
 </IndexLayout>

@@ -44,11 +44,15 @@ export async function getMarkets(): Promise<Market[]> {
   }
 }
 
-export async function getPredictions(): Promise<Prediction[]> {
+export async function getPredictions(
+  searchCriteria: SearchCriteria,
+): Promise<{ data: Prediction[]; pagination: Pagination }> {
+  const params: URLSearchParams = buildQueryParams(searchCriteria)
   try {
-    const response: Response = await fetch(api + 'predictions')
-    const json = await response.json()
-    return json.data
+    const response: Response = await fetch(
+      `${api}predictions?${params.toString()}`,
+    )
+    return await response.json()
   } catch (error: unknown) {
     throw new FetchPredictionsException(error)
   }
