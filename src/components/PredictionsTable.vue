@@ -97,10 +97,15 @@ onMounted(async () => {
 
 async function refresh() {
   predictions.value = []
+  totalPages.value = 0
+  totalItems.value = 0
+
   try {
     const fetchedPredictions = await getPredictions({
       page: currentPage.value,
       limit: predictionsPerPage.value,
+      sortField: 'created_at',
+      sortOrder: 'desc',
       filters: {
         pair: filterPair.value,
       },

@@ -11,7 +11,11 @@
       :last-activity="dashboard.last_activity"
       :uptime="dashboard.uptime"
     />
-    <DashboardBalances :balances="balances" :markets="markets" />
+    <DashboardBalances
+      v-if="dashboard"
+      :balances="balances"
+      :markets="markets"
+    />
     <DashboardPerformance
       v-if="dashboard"
       :total-trades="dashboard.performance.total_trades"

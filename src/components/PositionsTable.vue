@@ -49,6 +49,9 @@ onMounted(async () => {
 async function refresh() {
   positions.value = []
   markets.value = []
+  totalPages.value = 0
+  totalItems.value = 0
+
   try {
     const [fetchedPositions, fetchedMarkets] = await Promise.all([
       getPositions({ page: currentPage.value, limit: positionsPerPage.value }),
