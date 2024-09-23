@@ -49,6 +49,21 @@ export interface Log {
   message: string
 }
 
+export interface SearchCriteria {
+  page?: number
+  limit?: number
+  sortField?: string
+  sortOrder?: 'asc' | 'desc'
+  filters?: Record<string, unknown>
+}
+
+export interface Pagination {
+  page: number
+  limit: number
+  totalPages: number
+  totalItems: number
+}
+
 export interface Dashboard {
   active: boolean
   last_activity: string

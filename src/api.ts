@@ -5,6 +5,8 @@ import type {
   Market,
   Balance,
   Prediction,
+  SearchCriteria,
+  Pagination,
 } from './types'
 import {
   DashboardException,
@@ -14,14 +16,19 @@ import {
   HealthCheckException,
   FetchPredictionsException,
 } from './exceptions.ts'
+import { buildQueryParams } from './utils.ts'
 
 const api = import.meta.env.PUBLIC_API
 
-export async function getPositions(): Promise<Position[]> {
+export async function getPositions(
+  searchCriteria: SearchCriteria,
+): Promise<{ data: Position[]; pagination: Pagination }> {
+  const params: URLSearchParams = buildQueryParams(searchCriteria)
   try {
-    const response: Response = await fetch(api + 'positions')
-    const json = await response.json()
-    return json.data
+    const response: Response = await fetch(
+      `${api}positions?${params.toString()}`,
+    )
+    return await response.json()
   } catch (error: unknown) {
     throw new FetchPositionsException(error)
   }

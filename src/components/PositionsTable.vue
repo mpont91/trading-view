@@ -10,17 +10,17 @@
       :current-page="currentPage"
       :pages="totalPages"
       :items-per-page="positionsPerPage"
-      :length="filteredPositions.length"
+      :length="totalItems"
       @next-page="nextPage"
       @prev-page="prevPage"
       class="mb-4"
     />
-    <PositionsDataTable :positions="paginatedPositions" :markets="markets" />
+    <PositionsDataTable :positions="positions" :markets="markets" />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
       :items-per-page="positionsPerPage"
-      :length="filteredPositions.length"
+      :length="totalItems"
       @next-page="nextPage"
       @prev-page="prevPage"
     />
@@ -40,6 +40,8 @@ const positions = ref<Position[]>([])
 const markets = ref<Market[]>([])
 const currentPage = ref(1)
 const positionsPerPage = ref(50)
+const totalPages = ref(0)
+const totalItems = ref(0)
 const search = ref('')
 
 onMounted(async () => {
@@ -51,11 +53,13 @@ async function refresh() {
   markets.value = []
   try {
     const [fetchedPositions, fetchedMarkets] = await Promise.all([
-      getPositions(),
+      getPositions({ page: currentPage.value, limit: positionsPerPage.value }),
       getMarkets(),
     ])
 
-    positions.value = fetchedPositions
+    positions.value = fetchedPositions.data
+    totalPages.value = fetchedPositions.pagination.totalPages
+    totalItems.value = fetchedPositions.pagination.totalItems
     markets.value = fetchedMarkets
     hasError.value = false
   } catch (error: unknown) {
@@ -63,38 +67,18 @@ async function refresh() {
   }
 }
 
-const filteredPositions = computed(() => {
-  return positions.value.filter((position) =>
-    position.pair.toLowerCase().includes(search.value.toLowerCase()),
-  )
-})
-
-const paginatedPositions = computed(() => {
-  const start = (currentPage.value - 1) * positionsPerPage.value
-  const end = start + positionsPerPage.value
-  return filteredPositions.value.slice(start, end)
-})
-
-const totalPages = computed(() => {
-  return Math.ceil(filteredPositions.value.length / positionsPerPage.value)
-})
-
-function prevPage() {
+async function prevPage() {
   if (currentPage.value > 1) {
     currentPage.value--
+    await refresh()
   }
 }
 
-function nextPage() {
+async function nextPage() {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
+    await refresh()
   }
 }
-
-function resetPagination() {
-  currentPage.value = 1
-}
-
-watch(search, resetPagination)
 </script>
 <style scoped></style>
