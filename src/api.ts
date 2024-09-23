@@ -64,11 +64,13 @@ export async function getBalances(): Promise<Balance[]> {
   }
 }
 
-export async function getLogs(): Promise<Log[]> {
+export async function getLogs(
+  searchCriteria: SearchCriteria,
+): Promise<{ data: Log[]; pagination: Pagination }> {
+  const params: URLSearchParams = buildQueryParams(searchCriteria)
   try {
-    const response: Response = await fetch(api + 'logs')
-    const json = await response.json()
-    return json.data
+    const response: Response = await fetch(`${api}logs?${params.toString()}`)
+    return await response.json()
   } catch (error: unknown) {
     throw new FetchLogsException(error)
   }

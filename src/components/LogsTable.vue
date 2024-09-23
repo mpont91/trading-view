@@ -32,7 +32,7 @@
       :current-page="currentPage"
       :pages="totalPages"
       :items-per-page="logsPerPage"
-      :length="filteredLogs.length"
+      :length="totalItems"
       @next-page="nextPage"
       @prev-page="prevPage"
       class="mb-4"
@@ -46,7 +46,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="log in paginatedLogs" class="border-b dark:border-gray-700">
+        <tr v-for="log in logs" class="border-b dark:border-gray-700">
           <td class="px-6 py-4 dark:text-white md:text-nowrap">
             {{ formatDate(log.timestamp) }}
           </td>
@@ -63,7 +63,7 @@
       :current-page="currentPage"
       :pages="totalPages"
       :items-per-page="logsPerPage"
-      :length="filteredLogs.length"
+      :length="totalItems"
       @next-page="nextPage"
       @prev-page="prevPage"
     />
@@ -84,6 +84,8 @@ const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])
 const currentPage = ref(1)
 const logsPerPage = ref(50)
+const totalPages = ref(0)
+const totalItems = ref(0)
 const types = ref(['error', 'info'])
 const search = ref('')
 
@@ -94,48 +96,32 @@ onMounted(async () => {
 async function refresh() {
   logs.value = []
   try {
-    logs.value = await getLogs()
+    const fetchedLogs = await getLogs({
+      page: currentPage.value,
+      limit: logsPerPage.value,
+    })
+    logs.value = fetchedLogs.data
+    totalPages.value = fetchedLogs.pagination.totalPages
+    totalItems.value = fetchedLogs.pagination.totalItems
     hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
   }
 }
 
-const filteredLogs = computed(() => {
-  return logs.value.filter(
-    (log) =>
-      types.value.includes(log.level) &&
-      log.message.toLowerCase().includes(search.value.toLowerCase()),
-  )
-})
-
-const paginatedLogs = computed(() => {
-  const start = (currentPage.value - 1) * logsPerPage.value
-  const end = start + logsPerPage.value
-  return filteredLogs.value.slice(start, end)
-})
-
-const totalPages = computed(() => {
-  return Math.ceil(filteredLogs.value.length / logsPerPage.value)
-})
-
-function prevPage() {
+async function prevPage() {
   if (currentPage.value > 1) {
     currentPage.value--
+    await refresh()
   }
 }
 
-function nextPage() {
+async function nextPage() {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
+    await refresh()
   }
 }
-
-function resetPagination() {
-  currentPage.value = 1
-}
-
-watch([types, search], resetPagination)
 </script>
 <style scoped>
 .message-column {
