@@ -21,9 +21,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { PropType } from 'vue'
 import { formatDate } from '../utils.ts'
 import type { Log } from '../types.ts'
-import type { PropType } from 'vue'
 
 defineProps({
   totalErrors: {

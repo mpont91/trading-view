@@ -57,8 +57,8 @@ import DashboardPerformance from './DashboardPerformance.vue'
 import DashboardLogs from './DashboardLogs.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import type { Dashboard, Market, Balance } from '../types.ts'
 import DashboardBalances from './DashboardBalances.vue'
+import type { Dashboard, Market, Balance } from '../types.ts'
 
 const hasError = ref<null | boolean>(null)
 const dashboard = ref<Dashboard | null>(null)
@@ -86,5 +86,3 @@ async function refresh() {
   }
 }
 </script>
-
-<style scoped></style>

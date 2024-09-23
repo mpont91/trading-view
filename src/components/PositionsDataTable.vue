@@ -71,6 +71,7 @@
   </table>
 </template>
 <script setup lang="ts">
+import type { PropType } from 'vue'
 import {
   formatAmount,
   formatDate,
@@ -78,7 +79,6 @@ import {
   formatPercentage,
 } from '../utils.ts'
 import type { Market, Position } from '../types.ts'
-import type { PropType } from 'vue'
 
 const props = defineProps({
   positions: {

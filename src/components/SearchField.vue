@@ -21,6 +21,7 @@
     <input
       :value="modelValue"
       @input="updateSearch"
+      @change="emit('change')"
       type="text"
       id="table-search"
       class="block p-2 ps-10 text-sm border rounded-md w-80 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-gray-400 dark:text-white"
@@ -32,7 +33,7 @@
 defineProps({
   modelValue: String,
 })
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
 
 function updateSearch(event: Event) {
   const input = event.target as HTMLInputElement

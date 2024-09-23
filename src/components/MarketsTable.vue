@@ -32,10 +32,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getMarkets } from '../api.ts'
-import type { Market } from '../types'
+import { formatAmount, formatDate } from '../utils.ts'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import { formatAmount, formatDate } from '../utils.ts'
+import type { Market } from '../types'
 
 const hasError = ref<null | boolean>(null)
 const markets = ref<Market[]>([])
@@ -54,4 +54,3 @@ async function refresh() {
   }
 }
 </script>
-<style scoped></style>

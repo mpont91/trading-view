@@ -82,5 +82,13 @@ export function buildQueryParams(
     params.append('sortOrder', searchCriteria.sortOrder)
   }
 
+  if (searchCriteria.filters) {
+    for (const [key, value] of Object.entries(searchCriteria.filters)) {
+      if (value !== null && value !== '') {
+        params.append(`filters[${key}]`, value.toString())
+      }
+    }
+  }
+
   return params
 }

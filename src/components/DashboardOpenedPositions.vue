@@ -7,11 +7,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Market, Position } from '../types.ts'
-import PositionsDataTable from './PositionsDataTable.vue'
 import type { PropType } from 'vue'
+import PositionsDataTable from './PositionsDataTable.vue'
+import type { Market, Position } from '../types.ts'
 
-const props = defineProps({
+defineProps({
   positions: {
     type: Array as PropType<Position[]>,
     default: () => [],

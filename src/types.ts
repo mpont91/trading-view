@@ -54,7 +54,7 @@ export interface SearchCriteria {
   limit?: number
   sortField?: string
   sortOrder?: 'asc' | 'desc'
-  filters?: Record<string, unknown>
+  filters?: Record<string, string>
 }
 
 export interface Pagination {

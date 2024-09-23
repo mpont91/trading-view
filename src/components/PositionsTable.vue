@@ -5,7 +5,6 @@
     message="Couldn't fetch the positions!"
   />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
-    <SearchField v-model="search" />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -27,22 +26,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
-import type { Market, Position } from '../types'
+import { ref, onMounted } from 'vue'
 import { getMarkets, getPositions } from '../api'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import TableNavigation from './TableNavigation.vue'
-import SearchField from './SearchField.vue'
 import PositionsDataTable from './PositionsDataTable.vue'
+import type { Market, Position } from '../types'
+
 const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])
 const markets = ref<Market[]>([])
-const currentPage = ref(1)
-const positionsPerPage = ref(50)
-const totalPages = ref(0)
-const totalItems = ref(0)
-const search = ref('')
+const currentPage = ref<number>(1)
+const positionsPerPage = ref<number>(50)
+const totalPages = ref<number>(0)
+const totalItems = ref<number>(0)
 
 onMounted(async () => {
   await refresh()
@@ -81,4 +79,3 @@ async function nextPage() {
   }
 }
 </script>
-<style scoped></style>

@@ -26,7 +26,7 @@
           </label>
         </div>
       </div>
-      <SearchField v-model="search" />
+      <SearchField @change="onSearch" v-model="search" />
     </div>
     <TableNavigation
       :current-page="currentPage"
@@ -69,25 +69,24 @@
     />
   </div>
 </template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-import type { Log } from '../types'
+import { ref, onMounted } from 'vue'
 import { getLogs } from '../api'
 import { formatDate } from '../utils.ts'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import TableNavigation from './TableNavigation.vue'
 import SearchField from './SearchField.vue'
+import type { Log } from '../types'
 
 const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])
-const currentPage = ref(1)
-const logsPerPage = ref(50)
-const totalPages = ref(0)
-const totalItems = ref(0)
-const types = ref(['error', 'info'])
-const search = ref('')
+const currentPage = ref<number>(1)
+const logsPerPage = ref<number>(50)
+const totalPages = ref<number>(0)
+const totalItems = ref<number>(0)
+const types = ref<string[]>(['error', 'info'])
+const search = ref<string>('')
 
 onMounted(async () => {
   await refresh()
@@ -99,6 +98,12 @@ async function refresh() {
     const fetchedLogs = await getLogs({
       page: currentPage.value,
       limit: logsPerPage.value,
+      filters: {
+        message: search.value,
+        error: types.value.includes('error'),
+        info: types.value.includes('info'),
+        debug: types.value.includes('debug'),
+      },
     })
     logs.value = fetchedLogs.data
     totalPages.value = fetchedLogs.pagination.totalPages
@@ -107,6 +112,11 @@ async function refresh() {
   } catch (error: unknown) {
     hasError.value = true
   }
+}
+
+async function onSearch() {
+  currentPage.value = 1
+  await refresh()
 }
 
 async function prevPage() {

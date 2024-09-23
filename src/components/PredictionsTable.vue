@@ -12,6 +12,7 @@
           type="radio"
           :value="pair"
           v-model="filterPair"
+          @change="onChangePair"
           name="inline-radio-group"
           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
@@ -67,53 +68,56 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Prediction } from '../types'
-import ErrorMessage from './ErrorMessage.vue'
-import { formatAmount, formatDate } from '../utils.ts'
-import TableNavigation from './TableNavigation.vue'
 import { onMounted, ref } from 'vue'
+import { formatAmount, formatDate } from '../utils.ts'
 import { getMarkets, getPredictions } from '../api.ts'
-import type { Market } from '../types'
+import TableNavigation from './TableNavigation.vue'
 import RefreshButton from './RefreshButton.vue'
+import ErrorMessage from './ErrorMessage.vue'
+import type { Prediction, Market } from '../types'
 
 const hasError = ref<null | boolean>(null)
 const markets = ref<Market[]>([])
 const predictions = ref<Prediction[]>([])
-const pairs = ref([])
-const predictionsPerPage = ref(50)
-const filterPair = ref('')
-const currentPage = ref(1)
-const totalPages = ref(0)
-const totalItems = ref(0)
+const pairs = ref<string[]>([])
+const predictionsPerPage = ref<number>(50)
+const filterPair = ref<string>('')
+const currentPage = ref<number>(1)
+const totalPages = ref<number>(0)
+const totalItems = ref<number>(0)
 
 onMounted(async () => {
+  markets.value = await getMarkets()
+  if (markets.value.length > 0) {
+    pairs.value = markets.value.map((m: Market) => m.pair)
+  }
+  filterPair.value = pairs.value[0]
   await refresh()
 })
 
 async function refresh() {
   predictions.value = []
-  markets.value = []
   try {
-    const [fetchedPredictions, fetchedMarkets] = await Promise.all([
-      getPredictions({
-        page: currentPage.value,
-        limit: predictionsPerPage.value,
-      }),
-      getMarkets(),
-    ])
-
-    markets.value = fetchedMarkets
-    pairs.value = markets.value.map((m) => m.pair)
-    filterPair.value = pairs.value[0]
+    const fetchedPredictions = await getPredictions({
+      page: currentPage.value,
+      limit: predictionsPerPage.value,
+      filters: {
+        pair: filterPair.value,
+      },
+    })
 
     predictions.value = fetchedPredictions.data
     totalPages.value = fetchedPredictions.pagination.totalPages
     totalItems.value = fetchedPredictions.pagination.totalItems
-    markets.value = fetchedMarkets
     hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
   }
+}
+
+async function onChangePair() {
+  currentPage.value = 1
+  await refresh()
 }
 
 async function prevPage() {
@@ -130,4 +134,3 @@ async function nextPage() {
   }
 }
 </script>
-<style scoped></style>

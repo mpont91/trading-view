@@ -31,8 +31,8 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { Balance, Market } from '../types.ts'
 import { formatAmount, formatDate, formatNumber } from '../utils'
+import type { Balance, Market } from '../types.ts'
 
 const props = defineProps({
   balances: {
