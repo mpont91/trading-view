@@ -4,66 +4,84 @@
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-4">
       <div class="bg-green-950 text-green-300 p-4 rounded-lg">
         <p>
-          Total trades: <span class="font-semibold">{{ totalTrades }}</span>
+          Total trades:
+          <span class="font-semibold">{{ performance.total_trades }}</span>
         </p>
       </div>
       <div class="bg-green-950 text-green-300 p-4 rounded-lg">
         <p>
           Successful trades:
-          <span class="font-semibold">{{ successfulTrades }}</span>
+          <span class="font-semibold">{{ performance.successful_trades }}</span>
         </p>
       </div>
       <div class="bg-red-950 text-red-300 p-4 rounded-lg">
         <p>
-          Failed trades: <span class="font-semibold">{{ failedTrades }}</span>
+          Failed trades:
+          <span class="font-semibold">{{ performance.failed_trades }}</span>
         </p>
       </div>
       <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
         <p>
           PnL:
           <span class="font-semibold">
-            {{ formatAmount(pnl) }}
+            {{ formatAmount(performance.total_pnl) }}
           </span>
-          ({{ formatPercentage(pnlPercentage) }})
+          ({{ formatPercentage(performance.total_pnl_percentage) }})
         </p>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-4">
-      <div>
+      <div v-if="performance.best_performing_pair">
         <h3 class="text-lg font-semibold mt-4">Best performing market</h3>
         <div class="bg-green-950 text-green-300 p-4 rounded-lg mt-2">
           <p>
-            Pair: <span class="font-semibold">{{ bestPerformingPair }}</span>
+            Pair:
+            <span class="font-semibold">
+              {{ performance.best_performing_pair.pair }}
+            </span>
           </p>
           <p>
             Trades:
-            <span class="font-semibold">{{ bestPerformingTrades }}</span>
+            <span class="font-semibold">
+              {{ performance.best_performing_pair.trades }}
+            </span>
           </p>
           <p>
             PnL:
             <span class="font-semibold">
-              {{ formatAmount(bestPerformingPnl) }}
+              {{ formatAmount(performance.best_performing_pair.pnl) }}
             </span>
-            ({{ formatPercentage(bestPerformingPnlPercentage) }})
+            ({{
+              formatPercentage(performance.best_performing_pair.pnl_percentage)
+            }})
           </p>
         </div>
       </div>
-      <div>
+      <div v-if="performance.worst_performing_pair">
         <h3 class="text-lg font-semibold mt-4">Worst performing pair</h3>
         <div class="bg-red-950 text-red-300 p-4 rounded-lg mt-2">
           <p>
-            Pair: <span class="font-semibold">{{ worstPerformingPair }}</span>
+            Pair:
+            <span class="font-semibold">
+              {{ performance.worst_performing_pair.pair }}
+            </span>
           </p>
           <p>
             Trades:
-            <span class="font-semibold">{{ worstPerformingTrades }}</span>
+            <span class="font-semibold">
+              {{ performance.worst_performing_pair.trades }}
+            </span>
           </p>
           <p>
             PnL:
             <span class="font-semibold">
-              {{ formatAmount(worstPerformingPnl) }}
+              {{ formatAmount(performance.worst_performing_pair.pnl) }}
             </span>
-            ({{ formatPercentage(worstPerformingPnlPercentage) }})
+            ({{
+              formatPercentage(
+                performance.worst_performing_pair.pnl_percentage,
+              )
+            }})
           </p>
         </div>
       </div>
@@ -72,59 +90,13 @@
 </template>
 <script setup lang="ts">
 import { formatAmount, formatPercentage } from '../utils.ts'
+import type { PropType } from 'vue'
+import type { DashboardPerformance } from '../types.ts'
 
 defineProps({
-  totalTrades: {
-    type: Number,
-    default: 0,
-  },
-  successfulTrades: {
-    type: Number,
-    default: 0,
-  },
-  failedTrades: {
-    type: Number,
-    default: 0,
-  },
-  pnl: {
-    type: Number,
-    default: 0,
-  },
-  pnlPercentage: {
-    type: Number,
-    default: 0,
-  },
-  bestPerformingPair: {
-    type: String,
-    default: '',
-  },
-  bestPerformingTrades: {
-    type: Number,
-    default: 0,
-  },
-  bestPerformingPnl: {
-    type: Number,
-    default: 0,
-  },
-  bestPerformingPnlPercentage: {
-    type: Number,
-    default: 0,
-  },
-  worstPerformingPair: {
-    type: String,
-    default: '',
-  },
-  worstPerformingTrades: {
-    type: Number,
-    default: 0,
-  },
-  worstPerformingPnl: {
-    type: Number,
-    default: 0,
-  },
-  worstPerformingPnlPercentage: {
-    type: Number,
-    default: 0,
+  performance: {
+    type: Object as PropType<DashboardPerformance>,
+    required: true,
   },
 })
 </script>

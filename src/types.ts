@@ -64,32 +64,50 @@ export interface Pagination {
   totalItems: number
 }
 
-export interface Dashboard {
+export interface DashboardStatus {
   active: boolean
-  last_activity: string
   uptime: number
+}
+
+export interface DashboardLifetime {
+  total_invested: number
+  current_value: number
+  pnl: number
+  pnl_percentage: number
+  total_invested_commission: number
+  current_commission_value: number
+}
+
+export interface DashboardPerformance {
+  total_trades: number
+  successful_trades: number
+  failed_trades: number
+  total_pnl: number
+  total_pnl_percentage: number
+  best_performing_pair: {
+    pair: string
+    trades: number
+    pnl: number
+    pnl_percentage: number
+  } | null
+  worst_performing_pair: {
+    pair: string
+    trades: number
+    pnl: number
+    pnl_percentage: number
+  } | null
+}
+
+export interface DashboardLogs {
+  total_errors: number
+}
+
+export interface Dashboard {
+  status: DashboardStatus
+  lifetime: DashboardLifetime
+  performance: DashboardPerformance
   opened_positions: Position[]
-  performance: {
-    total_trades: number
-    successful_trades: number
-    failed_trades: number
-    total_pnl: number
-    total_pnl_percentage: number
-    best_performing_pair: {
-      pair: string
-      trades: number
-      pnl: number
-      pnl_percentage: number
-    }
-    worst_performing_pair: {
-      pair: string
-      trades: number
-      pnl: number
-      pnl_percentage: number
-    }
-  }
-  logs: {
-    total_errors: number
-    last_log: Log
-  }
+  logs: DashboardLogs
+  balances: Balance[]
+  markets: Market[]
 }

@@ -1,44 +1,33 @@
 <template>
   <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
     <h2 class="text-xl font-bold mb-4">Bot status</h2>
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div class="bg-green-950 text-green-300 p-4 rounded-lg">
         <p>
           Status:
           <span class="font-semibold">
-            {{ active ? 'Active' : 'Inactive' }}
+            {{ status.active ? 'Active' : 'Inactive' }}
           </span>
-        </p>
-      </div>
-      <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
-        <p>
-          Last activity:
-          <span class="font-semibold">{{ formatDate(lastActivity) }}</span>
         </p>
       </div>
       <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
         <p>
-          Uptime: <span class="font-semibold">{{ formatTime(uptime) }}</span>
+          Uptime:
+          <span class="font-semibold">{{ formatTime(status.uptime) }}</span>
         </p>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { formatDate, formatTime } from '../utils.ts'
+import { formatTime } from '../utils.ts'
+import type { DashboardStatus } from '../types.ts'
+import type { PropType } from 'vue'
 
 defineProps({
-  active: {
-    type: Boolean,
-    default: false,
-  },
-  lastActivity: {
-    type: String,
-    default: '',
-  },
-  uptime: {
-    type: Number,
-    default: 0,
+  status: {
+    type: Object as PropType<DashboardStatus>,
+    required: true,
   },
 })
 </script>
