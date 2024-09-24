@@ -23,10 +23,7 @@ export interface Balance {
   updated_at: string
 }
 
-export type Buy = 'BUY'
-export type Sell = 'SELL'
-export type Hold = 'HOLD'
-export type Signal = Buy | Sell | Hold | null
+export type Signal = 'STRONG BUY' | 'BUY' | 'HOLD' | 'SELL' | 'STRONG SELL'
 
 export interface Market {
   pair: string
