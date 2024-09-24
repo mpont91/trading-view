@@ -87,11 +87,16 @@ const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
 
 onMounted(async () => {
-  markets.value = await getMarkets()
-  if (markets.value.length > 0) {
-    pairs.value = markets.value.map((m: Market) => m.pair)
+  try {
+    markets.value = await getMarkets()
+    if (markets.value.length > 0) {
+      pairs.value = markets.value.map((m: Market) => m.pair)
+    }
+    filterPair.value = pairs.value[0]
+  } catch (error: unknown) {
+    hasError.value = true
   }
-  filterPair.value = pairs.value[0]
+
   await refresh()
 })
 

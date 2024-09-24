@@ -15,6 +15,7 @@ import {
   FetchMarketsException,
   HealthCheckException,
   FetchPredictionsException,
+  FetchBalancesException,
 } from './exceptions.ts'
 import { buildQueryParams } from './utils.ts'
 
@@ -64,7 +65,7 @@ export async function getBalances(): Promise<Balance[]> {
     const json = await response.json()
     return json.data
   } catch (error: unknown) {
-    throw new FetchMarketsException(error)
+    throw new FetchBalancesException(error)
   }
 }
 
