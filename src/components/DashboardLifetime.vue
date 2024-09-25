@@ -12,7 +12,7 @@
       </div>
       <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
         <p>
-          Current value estimated
+          Current value:
           <span class="font-semibold">
             {{ formatAmount(lifetime.current_value) }}
           </span>
@@ -28,32 +28,41 @@
         </p>
       </div>
       <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
-        <p>
-          Total invested in commissions:
-          <span class="font-semibold">
-            {{ formatAmount(lifetime.total_invested_commission) }}
-          </span>
+        <p>Total invested in commissions:</p>
+        <p class="font-semibold">
+          {{ formatNumber(lifetime.total_invested_commission_bnb) }} BNB
+        </p>
+        <p class="font-semibold">
+          {{ formatAmount(lifetime.total_invested_commission) }}
         </p>
       </div>
       <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
-        <p>
-          Current value available:
-          <span class="font-semibold">
-            {{ formatAmount(lifetime.current_commission_value) }}
-          </span>
+        <p>Current value available:</p>
+        <p class="font-semibold">
+          {{ formatNumber(lifetime.current_commission_value_bnb) }} BNB
+        </p>
+        <p class="font-semibold">
+          {{ formatAmount(lifetime.current_commission_value) }}
         </p>
       </div>
       <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
-        <p>
-          Total commissions paid:
-          <span class="font-semibold">
-            {{
-              formatAmount(
-                lifetime.total_invested_commission -
-                  lifetime.current_commission_value,
-              )
-            }}
-          </span>
+        <p>Total commissions paid:</p>
+        <p class="font-semibold">
+          {{
+            formatNumber(
+              lifetime.total_invested_commission_bnb -
+                lifetime.current_commission_value_bnb,
+            )
+          }}
+          BNB
+        </p>
+        <p class="font-semibold">
+          {{
+            formatAmount(
+              lifetime.total_invested_commission -
+                lifetime.current_commission_value,
+            )
+          }}
         </p>
       </div>
     </div>
@@ -62,7 +71,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { DashboardLifetime } from '../types.ts'
-import { formatAmount, formatPercentage } from '../utils.ts'
+import { formatAmount, formatNumber, formatPercentage } from '../utils.ts'
 
 defineProps({
   lifetime: {
