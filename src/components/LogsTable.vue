@@ -5,28 +5,11 @@
     <div
       class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4"
     >
-      <div class="flex">
-        <div
-          v-for="type in ['error', 'info', 'debug']"
-          :key="type"
-          class="flex items-center me-4"
-        >
-          <input
-            :id="`checkbox-${type}`"
-            type="checkbox"
-            :value="type"
-            v-model="types"
-            @change="onChangeLevel"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            :for="`checkbox-${type}`"
-            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 capitalize"
-          >
-            {{ type }}
-          </label>
-        </div>
-      </div>
+      <CheckboxField
+        v-model="types"
+        :items="['error', 'info', 'debug']"
+        @change="onChangeLevel"
+      />
       <SearchField @change="onSearch" v-model="search" />
     </div>
     <TableNavigation
@@ -79,6 +62,7 @@ import ErrorMessage from './ErrorMessage.vue'
 import TableNavigation from './TableNavigation.vue'
 import SearchField from './SearchField.vue'
 import type { Log } from '../types'
+import CheckboxField from './CheckboxField.vue'
 
 const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])
