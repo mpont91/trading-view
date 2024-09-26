@@ -14,7 +14,15 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <PositionsDataTable :positions="positions" :markets="markets" />
+    <PositionsDataTable
+      :positions="positions"
+      :markets="markets"
+      :can-sort="true"
+      :fields="fields"
+      :sort-field="sortField"
+      :sort-order="sortOrder"
+      @sort="sort"
+    />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -41,6 +49,22 @@ const currentPage = ref<number>(1)
 const positionsPerPage = ref<number>(50)
 const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
+const sortField = ref<string>('id')
+const sortOrder = ref<'asc' | 'desc'>('desc')
+
+const fields: string[] = [
+  'id',
+  'pair',
+  'quantity',
+  'amount',
+  'buy_price',
+  'buy_at',
+  'stop_profit_loss',
+  'trailing',
+  'sell_price',
+  'sell_at',
+  'pnl',
+]
 
 onMounted(async () => {
   await refresh()
@@ -54,7 +78,12 @@ async function refresh() {
 
   try {
     const [fetchedPositions, fetchedMarkets] = await Promise.all([
-      getPositions({ page: currentPage.value, limit: positionsPerPage.value }),
+      getPositions({
+        page: currentPage.value,
+        limit: positionsPerPage.value,
+        sortField: sortField.value,
+        sortOrder: sortOrder.value,
+      }),
       getMarkets(),
     ])
 
@@ -79,6 +108,26 @@ async function nextPage() {
   if (currentPage.value < totalPages.value) {
     currentPage.value++
     await refresh()
+  }
+}
+
+async function sort(field: string) {
+  if (sortField.value === field) {
+    toggleSortOrder()
+  } else {
+    sortOrder.value = 'desc'
+  }
+
+  sortField.value = field
+  currentPage.value = 1
+  await refresh()
+}
+
+function toggleSortOrder() {
+  if (sortOrder.value === 'asc') {
+    sortOrder.value = 'desc'
+  } else {
+    sortOrder.value = 'asc'
   }
 }
 </script>
