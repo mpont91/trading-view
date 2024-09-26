@@ -13,8 +13,8 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import PositionsDataTable from './PositionsDataTable.vue'
-import type { Market, Position } from '../types.ts'
+import PositionsDataTable from '../PositionsDataTable.vue'
+import type { Market, Position } from '../../types.ts'
 
 const fields: string[] = [
   'id',

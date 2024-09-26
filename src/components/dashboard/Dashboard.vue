@@ -29,15 +29,15 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getDashboard } from '../api'
+import { getDashboard } from '../../api.ts'
 import DashboardStatus from './DashboardStatus.vue'
 import DashboardOpenedPositions from './DashboardOpenedPositions.vue'
 import DashboardPerformance from './DashboardPerformance.vue'
 import DashboardLogs from './DashboardLogs.vue'
-import RefreshButton from './RefreshButton.vue'
-import ErrorMessage from './ErrorMessage.vue'
+import RefreshButton from '../RefreshButton.vue'
+import ErrorMessage from '../ErrorMessage.vue'
 import DashboardBalances from './DashboardBalances.vue'
-import type { Dashboard } from '../types.ts'
+import type { Dashboard } from '../../types.ts'
 import DashboardLifetime from './DashboardLifetime.vue'
 
 const hasError = ref<null | boolean>(null)

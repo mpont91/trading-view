@@ -89,9 +89,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { formatAmount, formatPercentage } from '../utils.ts'
+import { formatAmount, formatPercentage } from '../../utils.ts'
 import type { PropType } from 'vue'
-import type { DashboardPerformance } from '../types.ts'
+import type { DashboardPerformance } from '../../types.ts'
 
 defineProps({
   performance: {
