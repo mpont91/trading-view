@@ -5,24 +5,12 @@
     message="Couldn't fetch the predictions!"
   />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
-    <div class="flex">
-      <div v-for="pair in pairs" :key="pair" class="flex items-center me-4">
-        <input
-          :id="pair"
-          type="radio"
-          :value="pair"
-          v-model="filterPair"
-          @change="onChangePair"
-          name="inline-radio-group"
-          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-        />
-        <label
-          :for="pair"
-          class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >{{ pair }}</label
-        >
-      </div>
-    </div>
+    <SelectorField
+      v-model="filterPair"
+      name="pairs"
+      :items="pairs"
+      @change="onChangePair"
+    />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -75,6 +63,7 @@ import TableNavigation from './TableNavigation.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import type { Prediction, Market } from '../types'
+import SelectorField from './SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)
 const markets = ref<Market[]>([])

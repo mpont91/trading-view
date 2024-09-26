@@ -5,6 +5,12 @@
     message="Couldn't fetch the positions!"
   />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
+    <SelectorField
+      v-model="filterPair"
+      name="pairs"
+      :items="pairs"
+      @change="onChangePair"
+    />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -41,6 +47,7 @@ import ErrorMessage from './ErrorMessage.vue'
 import TableNavigation from './TableNavigation.vue'
 import PositionsDataTable from './PositionsDataTable.vue'
 import type { Market, Position } from '../types'
+import SelectorField from './SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])
@@ -51,6 +58,8 @@ const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
 const sortField = ref<string>('id')
 const sortOrder = ref<'asc' | 'desc'>('desc')
+const pairs = ref<string[]>([])
+const filterPair = ref<string>('')
 
 const fields: string[] = [
   'id',
@@ -67,30 +76,38 @@ const fields: string[] = [
 ]
 
 onMounted(async () => {
+  try {
+    markets.value = await getMarkets()
+    if (markets.value.length > 0) {
+      pairs.value = markets.value.map((m: Market) => m.pair)
+    }
+    filterPair.value = pairs.value[0]
+  } catch (error: unknown) {
+    hasError.value = true
+  }
+
   await refresh()
 })
 
 async function refresh() {
   positions.value = []
-  markets.value = []
   totalPages.value = 0
   totalItems.value = 0
 
   try {
-    const [fetchedPositions, fetchedMarkets] = await Promise.all([
-      getPositions({
-        page: currentPage.value,
-        limit: positionsPerPage.value,
-        sortField: sortField.value,
-        sortOrder: sortOrder.value,
-      }),
-      getMarkets(),
-    ])
+    const fetchedPositions = await getPositions({
+      page: currentPage.value,
+      limit: positionsPerPage.value,
+      sortField: sortField.value,
+      sortOrder: sortOrder.value,
+      filters: {
+        pair: filterPair.value,
+      },
+    })
 
     positions.value = fetchedPositions.data
     totalPages.value = fetchedPositions.pagination.totalPages
     totalItems.value = fetchedPositions.pagination.totalItems
-    markets.value = fetchedMarkets
     hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
@@ -129,5 +146,9 @@ function toggleSortOrder() {
   } else {
     sortOrder.value = 'asc'
   }
+}
+async function onChangePair() {
+  currentPage.value = 1
+  await refresh()
 }
 </script>

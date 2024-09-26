@@ -5,42 +5,20 @@
     message="Couldn't fetch the indicators!"
   />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
-    <div class="flex mt-4">
-      <div v-for="name in names" :key="name" class="flex items-center me-4">
-        <input
-          :id="name"
-          type="radio"
-          :value="name"
-          v-model="filterName"
-          @change="onChangeName"
-          name="filter-name"
-          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-        />
-        <label
-          :for="name"
-          class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >{{ name }}</label
-        >
-      </div>
-    </div>
-    <div class="flex mt-4">
-      <div v-for="pair in pairs" :key="pair" class="flex items-center me-4">
-        <input
-          :id="pair"
-          type="radio"
-          :value="pair"
-          v-model="filterPair"
-          @change="onChangePair"
-          name="filter-pair"
-          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-        />
-        <label
-          :for="pair"
-          class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >{{ pair }}</label
-        >
-      </div>
-    </div>
+    <SelectorField
+      name="indicators"
+      v-model="filterName"
+      :items="names"
+      @change="onChangeName"
+      class="mt-4"
+    />
+    <SelectorField
+      name="pairs"
+      v-model="filterPair"
+      :items="pairs"
+      @change="onChangePair"
+      class="mt-4"
+    />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -95,6 +73,7 @@ import TableNavigation from './TableNavigation.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import type { Indicator, Market } from '../types'
+import SelectorField from './SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)
 const markets = ref<Market[]>([])
