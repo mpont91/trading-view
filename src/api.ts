@@ -16,6 +16,7 @@ import {
   HealthCheckException,
   FetchPredictionsException,
   FetchBalancesException,
+  FetchIndicatorsException,
 } from './exceptions.ts'
 import { buildQueryParams } from './utils.ts'
 
@@ -56,6 +57,20 @@ export async function getPredictions(
     return await response.json()
   } catch (error: unknown) {
     throw new FetchPredictionsException(error)
+  }
+}
+
+export async function getIndicators(
+  searchCriteria: SearchCriteria,
+): Promise<{ data: Prediction[]; pagination: Pagination }> {
+  const params: URLSearchParams = buildQueryParams(searchCriteria)
+  try {
+    const response: Response = await fetch(
+      `${api}indicators?${params.toString()}`,
+    )
+    return await response.json()
+  } catch (error: unknown) {
+    throw new FetchIndicatorsException(error)
   }
 }
 

@@ -13,6 +13,11 @@ export class FetchPredictionsException extends Error {
     super('Error fetching predictions')
   }
 }
+export class FetchIndicatorsException extends Error {
+  constructor(error: unknown) {
+    super('Error fetching indicators')
+  }
+}
 export class FetchBalancesException extends Error {
   constructor(error: unknown) {
     super('Error fetching balances')
