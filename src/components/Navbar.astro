@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 import Menu from '../icons/Menu.vue'
+
+const currentPath: string = Astro.url.pathname
 ---
 
 <nav class="bg-gray-800 border-gray-700">
@@ -28,7 +30,7 @@ import Menu from '../icons/Menu.vue'
         <li>
           <a
             href="/"
-            class="block py-2 px-3 md:p-0 rounded md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Home
           </a>
@@ -36,7 +38,7 @@ import Menu from '../icons/Menu.vue'
         <li>
           <a
             href="/logs"
-            class="block py-2 px-3 md:p-0 rounded md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/logs' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Logs
           </a>
@@ -44,7 +46,7 @@ import Menu from '../icons/Menu.vue'
         <li>
           <a
             href="/positions"
-            class="block py-2 px-3 md:p-0 rounded md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/positions' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Positions
           </a>
@@ -52,7 +54,7 @@ import Menu from '../icons/Menu.vue'
         <li>
           <a
             href="/markets"
-            class="block py-2 px-3 md:p-0 rounded md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/markets' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Markets
           </a>
@@ -60,7 +62,7 @@ import Menu from '../icons/Menu.vue'
         <li>
           <a
             href="/predictions"
-            class="block py-2 px-3 md:p-0 rounded md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/predictions' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Predictions
           </a>
@@ -68,7 +70,7 @@ import Menu from '../icons/Menu.vue'
         <li>
           <a
             href="/indicators"
-            class="block py-2 px-3 md:p-0 rounded md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent"
+            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/indicators' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Indicators
           </a>
