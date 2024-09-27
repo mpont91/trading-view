@@ -1,28 +1,32 @@
 <template>
   <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
     <h2>Balance</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Currency</th>
-          <th>Quantity</th>
-          <th>Amount</th>
-          <th>Updated at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="balance in balances">
-          <td>{{ balance.currency }}</td>
-          <td>{{ formatNumber(balance.quantity) }}</td>
-          <td>
-            {{
-              formatAmount(calculateAmount(balance.currency, balance.quantity))
-            }}
-          </td>
-          <td>{{ formatDate(balance.updated_at) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="relative overflow-x-auto shadow-md">
+      <table>
+        <thead>
+          <tr>
+            <th>Currency</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Updated at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="balance in balances">
+            <td>{{ balance.currency }}</td>
+            <td>{{ formatNumber(balance.quantity) }}</td>
+            <td>
+              {{
+                formatAmount(
+                  calculateAmount(balance.currency, balance.quantity),
+                )
+              }}
+            </td>
+            <td>{{ formatDate(balance.updated_at) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 <script setup lang="ts">

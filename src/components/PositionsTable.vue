@@ -4,7 +4,7 @@
     v-if="hasError === true"
     message="Couldn't fetch the positions!"
   />
-  <div v-else-if="hasError === false" class="relative overflow-x-auto">
+  <div v-else-if="hasError === false">
     <SelectorField
       v-model="filterPair"
       name="pairs"

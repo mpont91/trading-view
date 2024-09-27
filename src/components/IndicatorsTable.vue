@@ -4,7 +4,7 @@
     v-if="hasError === true"
     message="Couldn't fetch the indicators!"
   />
-  <div v-else-if="hasError === false" class="relative overflow-x-auto">
+  <div v-else-if="hasError === false">
     <SelectorField
       name="indicators"
       v-model="filterName"
@@ -28,26 +28,28 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Pair</th>
-          <th>Price</th>
-          <th>Signal</th>
-          <th>Created at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="indicator in indicators">
-          <td>{{ indicator.name }}</td>
-          <td>{{ indicator.pair }}</td>
-          <td>{{ formatAmount(indicator.current_price) }}</td>
-          <td>{{ indicator.signal }}</td>
-          <td>{{ formatDate(indicator.created_at) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="relative overflow-x-auto shadow-md">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Pair</th>
+            <th>Price</th>
+            <th>Signal</th>
+            <th>Created at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="indicator in indicators">
+            <td>{{ indicator.name }}</td>
+            <td>{{ indicator.pair }}</td>
+            <td>{{ formatAmount(indicator.current_price) }}</td>
+            <td>{{ indicator.signal }}</td>
+            <td>{{ formatDate(indicator.created_at) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"

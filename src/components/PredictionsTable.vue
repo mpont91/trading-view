@@ -4,7 +4,7 @@
     v-if="hasError === true"
     message="Couldn't fetch the predictions!"
   />
-  <div v-else-if="hasError === false" class="relative overflow-x-auto">
+  <div v-else-if="hasError === false">
     <SelectorField
       v-model="filterPair"
       name="pairs"
@@ -20,24 +20,26 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <table>
-      <thead>
-        <tr>
-          <th>Pair</th>
-          <th>Price</th>
-          <th>Signal</th>
-          <th>Created at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="prediction in predictions">
-          <td>{{ prediction.pair }}</td>
-          <td>{{ formatAmount(prediction.current_price) }}</td>
-          <td>{{ prediction.signal }}</td>
-          <td>{{ formatDate(prediction.created_at) }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="relative overflow-x-auto shadow-md">
+      <table>
+        <thead>
+          <tr>
+            <th>Pair</th>
+            <th>Price</th>
+            <th>Signal</th>
+            <th>Created at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="prediction in predictions">
+            <td>{{ prediction.pair }}</td>
+            <td>{{ formatAmount(prediction.current_price) }}</td>
+            <td>{{ prediction.signal }}</td>
+            <td>{{ formatDate(prediction.created_at) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"

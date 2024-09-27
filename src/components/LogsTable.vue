@@ -1,7 +1,7 @@
 <template>
   <RefreshButton @click="refresh" />
   <ErrorMessage v-if="hasError === true" message="Couldn't fetch the logs!" />
-  <div v-else-if="hasError === false" class="relative overflow-x-auto">
+  <div v-else-if="hasError === false">
     <div
       class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4"
     >
@@ -21,22 +21,24 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Type</th>
-          <th>Message</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="log in logs">
-          <td class="md:text-nowrap">{{ formatDate(log.timestamp) }}</td>
-          <td class="md:text-nowrap">{{ log.level }}</td>
-          <td class="message-column">{{ log.message }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="relative overflow-x-auto shadow-md">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="log in logs">
+            <td class="md:text-nowrap">{{ formatDate(log.timestamp) }}</td>
+            <td class="md:text-nowrap">{{ log.level }}</td>
+            <td class="message-column">{{ log.message }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"

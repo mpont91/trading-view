@@ -4,7 +4,10 @@
     v-if="hasError === true"
     message="Couldn't fetch the markets!"
   />
-  <div v-else-if="hasError === false" class="relative overflow-x-auto">
+  <div
+    v-else-if="hasError === false"
+    class="relative overflow-x-auto shadow-md"
+  >
     <table>
       <thead>
         <tr>
