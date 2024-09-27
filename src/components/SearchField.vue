@@ -2,9 +2,9 @@
   <label for="table-search" class="sr-only">Search</label>
   <div class="relative">
     <div
-      class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none"
+      class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none"
     >
-      <Search class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+      <Search class="w-5 h-5 text-gray-400" />
     </div>
     <input
       :value="modelValue"
@@ -12,7 +12,7 @@
       @change="emit('change')"
       type="text"
       id="table-search"
-      class="block p-2 ps-10 text-sm border rounded-md w-80 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-gray-400 dark:text-white"
+      class="block p-2 ps-10 text-sm border rounded-md w-80 bg-neutral-700 border-neutral-600 placeholder-gray-400 text-white"
       placeholder="Search for items"
     />
   </div>

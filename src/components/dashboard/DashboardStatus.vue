@@ -1,6 +1,6 @@
 <template>
   <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
-    <h2 class="text-xl font-bold mb-4">Bot status</h2>
+    <h2>Bot status</h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div class="bg-green-950 text-green-300 p-4 rounded-lg">
         <p>

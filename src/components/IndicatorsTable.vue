@@ -28,30 +28,23 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
-      <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
+    <table>
+      <thead>
         <tr>
-          <th scope="col" class="px-6 py-3">Name</th>
-          <th scope="col" class="px-6 py-3">Pair</th>
-          <th scope="col" class="px-6 py-3">Price</th>
-          <th scope="col" class="px-6 py-3">Signal</th>
-          <th scope="col" class="px-6 py-3">Created at</th>
+          <th>Name</th>
+          <th>Pair</th>
+          <th>Price</th>
+          <th>Signal</th>
+          <th>Created at</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="indicator in indicators"
-          class="border-b dark:border-gray-700"
-        >
-          <td class="px-6 py-4 dark:text-white">{{ indicator.name }}</td>
-          <td class="px-6 py-4 dark:text-white">{{ indicator.pair }}</td>
-          <td class="px-6 py-4 dark:text-white">
-            {{ formatAmount(indicator.current_price) }}
-          </td>
-          <td class="px-6 py-4 dark:text-white">{{ indicator.signal }}</td>
-          <td class="px-6 py-4 dark:text-white">
-            {{ formatDate(indicator.created_at) }}
-          </td>
+        <tr v-for="indicator in indicators">
+          <td>{{ indicator.name }}</td>
+          <td>{{ indicator.pair }}</td>
+          <td>{{ formatAmount(indicator.current_price) }}</td>
+          <td>{{ indicator.signal }}</td>
+          <td>{{ formatDate(indicator.created_at) }}</td>
         </tr>
       </tbody>
     </table>

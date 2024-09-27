@@ -1,12 +1,8 @@
 <template>
-  <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
-    <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
+  <table>
+    <thead>
       <tr>
-        <th
-          v-if="isVisible('id') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-if="isVisible('id') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('id')">
             ID
             <SortIndicators
@@ -16,13 +12,9 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('id')" scope="col" class="px-6 py-3">ID</th>
-        <th v-if="isVisible('pair')" scope="col" class="px-6 py-3">Pair</th>
-        <th
-          v-if="isVisible('quantity') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('id')">ID</th>
+        <th v-if="isVisible('pair')">Pair</th>
+        <th v-if="isVisible('quantity') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('quantity')">
             Quantity
             <SortIndicators
@@ -32,14 +24,8 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('quantity')" scope="col" class="px-6 py-3">
-          Quantity
-        </th>
-        <th
-          v-if="isVisible('amount') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('quantity')">Quantity</th>
+        <th v-if="isVisible('amount') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('amount')">
             Amount
             <SortIndicators
@@ -49,14 +35,8 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('amount')" scope="col" class="px-6 py-3">
-          Amount
-        </th>
-        <th
-          v-if="isVisible('buy_price') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('amount')">Amount</th>
+        <th v-if="isVisible('buy_price') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('buy_price')">
             Buy price
             <SortIndicators
@@ -66,14 +46,8 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('buy_price')" scope="col" class="px-6 py-3">
-          Buy price
-        </th>
-        <th
-          v-if="isVisible('buy_at') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('buy_price')">Buy price</th>
+        <th v-if="isVisible('buy_at') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('buy_at')">
             Buy at
             <SortIndicators
@@ -83,20 +57,10 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('buy_at')" scope="col" class="px-6 py-3">
-          Buy at
-        </th>
-        <th v-if="isVisible('stop_profit_loss')" scope="col" class="px-6 py-3">
-          Stop profit/loss
-        </th>
-        <th v-if="isVisible('trailing')" scope="col" class="px-6 py-3">
-          Trailing highest/lowest
-        </th>
-        <th
-          v-if="isVisible('sell_price') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('buy_at')">Buy at</th>
+        <th v-if="isVisible('stop_profit_loss')">Stop profit/loss</th>
+        <th v-if="isVisible('trailing')">Trailing highest/lowest</th>
+        <th v-if="isVisible('sell_price') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('sell_price')">
             Sell price
             <SortIndicators
@@ -106,14 +70,8 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('sell_price')" scope="col" class="px-6 py-3">
-          Sell price
-        </th>
-        <th
-          v-if="isVisible('sell_at') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('sell_price')">Sell price</th>
+        <th v-if="isVisible('sell_at') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('sell_at')">
             Sell at
             <SortIndicators
@@ -123,14 +81,8 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('sell_at')" scope="col" class="px-6 py-3">
-          Sell at
-        </th>
-        <th
-          v-if="isVisible('pnl') && canSort"
-          scope="col"
-          class="px-6 py-3 cursor-pointer"
-        >
+        <th v-else-if="isVisible('sell_at')">Sell at</th>
+        <th v-if="isVisible('pnl') && canSort" class="cursor-pointer">
           <div class="flex items-center" @click="sort('pnl_percentage')">
             PnL
             <SortIndicators
@@ -140,7 +92,7 @@
             />
           </div>
         </th>
-        <th v-else-if="isVisible('pnl')" scope="col" class="px-6 py-3">PnL</th>
+        <th v-else-if="isVisible('pnl')">PnL</th>
       </tr>
     </thead>
     <tbody>
@@ -152,52 +104,42 @@
           'bg-green-900': !position.is_closed && pnlLive(position) >= 0,
           'bg-red-900': !position.is_closed && pnlLive(position) < 0,
         }"
-        class="border-b dark:border-gray-700"
       >
-        <td v-if="isVisible('id')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('id')">
           {{ position.id }}
         </td>
-        <td v-if="isVisible('pair')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('pair')">
           {{ position.pair }}
         </td>
-        <td v-if="isVisible('quantity')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('quantity')">
           {{ position.quantity }}
         </td>
-        <td v-if="isVisible('amount')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('amount')">
           {{ formatNumber(position.amount) }}
         </td>
-        <td v-if="isVisible('buy_price')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('buy_price')">
           {{ formatNumber(position.buy_price) }}
         </td>
-        <td v-if="isVisible('buy_at')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('buy_at')">
           {{ formatDate(position.buy_at) }}
         </td>
-        <td
-          v-if="isVisible('stop_profit_loss')"
-          class="px-6 py-4 dark:text-white text-nowrap"
-        >
+        <td v-if="isVisible('stop_profit_loss')" class="text-nowrap">
           {{ formatNumber(position.stop_profit) }} /
           {{ formatNumber(position.stop_loss) }}
         </td>
-        <td
-          v-if="isVisible('trailing')"
-          class="px-6 py-4 dark:text-white text-nowrap"
-        >
+        <td v-if="isVisible('trailing')" class="text-nowrap">
           <span v-if="position.trailing_highest && position.trailing_lowest">
             {{ formatNumber(position.trailing_highest) }} /
             {{ formatNumber(position.trailing_lowest) }}
           </span>
         </td>
-        <td v-if="isVisible('sell_price')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('sell_price')">
           {{ formatNumber(position.sell_price) }}
         </td>
-        <td v-if="isVisible('sell_at')" class="px-6 py-4 dark:text-white">
+        <td v-if="isVisible('sell_at')">
           {{ formatDate(position.sell_at) }}
         </td>
-        <td
-          v-if="isVisible('pnl')"
-          class="px-6 py-4 dark:text-white text-nowrap"
-        >
+        <td v-if="isVisible('pnl')" class="text-nowrap">
           {{
             formatAmount(position.is_closed ? position.pnl : pnlLive(position))
           }}

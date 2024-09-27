@@ -5,25 +5,21 @@
     message="Couldn't fetch the markets!"
   />
   <div v-else-if="hasError === false" class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
-      <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
+    <table>
+      <thead>
         <tr>
-          <th scope="col" class="px-6 py-3">Pair</th>
-          <th scope="col" class="px-6 py-3">Price</th>
-          <th scope="col" class="px-6 py-3">Signal</th>
-          <th scope="col" class="px-6 py-3">Updated at</th>
+          <th>Pair</th>
+          <th>Price</th>
+          <th>Signal</th>
+          <th>Updated at</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="market in markets" class="border-b dark:border-gray-700">
-          <td class="px-6 py-4 dark:text-white">{{ market.pair }}</td>
-          <td class="px-6 py-4 dark:text-white">
-            {{ formatAmount(market.price) }}
-          </td>
-          <td class="px-6 py-4 dark:text-white">{{ market.signal }}</td>
-          <td class="px-6 py-4 dark:text-white">
-            {{ formatDate(market.updated_at) }}
-          </td>
+        <tr v-for="market in markets">
+          <td>{{ market.pair }}</td>
+          <td>{{ formatAmount(market.price) }}</td>
+          <td>{{ market.signal }}</td>
+          <td>{{ formatDate(market.updated_at) }}</td>
         </tr>
       </tbody>
     </table>

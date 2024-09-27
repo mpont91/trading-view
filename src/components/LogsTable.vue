@@ -21,25 +21,19 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
-      <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
+    <table>
+      <thead>
         <tr>
-          <th scope="col" class="px-6 py-3">Date</th>
-          <th scope="col" class="px-6 py-3">Type</th>
-          <th scope="col" class="px-6 py-3">Message</th>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Message</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="log in logs" class="border-b dark:border-gray-700">
-          <td class="px-6 py-4 dark:text-white md:text-nowrap">
-            {{ formatDate(log.timestamp) }}
-          </td>
-          <td class="px-6 py-4 dark:text-white md:text-nowrap">
-            {{ log.level }}
-          </td>
-          <td class="px-6 py-4 dark:text-white message-column">
-            {{ log.message }}
-          </td>
+        <tr v-for="log in logs">
+          <td class="md:text-nowrap">{{ formatDate(log.timestamp) }}</td>
+          <td class="md:text-nowrap">{{ log.level }}</td>
+          <td class="message-column">{{ log.message }}</td>
         </tr>
       </tbody>
     </table>

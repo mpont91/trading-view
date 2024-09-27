@@ -20,28 +20,21 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <table class="w-full text-sm text-left rtl:text-right dark:text-gray-400">
-      <thead class="text-xs uppercase dark:bg-neutral-700 dark:text-gray-400">
+    <table>
+      <thead>
         <tr>
-          <th scope="col" class="px-6 py-3">Pair</th>
-          <th scope="col" class="px-6 py-3">Price</th>
-          <th scope="col" class="px-6 py-3">Signal</th>
-          <th scope="col" class="px-6 py-3">Created at</th>
+          <th>Pair</th>
+          <th>Price</th>
+          <th>Signal</th>
+          <th>Created at</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="prediction in predictions"
-          class="border-b dark:border-gray-700"
-        >
-          <td class="px-6 py-4 dark:text-white">{{ prediction.pair }}</td>
-          <td class="px-6 py-4 dark:text-white">
-            {{ formatAmount(prediction.current_price) }}
-          </td>
-          <td class="px-6 py-4 dark:text-white">{{ prediction.signal }}</td>
-          <td class="px-6 py-4 dark:text-white">
-            {{ formatDate(prediction.created_at) }}
-          </td>
+        <tr v-for="prediction in predictions">
+          <td>{{ prediction.pair }}</td>
+          <td>{{ formatAmount(prediction.current_price) }}</td>
+          <td>{{ prediction.signal }}</td>
+          <td>{{ formatDate(prediction.created_at) }}</td>
         </tr>
       </tbody>
     </table>

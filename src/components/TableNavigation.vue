@@ -4,24 +4,24 @@
     aria-label="Table navigation"
   >
     <span
-      class="text-sm font-normal dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
+      class="text-sm font-normal text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto"
     >
       Showing
-      <span class="font-semibold text-gray-900 dark:text-white">
+      <span class="font-semibold text-white">
         {{ (currentPage - 1) * itemsPerPage + 1 }} -
         {{ Math.min(currentPage * itemsPerPage, length) }}
       </span>
       of
-      <span class="font-semibold text-gray-900 dark:text-white">
+      <span class="font-semibold text-white">
         {{ length }}
       </span>
     </span>
-    <ul class="inline-flex -space-x-px rtl:space-x-reverse h-8">
+    <ul class="inline-flex -space-x-px h-8">
       <li>
         <button
           @click="emit('prevPage')"
           :disabled="currentPage === 1"
-          class="flex items-center justify-center px-3 h-8 ms-0 leading-tight border rounded-s-md dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-400 dark:hover:bg-neutral-700 dark:hover:text-white"
+          class="flex items-center justify-center px-3 h-8 ms-0 leading-tight border rounded-s-md bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-white"
         >
           Previous
         </button>
@@ -30,7 +30,7 @@
         <button
           @click="emit('nextPage')"
           :disabled="currentPage === pages"
-          class="flex items-center justify-center px-3 h-8 leading-tight border rounded-e-md dark:bg-neutral-800 dark:border-neutral-700 dark:text-gray-400 dark:hover:bg-neutral-700 dark:hover:text-white"
+          class="flex items-center justify-center px-3 h-8 leading-tight border rounded-e-md bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-white"
         >
           Next
         </button>
