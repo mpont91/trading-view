@@ -3,13 +3,9 @@
   <ErrorMessage v-if="hasError === true" message="Couldn't fetch the logs!" />
   <div v-else-if="hasError === false">
     <div
-      class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4"
+      class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between pb-4 sm:space-x-4"
     >
-      <CheckboxField
-        v-model="types"
-        :items="['error', 'info', 'debug']"
-        @change="onChangeLevel"
-      />
+      <CheckboxField v-model="types" :items="items" @change="onChangeLevel" />
       <SearchField @change="onSearch" v-model="search" />
     </div>
     <TableNavigation
@@ -69,6 +65,8 @@ const totalItems = ref<number>(0)
 const types = ref<string[]>(['error', 'info'])
 const search = ref<string>('')
 
+const items = ['error', 'info', 'debug']
+
 onMounted(async () => {
   await refresh()
 })
@@ -83,9 +81,13 @@ async function refresh() {
       limit: logsPerPage.value,
       filters: {
         message: search.value,
-        error: types.value.includes('error'),
-        info: types.value.includes('info'),
-        debug: types.value.includes('debug'),
+        ...items.reduce(
+          (acc, item) => {
+            acc[item] = types.value.includes(item).toString()
+            return acc
+          },
+          {} as Record<string, string>,
+        ),
       },
     })
     logs.value = fetchedLogs.data
