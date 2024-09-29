@@ -32,8 +32,8 @@
 import { ref, onMounted } from 'vue'
 import { getMarkets } from '../api.ts'
 import { formatAmount, formatDate } from '../utils.ts'
-import RefreshButton from './RefreshButton.vue'
-import ErrorMessage from './ErrorMessage.vue'
+import RefreshButton from './shared/RefreshButton.vue'
+import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Market } from '../models/market.ts'
 
 const hasError = ref<null | boolean>(null)

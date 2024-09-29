@@ -49,12 +49,12 @@
 import { ref, onMounted } from 'vue'
 import { getLogs } from '../api'
 import { formatDate } from '../utils.ts'
-import RefreshButton from './RefreshButton.vue'
-import ErrorMessage from './ErrorMessage.vue'
-import TableNavigation from './TableNavigation.vue'
-import SearchField from './SearchField.vue'
+import RefreshButton from './shared/RefreshButton.vue'
+import ErrorMessage from './shared/ErrorMessage.vue'
+import TableNavigation from './shared/TableNavigation.vue'
+import SearchField from './shared/SearchField.vue'
 import type { Log } from '../models/log.ts'
-import CheckboxField from './CheckboxField.vue'
+import CheckboxField from './shared/CheckboxField.vue'
 
 const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])

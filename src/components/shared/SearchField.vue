@@ -18,7 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import Search from '../icons/Search.vue'
+import Search from '../../icons/Search.vue'
 
 defineProps({
   modelValue: String,

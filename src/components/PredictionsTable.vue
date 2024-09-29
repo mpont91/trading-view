@@ -54,12 +54,12 @@
 import { onMounted, ref } from 'vue'
 import { formatAmount, formatDate } from '../utils.ts'
 import { getMarkets, getPredictions } from '../api.ts'
-import TableNavigation from './TableNavigation.vue'
-import RefreshButton from './RefreshButton.vue'
-import ErrorMessage from './ErrorMessage.vue'
+import TableNavigation from './shared/TableNavigation.vue'
+import RefreshButton from './shared/RefreshButton.vue'
+import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Prediction } from '../models/prediction.ts'
 import type { Market } from '../models/market.ts'
-import SelectorField from './SelectorField.vue'
+import SelectorField from './shared/SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)
 const markets = ref<Market[]>([])

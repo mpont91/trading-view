@@ -7,9 +7,9 @@
   <SortUpDown v-else class="w-5 h-5" />
 </template>
 <script setup lang="ts">
-import SortDown from '../icons/SortDown.vue'
-import SortUp from '../icons/SortUp.vue'
-import SortUpDown from '../icons/SortUpDown.vue'
+import SortDown from '../../icons/SortDown.vue'
+import SortUp from '../../icons/SortUp.vue'
+import SortUpDown from '../../icons/SortUpDown.vue'
 import type { PropType } from 'vue'
 
 defineProps({

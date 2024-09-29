@@ -42,13 +42,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getMarkets, getPositions } from '../api'
-import RefreshButton from './RefreshButton.vue'
-import ErrorMessage from './ErrorMessage.vue'
-import TableNavigation from './TableNavigation.vue'
+import RefreshButton from './shared/RefreshButton.vue'
+import ErrorMessage from './shared/ErrorMessage.vue'
+import TableNavigation from './shared/TableNavigation.vue'
 import PositionsDataTable from './PositionsDataTable.vue'
 import type { Market } from '../models/market.ts'
 import type { Position } from '../models/position.ts'
-import SelectorField from './SelectorField.vue'
+import SelectorField from './shared/SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])
@@ -69,10 +69,12 @@ const fields: string[] = [
   'amount',
   'buy_price',
   'buy_at',
+  'buy_commission',
   'stop_profit_loss',
   'trailing',
   'sell_price',
   'sell_at',
+  'sell_commission',
   'pnl',
 ]
 

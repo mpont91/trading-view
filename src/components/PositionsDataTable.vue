@@ -59,6 +59,7 @@
             </div>
           </th>
           <th v-else-if="isVisible('buy_at')">Buy at</th>
+          <th v-if="isVisible('buy_commission')">Buy commission</th>
           <th v-if="isVisible('stop_profit_loss')">Stop profit/loss</th>
           <th v-if="isVisible('trailing')">Trailing highest/lowest</th>
           <th v-if="isVisible('sell_price') && canSort" class="cursor-pointer">
@@ -83,6 +84,7 @@
             </div>
           </th>
           <th v-else-if="isVisible('sell_at')">Sell at</th>
+          <th v-if="isVisible('sell_commission')">Sell commission</th>
           <th v-if="isVisible('pnl') && canSort" class="cursor-pointer">
             <div class="flex items-center" @click="sort('pnl_percentage')">
               PnL
@@ -124,6 +126,9 @@
           <td v-if="isVisible('buy_at')">
             {{ formatDate(position.buy_at) }}
           </td>
+          <td v-if="isVisible('buy_commission')">
+            {{ formatNumber(position.buy_commission) }}
+          </td>
           <td v-if="isVisible('stop_profit_loss')" class="text-nowrap">
             {{ formatNumber(position.stop_profit) }} /
             {{ formatNumber(position.stop_loss) }}
@@ -139,6 +144,9 @@
           </td>
           <td v-if="isVisible('sell_at')">
             {{ formatDate(position.sell_at) }}
+          </td>
+          <td v-if="isVisible('sell_commission')">
+            {{ formatNumber(position.sell_commission) }}
           </td>
           <td v-if="isVisible('pnl')" class="text-nowrap">
             {{
@@ -169,7 +177,7 @@ import {
 } from '../utils.ts'
 import type { Position } from '../models/position.ts'
 import type { Market } from '../models/market.ts'
-import SortIndicators from './SortIndicators.vue'
+import SortIndicators from './shared/SortIndicators.vue'
 
 const props = defineProps({
   positions: {
