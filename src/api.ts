@@ -1,13 +1,12 @@
-import type {
-  Dashboard,
-  Log,
-  Position,
-  Market,
-  Balance,
-  Prediction,
-  SearchCriteria,
-  Pagination,
-} from './types'
+import type { Dashboard } from './models/dashboard.ts'
+import type { Log } from './models/log.ts'
+import type { Position } from './models/position.ts'
+import type { Market } from './models/market.ts'
+import type { Balance } from './models/balance.ts'
+import type { Prediction } from './models/prediction.ts'
+import type { SearchCriteria } from './models/search-criteria.ts'
+import type { Pagination } from './models/pagination.ts'
+
 import {
   DashboardException,
   FetchLogsException,
@@ -21,6 +20,15 @@ import {
 import { buildQueryParams } from './utils.ts'
 
 const api = import.meta.env.PUBLIC_API
+
+export async function getHealthCheck(): Promise<boolean> {
+  try {
+    const response: Response = await fetch(api)
+    return response.ok
+  } catch (error: unknown) {
+    throw new HealthCheckException(error)
+  }
+}
 
 export async function getPositions(
   searchCriteria: SearchCriteria,
@@ -94,15 +102,6 @@ export async function getLogs(
     return await response.json()
   } catch (error: unknown) {
     throw new FetchLogsException(error)
-  }
-}
-
-export async function getHealthCheck(): Promise<boolean> {
-  try {
-    const response: Response = await fetch(api)
-    return response.ok
-  } catch (error: unknown) {
-    throw new HealthCheckException(error)
   }
 }
 

@@ -1,4 +1,4 @@
-import type { SearchCriteria } from './types.ts'
+import type { SearchCriteria } from './models/search-criteria.ts'
 
 export function formatDate(date?: string): string {
   if (!date) return ''

@@ -14,7 +14,8 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import PositionsDataTable from '../PositionsDataTable.vue'
-import type { Market, Position } from '../../types.ts'
+import type { Market } from '../../models/market.ts'
+import type { Position } from '../../models/position.ts'
 
 const fields: string[] = [
   'id',

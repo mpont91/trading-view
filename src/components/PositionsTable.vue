@@ -46,7 +46,8 @@ import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import TableNavigation from './TableNavigation.vue'
 import PositionsDataTable from './PositionsDataTable.vue'
-import type { Market, Position } from '../types'
+import type { Market } from '../models/market.ts'
+import type { Position } from '../models/position.ts'
 import SelectorField from './SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)

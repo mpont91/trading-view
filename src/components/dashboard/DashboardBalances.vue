@@ -32,7 +32,8 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import { formatAmount, formatDate, formatNumber } from '../../utils.ts'
-import type { Balance, Market } from '../../types.ts'
+import type { Market } from '../../models/market.ts'
+import type { Balance } from '../../models/balance.ts'
 
 const props = defineProps({
   balances: {

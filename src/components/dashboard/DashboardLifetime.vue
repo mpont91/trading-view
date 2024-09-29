@@ -70,7 +70,7 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { DashboardLifetime } from '../../types.ts'
+import type { DashboardLifetime } from '../../models/dashboard.ts'
 import { formatAmount, formatNumber, formatPercentage } from '../../utils.ts'
 
 defineProps({

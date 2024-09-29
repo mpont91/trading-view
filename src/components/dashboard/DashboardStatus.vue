@@ -21,7 +21,7 @@
 </template>
 <script setup lang="ts">
 import { formatTime } from '../../utils.ts'
-import type { DashboardStatus } from '../../types.ts'
+import type { DashboardStatus } from '../../models/dashboard.ts'
 import type { PropType } from 'vue'
 
 defineProps({

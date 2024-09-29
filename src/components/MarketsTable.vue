@@ -34,7 +34,7 @@ import { getMarkets } from '../api.ts'
 import { formatAmount, formatDate } from '../utils.ts'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import type { Market } from '../types'
+import type { Market } from '../models/market.ts'
 
 const hasError = ref<null | boolean>(null)
 const markets = ref<Market[]>([])

@@ -67,7 +67,8 @@ import { getMarkets, getIndicators } from '../api.ts'
 import TableNavigation from './TableNavigation.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import type { Indicator, Market } from '../types'
+import type { Indicator } from '../models/indicator.ts'
+import type { Market } from '../models/market.ts'
 import SelectorField from './SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)

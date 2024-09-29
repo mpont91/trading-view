@@ -167,7 +167,8 @@ import {
   formatNumber,
   formatPercentage,
 } from '../utils.ts'
-import type { Market, Position } from '../types.ts'
+import type { Position } from '../models/position.ts'
+import type { Market } from '../models/market.ts'
 import SortIndicators from './SortIndicators.vue'
 
 const props = defineProps({

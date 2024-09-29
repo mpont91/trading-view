@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { DashboardLogs } from '../../types.ts'
+import type { DashboardLogs } from '../../models/dashboard.ts'
 
 defineProps({
   logs: {

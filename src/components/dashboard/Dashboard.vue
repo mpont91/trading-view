@@ -37,7 +37,7 @@ import DashboardLogs from './DashboardLogs.vue'
 import RefreshButton from '../RefreshButton.vue'
 import ErrorMessage from '../ErrorMessage.vue'
 import DashboardBalances from './DashboardBalances.vue'
-import type { Dashboard } from '../../types.ts'
+import type { Dashboard } from '../../models/dashboard.ts'
 import DashboardLifetime from './DashboardLifetime.vue'
 
 const hasError = ref<null | boolean>(null)

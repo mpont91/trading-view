@@ -57,7 +57,7 @@ import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
 import TableNavigation from './TableNavigation.vue'
 import SearchField from './SearchField.vue'
-import type { Log } from '../types'
+import type { Log } from '../models/log.ts'
 import CheckboxField from './CheckboxField.vue'
 
 const hasError = ref<null | boolean>(null)

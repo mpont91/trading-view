@@ -57,7 +57,8 @@ import { getMarkets, getPredictions } from '../api.ts'
 import TableNavigation from './TableNavigation.vue'
 import RefreshButton from './RefreshButton.vue'
 import ErrorMessage from './ErrorMessage.vue'
-import type { Prediction, Market } from '../types'
+import type { Prediction } from '../models/prediction.ts'
+import type { Market } from '../models/market.ts'
 import SelectorField from './SelectorField.vue'
 
 const hasError = ref<null | boolean>(null)
