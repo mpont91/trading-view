@@ -1,17 +1,16 @@
 <template>
-  <RefreshButton @click="refresh" />
+  <RefreshButton :disabled="isLoading" @click="refresh" />
+
   <ErrorMessage v-if="hasError === true" message="Couldn't fetch the logs!" />
-  <div v-else-if="hasError === false">
-    <div
-      class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between pb-4 sm:space-x-4"
-    >
-      <SelectorMultiple
-        v-model="types"
-        :items="items"
-        @change="onChangeLevel"
-      />
-      <SearchField @change="onSearch" v-model="search" />
-    </div>
+  <div
+    v-else
+    class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between pb-4 sm:space-x-4"
+  >
+    <SelectorMultiple v-model="types" :items="items" @change="onChangeLevel" />
+    <SearchField @change="onSearch" v-model="search" />
+  </div>
+  <Loading v-if="isLoading" />
+  <div v-if="!isLoading" class="relative overflow-x-auto shadow-md">
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -21,24 +20,22 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <div class="relative overflow-x-auto shadow-md">
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="log in logs">
-            <td class="md:text-nowrap">{{ formatDate(log.timestamp) }}</td>
-            <td class="md:text-nowrap">{{ log.level }}</td>
-            <td class="message-column">{{ log.message }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="log in logs">
+          <td class="md:text-nowrap">{{ formatDate(log.timestamp) }}</td>
+          <td class="md:text-nowrap">{{ log.level }}</td>
+          <td class="message-column">{{ log.message }}</td>
+        </tr>
+      </tbody>
+    </table>
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -59,6 +56,7 @@ import TableNavigation from './shared/TableNavigation.vue'
 import SearchField from './shared/SearchField.vue'
 import type { Log } from '../models/log.ts'
 import SelectorMultiple from './shared/SelectorMultiple.vue'
+import Loading from './shared/Loading.vue'
 
 const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])
@@ -68,6 +66,7 @@ const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
 const types = ref<string[]>(['error', 'info', 'debug'])
 const search = ref<string>('')
+const isLoading = ref<boolean>(true)
 
 const items = ['error', 'info', 'debug']
 
@@ -76,6 +75,7 @@ onMounted(async () => {
 })
 
 async function refresh() {
+  isLoading.value = true
   logs.value = []
   totalPages.value = 0
   totalItems.value = 0
@@ -100,6 +100,8 @@ async function refresh() {
     hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
+  } finally {
+    isLoading.value = false
   }
 }
 
