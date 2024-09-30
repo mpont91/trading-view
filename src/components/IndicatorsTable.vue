@@ -60,16 +60,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { formatAmount, formatDate } from '../utils.ts'
-import { getMarkets, getIndicators } from '../api.ts'
+import { getIndicators, getPairs } from '../api.ts'
 import TableNavigation from './shared/TableNavigation.vue'
 import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Indicator } from '../models/indicator.ts'
-import type { Market } from '../models/market.ts'
 import SelectorField from './shared/SelectorField.vue'
 
 const hasError = ref<boolean>(false)
-const markets = ref<Market[]>([])
 const indicators = ref<Indicator[]>([])
 const names = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
 const pairs = ref<string[]>([])
@@ -84,10 +82,7 @@ const isLoading = ref<boolean>(true)
 onMounted(async () => {
   filterName.value = names.value[0]
   try {
-    markets.value = await getMarkets()
-    if (markets.value.length > 0) {
-      pairs.value = markets.value.map((m: Market) => m.pair)
-    }
+    pairs.value = await getPairs()
     filterPair.value = pairs.value[0]
   } catch (error: unknown) {
     hasError.value = true

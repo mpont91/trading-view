@@ -16,6 +16,8 @@ import {
   FetchPredictionsException,
   FetchBalancesException,
   FetchIndicatorsException,
+  FetchPairsException,
+  FetchCurrenciesException,
 } from './exceptions.ts'
 import { buildQueryParams } from './utils.ts'
 import type { Indicator } from './models/indicator.ts'
@@ -112,5 +114,25 @@ export async function getDashboard(): Promise<Dashboard> {
     return (await response.json()).data as Dashboard
   } catch (error: unknown) {
     throw new DashboardException(error)
+  }
+}
+
+export async function getPairs(): Promise<string[]> {
+  try {
+    const response: Response = await fetch(api + 'pairs')
+    const json = await response.json()
+    return json.data
+  } catch (error: unknown) {
+    throw new FetchPairsException(error)
+  }
+}
+
+export async function getPCurrencies(): Promise<string[]> {
+  try {
+    const response: Response = await fetch(api + 'currencies')
+    const json = await response.json()
+    return json.data
+  } catch (error: unknown) {
+    throw new FetchCurrenciesException(error)
   }
 }

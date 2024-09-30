@@ -39,3 +39,15 @@ export class DashboardException extends Error {
     super('Error getting the dashboard')
   }
 }
+
+export class FetchPairsException extends Error {
+  constructor(error: unknown) {
+    super('Error fetching the pairs')
+  }
+}
+
+export class FetchCurrenciesException extends Error {
+  constructor(error: unknown) {
+    super('Error fetching the currencies')
+  }
+}

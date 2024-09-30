@@ -51,16 +51,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { formatAmount, formatDate } from '../utils.ts'
-import { getMarkets, getPredictions } from '../api.ts'
+import { getPairs, getPredictions } from '../api.ts'
 import TableNavigation from './shared/TableNavigation.vue'
 import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Prediction } from '../models/prediction.ts'
-import type { Market } from '../models/market.ts'
 import SelectorField from './shared/SelectorField.vue'
 
 const hasError = ref<boolean>(false)
-const markets = ref<Market[]>([])
 const predictions = ref<Prediction[]>([])
 const pairs = ref<string[]>([])
 const predictionsPerPage = ref<number>(50)
@@ -72,10 +70,7 @@ const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
   try {
-    markets.value = await getMarkets()
-    if (markets.value.length > 0) {
-      pairs.value = markets.value.map((m: Market) => m.pair)
-    }
+    pairs.value = await getPairs()
     filterPair.value = pairs.value[0]
   } catch (error: unknown) {
     hasError.value = true
