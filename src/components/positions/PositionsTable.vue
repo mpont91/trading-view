@@ -5,12 +5,6 @@
     message="Couldn't fetch the positions!"
   />
   <div v-else-if="hasError === false">
-    <SelectorField
-      v-model="filterPair"
-      name="pairs"
-      :items="pairs"
-      @change="onChangePair"
-    />
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -23,8 +17,6 @@
     <PositionsDataTable
       :positions="positions"
       :markets="markets"
-      :can-sort="true"
-      :fields="fields"
       :sort-field="sortField"
       :sort-order="sortOrder"
       @sort="sort"
@@ -41,14 +33,13 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getMarkets, getPositions } from '../api'
-import RefreshButton from './shared/RefreshButton.vue'
-import ErrorMessage from './shared/ErrorMessage.vue'
-import TableNavigation from './shared/TableNavigation.vue'
-import PositionsDataTable from './PositionsDataTable.vue'
-import type { Market } from '../models/market.ts'
-import type { Position } from '../models/position.ts'
-import SelectorField from './shared/SelectorField.vue'
+import { getPositions } from '../../api.ts'
+import RefreshButton from '../shared/RefreshButton.vue'
+import ErrorMessage from '../shared/ErrorMessage.vue'
+import TableNavigation from '../shared/TableNavigation.vue'
+import PositionsDataTable from './PositionsClosedDataTable.vue'
+import type { Market } from '../../models/market.ts'
+import type { Position } from '../../models/position.ts'
 
 const hasError = ref<null | boolean>(null)
 const positions = ref<Position[]>([])
@@ -59,36 +50,8 @@ const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
 const sortField = ref<string>('id')
 const sortOrder = ref<'asc' | 'desc'>('desc')
-const pairs = ref<string[]>([])
-const filterPair = ref<string>('')
-
-const fields: string[] = [
-  'id',
-  'pair',
-  'quantity',
-  'amount',
-  'buy_price',
-  'buy_at',
-  'buy_commission',
-  'stop_profit_loss',
-  'trailing',
-  'sell_price',
-  'sell_at',
-  'sell_commission',
-  'pnl',
-]
 
 onMounted(async () => {
-  try {
-    markets.value = await getMarkets()
-    if (markets.value.length > 0) {
-      pairs.value = markets.value.map((m: Market) => m.pair)
-    }
-    filterPair.value = pairs.value[0]
-  } catch (error: unknown) {
-    hasError.value = true
-  }
-
   await refresh()
 })
 
@@ -104,7 +67,7 @@ async function refresh() {
       sortField: sortField.value,
       sortOrder: sortOrder.value,
       filters: {
-        pair: filterPair.value,
+        is_closed: '1',
       },
     })
 
@@ -149,9 +112,5 @@ function toggleSortOrder() {
   } else {
     sortOrder.value = 'asc'
   }
-}
-async function onChangePair() {
-  currentPage.value = 1
-  await refresh()
 }
 </script>

@@ -2,32 +2,15 @@
   <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
     <h2>Opened positions</h2>
     <div class="overflow-x-auto">
-      <PositionsDataTable
-        :positions="positions"
-        :markets="markets"
-        :fields="fields"
-        :can-sort="false"
-      />
+      <PositionsOpenedDataTable :positions="positions" :markets="markets" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import PositionsDataTable from '../PositionsDataTable.vue'
 import type { Market } from '../../models/market.ts'
 import type { Position } from '../../models/position.ts'
-
-const fields: string[] = [
-  'id',
-  'pair',
-  'quantity',
-  'amount',
-  'buy_price',
-  'buy_at',
-  'stop_profit_loss',
-  'trailing',
-  'pnl',
-]
+import PositionsOpenedDataTable from '../positions/PositionsOpenedDataTable.vue'
 
 defineProps({
   positions: {
