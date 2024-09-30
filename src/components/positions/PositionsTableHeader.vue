@@ -2,7 +2,7 @@
   <th class="cursor-pointer">
     <div class="flex items-center" @click="sort(fieldValue)">
       {{ fieldName }}
-      <SortIndicators
+      <TableHeaderSort
         :field="fieldValue"
         :sort-field="sortField"
         :sort-order="sortOrder"
@@ -12,7 +12,7 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import SortIndicators from '../shared/SortIndicators.vue'
+import TableHeaderSort from '../shared/TableHeaderSort.vue'
 
 defineProps({
   fieldName: {
