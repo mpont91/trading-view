@@ -51,3 +51,9 @@ export class FetchCurrenciesException extends Error {
     super('Error fetching the currencies')
   }
 }
+
+export class FetchAnalysisException extends Error {
+  constructor(error: unknown) {
+    super('Error fetching the analysis')
+  }
+}

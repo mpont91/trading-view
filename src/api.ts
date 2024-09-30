@@ -18,6 +18,7 @@ import {
   FetchIndicatorsException,
   FetchPairsException,
   FetchCurrenciesException,
+  FetchAnalysisException,
 } from './exceptions.ts'
 import { buildQueryParams } from './utils.ts'
 import type { Indicator } from './models/indicator.ts'
@@ -134,5 +135,15 @@ export async function getPCurrencies(): Promise<string[]> {
     return json.data
   } catch (error: unknown) {
     throw new FetchCurrenciesException(error)
+  }
+}
+
+export async function getAnalysis(): Promise<Prediction[]> {
+  try {
+    const response: Response = await fetch(api + 'analysis')
+    const json = await response.json()
+    return json.data
+  } catch (error: unknown) {
+    throw new FetchAnalysisException(error)
   }
 }
