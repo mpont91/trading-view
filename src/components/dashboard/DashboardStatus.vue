@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
+  <div class="bg-neutral-800 shadow p-6 mb-6">
     <h2>Bot status</h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-      <div class="bg-green-950 text-green-300 p-4 rounded-lg">
+      <div class="bg-green-950 text-green-300 p-4">
         <p>
           Status:
           <span class="font-semibold">
@@ -10,7 +10,7 @@
           </span>
         </p>
       </div>
-      <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
+      <div class="bg-yellow-950 text-yellow-300 p-4">
         <p>
           Uptime:
           <span class="font-semibold">{{ formatTime(status.uptime) }}</span>

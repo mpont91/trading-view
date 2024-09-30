@@ -1,20 +1,20 @@
 <template>
   <ul
-    class="items-center w-full text-sm font-medium border rounded-lg sm:flex bg-neutral-700 border-gray-600 text-white"
+    class="items-center text-sm font-medium border sm:flex bg-neutral-700 border-gray-600 text-white"
   >
     <li
       v-for="item in items"
       :key="item"
-      class="w-full border-b sm:border-b-0 sm:border-r border-gray-600"
+      class="w-full px-3 border-b sm:border-b-0 sm:border-r border-gray-600"
     >
-      <div class="flex items-center ps-3">
+      <div class="flex items-center">
         <input
           :id="`checkbox-${item}`"
           type="checkbox"
           v-model="selectedItems"
           @change="onChange"
           :value="item"
-          class="w-4 h-4 text-blue-600 rounded bg-gray-600 border-gray-500"
+          class="w-4 h-4 text-blue-600 bg-gray-600 border-gray-500"
         />
         <label
           :for="`checkbox-${item}`"

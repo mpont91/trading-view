@@ -15,7 +15,7 @@ const currentPath: string = Astro.url.pathname
     <button
       data-collapse-toggle="navbar-solid-bg"
       type="button"
-      class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none text-gray-400 hover:bg-gray-700"
+      class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm md:hidden focus:outline-none text-gray-400 hover:bg-gray-700"
       aria-controls="navbar-solid-bg"
       aria-expanded="false"
       id="navbar-toggle"
@@ -25,12 +25,12 @@ const currentPath: string = Astro.url.pathname
     </button>
     <div class="hidden w-full md:block md:w-auto" id="navbar-menu">
       <ul
-        class="flex flex-col font-medium mt-4 rounded-lg md:space-x-8 md:flex-row md:mt-0 md:border-0 bg-gray-800 md:bg-transparent border-gray-700"
+        class="flex flex-col font-medium mt-4 md:space-x-8 md:flex-row md:mt-0 md:border-0 bg-gray-800 md:bg-transparent border-gray-700"
       >
         <li>
           <a
             href="/"
-            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Home
           </a>
@@ -38,7 +38,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/logs"
-            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/logs' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/logs' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Logs
           </a>
@@ -46,7 +46,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/positions"
-            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/positions' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/positions' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Positions
           </a>
@@ -54,7 +54,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/markets"
-            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/markets' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/markets' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Markets
           </a>
@@ -62,7 +62,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/predictions"
-            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/predictions' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/predictions' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Predictions
           </a>
@@ -70,7 +70,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/indicators"
-            class={`block py-2 px-3 md:p-0 rounded text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/indicators' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/indicators' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Indicators
           </a>

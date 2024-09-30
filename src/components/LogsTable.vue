@@ -5,7 +5,11 @@
     <div
       class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between pb-4 sm:space-x-4"
     >
-      <CheckboxField v-model="types" :items="items" @change="onChangeLevel" />
+      <SelectorMultiple
+        v-model="types"
+        :items="items"
+        @change="onChangeLevel"
+      />
       <SearchField @change="onSearch" v-model="search" />
     </div>
     <TableNavigation
@@ -54,7 +58,7 @@ import ErrorMessage from './shared/ErrorMessage.vue'
 import TableNavigation from './shared/TableNavigation.vue'
 import SearchField from './shared/SearchField.vue'
 import type { Log } from '../models/log.ts'
-import CheckboxField from './shared/CheckboxField.vue'
+import SelectorMultiple from './shared/SelectorMultiple.vue'
 
 const hasError = ref<null | boolean>(null)
 const logs = ref<Log[]>([])
@@ -62,7 +66,7 @@ const currentPage = ref<number>(1)
 const logsPerPage = ref<number>(50)
 const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
-const types = ref<string[]>(['error', 'info'])
+const types = ref<string[]>(['error', 'info', 'debug'])
 const search = ref<string>('')
 
 const items = ['error', 'info', 'debug']

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
+  <div class="bg-neutral-800 shadow p-6 mb-6">
     <h2>Opened positions</h2>
     <div class="overflow-x-auto">
       <PositionsOpenedDataTable :positions="positions" :markets="markets" />

@@ -1,26 +1,26 @@
 <template>
-  <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
+  <div class="bg-neutral-800 shadow p-6 mb-6">
     <h2>Performance summary</h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-4">
-      <div class="bg-green-950 text-green-300 p-4 rounded-lg">
+      <div class="bg-green-950 text-green-300 p-4">
         <p>
           Total trades:
           <span class="font-semibold">{{ performance.total_trades }}</span>
         </p>
       </div>
-      <div class="bg-green-950 text-green-300 p-4 rounded-lg">
+      <div class="bg-green-950 text-green-300 p-4">
         <p>
           Successful trades:
           <span class="font-semibold">{{ performance.successful_trades }}</span>
         </p>
       </div>
-      <div class="bg-red-950 text-red-300 p-4 rounded-lg">
+      <div class="bg-red-950 text-red-300 p-4">
         <p>
           Failed trades:
           <span class="font-semibold">{{ performance.failed_trades }}</span>
         </p>
       </div>
-      <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
+      <div class="bg-blue-950 text-blue-300 p-4">
         <p>
           PnL:
           <span class="font-semibold">
@@ -33,7 +33,7 @@
     <div class="grid grid-cols-2 gap-4">
       <div v-if="performance.best_performing_pair">
         <h3 class="text-lg font-semibold mt-4">Best performing market</h3>
-        <div class="bg-green-950 text-green-300 p-4 rounded-lg mt-2">
+        <div class="bg-green-950 text-green-300 p-4 mt-2">
           <p>
             Pair:
             <span class="font-semibold">
@@ -59,7 +59,7 @@
       </div>
       <div v-if="performance.worst_performing_pair">
         <h3 class="text-lg font-semibold mt-4">Worst performing pair</h3>
-        <div class="bg-red-950 text-red-300 p-4 rounded-lg mt-2">
+        <div class="bg-red-950 text-red-300 p-4 mt-2">
           <p>
             Pair:
             <span class="font-semibold">

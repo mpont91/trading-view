@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
+  <div class="bg-neutral-800 shadow p-6 mb-6">
     <h2>Lifetime</h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
-      <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
+      <div class="bg-blue-950 text-blue-300 p-4">
         <p>
           Total invested:
           <span class="font-semibold">
@@ -10,7 +10,7 @@
           </span>
         </p>
       </div>
-      <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
+      <div class="bg-blue-950 text-blue-300 p-4">
         <p>
           Current value:
           <span class="font-semibold">
@@ -18,7 +18,7 @@
           </span>
         </p>
       </div>
-      <div class="bg-blue-950 text-blue-300 p-4 rounded-lg">
+      <div class="bg-blue-950 text-blue-300 p-4">
         <p>
           PnL:
           <span class="font-semibold">
@@ -27,7 +27,7 @@
           </span>
         </p>
       </div>
-      <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
+      <div class="bg-yellow-950 text-yellow-300 p-4">
         <p>Total invested in commissions:</p>
         <p class="font-semibold">
           {{ formatNumber(lifetime.total_invested_commission_bnb) }} BNB
@@ -36,7 +36,7 @@
           {{ formatAmount(lifetime.total_invested_commission) }}
         </p>
       </div>
-      <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
+      <div class="bg-yellow-950 text-yellow-300 p-4">
         <p>Current value available:</p>
         <p class="font-semibold">
           {{ formatNumber(lifetime.current_commission_value_bnb) }} BNB
@@ -45,7 +45,7 @@
           {{ formatAmount(lifetime.current_commission_value) }}
         </p>
       </div>
-      <div class="bg-yellow-950 text-yellow-300 p-4 rounded-lg">
+      <div class="bg-yellow-950 text-yellow-300 p-4">
         <p>Total commissions paid:</p>
         <p class="font-semibold">
           {{

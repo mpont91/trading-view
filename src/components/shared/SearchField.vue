@@ -12,7 +12,7 @@
       @change="emit('change')"
       type="text"
       id="table-search"
-      class="block p-2 ps-10 text-sm border rounded-md w-80 bg-neutral-700 border-neutral-600 placeholder-gray-400 text-white"
+      class="block p-2 ps-10 text-sm border w-80 bg-neutral-700 border-neutral-600 placeholder-gray-400 text-white"
       placeholder="Search for items"
     />
   </div>

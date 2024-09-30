@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-neutral-800 rounded-lg shadow p-6 mb-6">
+  <div class="bg-neutral-800 shadow p-6 mb-6">
     <h2>Balance</h2>
     <div class="relative overflow-x-auto shadow-md">
       <table>

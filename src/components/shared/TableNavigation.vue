@@ -21,7 +21,7 @@
         <button
           @click="emit('prevPage')"
           :disabled="currentPage === 1"
-          class="flex items-center justify-center px-3 h-8 ms-0 leading-tight border rounded-s-md bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-white"
+          class="flex items-center justify-center px-3 h-8 ms-0 leading-tight border -md bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-white"
         >
           Previous
         </button>
@@ -30,7 +30,7 @@
         <button
           @click="emit('nextPage')"
           :disabled="currentPage === pages"
-          class="flex items-center justify-center px-3 h-8 leading-tight border rounded-e-md bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-white"
+          class="flex items-center justify-center px-3 h-8 leading-tight border bg-neutral-800 border-neutral-700 text-gray-400 hover:bg-neutral-700 hover:text-white"
         >
           Next
         </button>
