@@ -1,5 +1,6 @@
 <template>
   <ul
+    v-if="items.length > 0"
     class="items-center text-sm font-medium border sm:flex bg-neutral-700 border-gray-600 text-white"
   >
     <li

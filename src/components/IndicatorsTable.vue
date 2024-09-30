@@ -1,19 +1,15 @@
 <template>
   <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the indicators!" />
-  <SelectorField
-    name="indicators"
-    v-model="filterName"
+  <SelectorMultiple
+    v-model="selectedNames"
     :items="names"
     @change="onChangeName"
-    class="mt-4"
   />
-  <SelectorField
-    name="pairs"
-    v-model="filterPair"
+  <SelectorMultiple
+    v-model="selectedPairs"
     :items="pairs"
     @change="onChangePair"
-    class="mt-4"
   />
   <div v-if="!hasError && !isLoading">
     <TableNavigation
@@ -65,25 +61,25 @@ import TableNavigation from './shared/TableNavigation.vue'
 import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Indicator } from '../models/indicator.ts'
-import SelectorField from './shared/SelectorField.vue'
+import SelectorMultiple from './shared/SelectorMultiple.vue'
 
 const hasError = ref<boolean>(false)
 const indicators = ref<Indicator[]>([])
 const names = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
 const pairs = ref<string[]>([])
 const indicatorsPerPage = ref<number>(50)
-const filterName = ref<string>('')
-const filterPair = ref<string>('')
+const selectedNames = ref<string[]>([])
+const selectedPairs = ref<string[]>([])
 const currentPage = ref<number>(1)
 const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
 const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
-  filterName.value = names.value[0]
+  selectedNames.value = names.value
   try {
     pairs.value = await getPairs()
-    filterPair.value = pairs.value[0]
+    selectedPairs.value = pairs.value
   } catch (error: unknown) {
     hasError.value = true
   }
@@ -104,8 +100,8 @@ async function refresh() {
       sortField: 'created_at',
       sortOrder: 'desc',
       filters: {
-        name: filterName.value,
-        pair: filterPair.value,
+        name: selectedNames.value.join(','),
+        pair: selectedPairs.value.join(','),
       },
     })
 

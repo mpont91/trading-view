@@ -2,9 +2,8 @@
   <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the predictions!" />
 
-  <SelectorField
-    v-model="filterPair"
-    name="pairs"
+  <SelectorMultiple
+    v-model="selectedPairs"
     :items="pairs"
     @change="onChangePair"
   />
@@ -56,13 +55,13 @@ import TableNavigation from './shared/TableNavigation.vue'
 import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Prediction } from '../models/prediction.ts'
-import SelectorField from './shared/SelectorField.vue'
+import SelectorMultiple from './shared/SelectorMultiple.vue'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
 const pairs = ref<string[]>([])
 const predictionsPerPage = ref<number>(50)
-const filterPair = ref<string>('')
+const selectedPairs = ref<string[]>([])
 const currentPage = ref<number>(1)
 const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
@@ -71,7 +70,7 @@ const isLoading = ref<boolean>(true)
 onMounted(async () => {
   try {
     pairs.value = await getPairs()
-    filterPair.value = pairs.value[0]
+    selectedPairs.value = pairs.value
   } catch (error: unknown) {
     hasError.value = true
   }
@@ -92,7 +91,7 @@ async function refresh() {
       sortField: 'created_at',
       sortOrder: 'desc',
       filters: {
-        pair: filterPair.value,
+        pair: selectedPairs.value.join(','),
       },
     })
 
