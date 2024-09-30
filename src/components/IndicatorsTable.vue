@@ -1,24 +1,21 @@
 <template>
-  <RefreshButton @click="refresh" />
-  <ErrorMessage
-    v-if="hasError === true"
-    message="Couldn't fetch the indicators!"
+  <RefreshButton :disabled="isLoading" @click="refresh" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the indicators!" />
+  <SelectorField
+    name="indicators"
+    v-model="filterName"
+    :items="names"
+    @change="onChangeName"
+    class="mt-4"
   />
-  <div v-else-if="hasError === false">
-    <SelectorField
-      name="indicators"
-      v-model="filterName"
-      :items="names"
-      @change="onChangeName"
-      class="mt-4"
-    />
-    <SelectorField
-      name="pairs"
-      v-model="filterPair"
-      :items="pairs"
-      @change="onChangePair"
-      class="mt-4"
-    />
+  <SelectorField
+    name="pairs"
+    v-model="filterPair"
+    :items="pairs"
+    @change="onChangePair"
+    class="mt-4"
+  />
+  <div v-if="!hasError && !isLoading">
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -71,7 +68,7 @@ import type { Indicator } from '../models/indicator.ts'
 import type { Market } from '../models/market.ts'
 import SelectorField from './shared/SelectorField.vue'
 
-const hasError = ref<null | boolean>(null)
+const hasError = ref<boolean>(false)
 const markets = ref<Market[]>([])
 const indicators = ref<Indicator[]>([])
 const names = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
@@ -82,6 +79,7 @@ const filterPair = ref<string>('')
 const currentPage = ref<number>(1)
 const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
+const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
   filterName.value = names.value[0]
@@ -99,6 +97,7 @@ onMounted(async () => {
 })
 
 async function refresh() {
+  isLoading.value = true
   indicators.value = []
   totalPages.value = 0
   totalItems.value = 0
@@ -118,9 +117,10 @@ async function refresh() {
     indicators.value = fetchedIndicators.data
     totalPages.value = fetchedIndicators.pagination.totalPages
     totalItems.value = fetchedIndicators.pagination.totalItems
-    hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
+  } finally {
+    isLoading.value = false
   }
 }
 

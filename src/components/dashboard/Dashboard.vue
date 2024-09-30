@@ -1,10 +1,8 @@
 <template>
-  <RefreshButton @click="refresh" />
-  <ErrorMessage
-    v-if="hasError === true"
-    message="Couldn't fetch the dashboard!"
-  />
-  <div v-else-if="hasError === false" class="mx-auto py-4">
+  <RefreshButton :disabled="isLoading" @click="refresh" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the dashboard!" />
+  <Loading v-if="isLoading" />
+  <div v-if="!hasError && !isLoading" class="mx-auto py-4">
     <DashboardStatus v-if="dashboard?.status" :status="dashboard.status" />
     <DashboardLifetime
       v-if="dashboard?.lifetime"
@@ -39,21 +37,25 @@ import ErrorMessage from '../shared/ErrorMessage.vue'
 import DashboardBalances from './DashboardBalances.vue'
 import type { Dashboard } from '../../models/dashboard.ts'
 import DashboardLifetime from './DashboardLifetime.vue'
+import Loading from '../shared/Loading.vue'
 
-const hasError = ref<null | boolean>(null)
+const hasError = ref<boolean>(false)
 const dashboard = ref<Dashboard | null>(null)
+const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
   await refresh()
 })
 
 async function refresh() {
+  isLoading.value = true
   dashboard.value = null
   try {
     dashboard.value = await getDashboard()
-    hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
+  } finally {
+    isLoading.value = false
   }
 }
 </script>

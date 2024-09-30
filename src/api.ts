@@ -18,6 +18,7 @@ import {
   FetchIndicatorsException,
 } from './exceptions.ts'
 import { buildQueryParams } from './utils.ts'
+import type { Indicator } from './models/indicator.ts'
 
 const api = import.meta.env.PUBLIC_API
 
@@ -71,7 +72,7 @@ export async function getPredictions(
 
 export async function getIndicators(
   searchCriteria: SearchCriteria,
-): Promise<{ data: Prediction[]; pagination: Pagination }> {
+): Promise<{ data: Indicator[]; pagination: Pagination }> {
   const params: URLSearchParams = buildQueryParams(searchCriteria)
   try {
     const response: Response = await fetch(

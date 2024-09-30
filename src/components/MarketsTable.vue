@@ -1,11 +1,8 @@
 <template>
-  <RefreshButton @click="refresh" />
-  <ErrorMessage
-    v-if="hasError === true"
-    message="Couldn't fetch the markets!"
-  />
+  <RefreshButton :disabled="isLoading" @click="refresh" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the markets!" />
   <div
-    v-else-if="hasError === false"
+    v-if="!hasError && !isLoading"
     class="relative overflow-x-auto shadow-md"
   >
     <table>
@@ -36,20 +33,23 @@ import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Market } from '../models/market.ts'
 
-const hasError = ref<null | boolean>(null)
+const hasError = ref<boolean>(false)
 const markets = ref<Market[]>([])
+const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
   await refresh()
 })
 
 async function refresh() {
+  isLoading.value = true
   markets.value = []
   try {
     markets.value = await getMarkets()
-    hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
+  } finally {
+    isLoading.value = false
   }
 }
 </script>

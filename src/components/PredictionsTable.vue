@@ -1,16 +1,14 @@
 <template>
-  <RefreshButton @click="refresh" />
-  <ErrorMessage
-    v-if="hasError === true"
-    message="Couldn't fetch the predictions!"
+  <RefreshButton :disabled="isLoading" @click="refresh" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the predictions!" />
+
+  <SelectorField
+    v-model="filterPair"
+    name="pairs"
+    :items="pairs"
+    @change="onChangePair"
   />
-  <div v-else-if="hasError === false">
-    <SelectorField
-      v-model="filterPair"
-      name="pairs"
-      :items="pairs"
-      @change="onChangePair"
-    />
+  <div v-if="!hasError && !isLoading">
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -61,7 +59,7 @@ import type { Prediction } from '../models/prediction.ts'
 import type { Market } from '../models/market.ts'
 import SelectorField from './shared/SelectorField.vue'
 
-const hasError = ref<null | boolean>(null)
+const hasError = ref<boolean>(false)
 const markets = ref<Market[]>([])
 const predictions = ref<Prediction[]>([])
 const pairs = ref<string[]>([])
@@ -70,6 +68,7 @@ const filterPair = ref<string>('')
 const currentPage = ref<number>(1)
 const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
+const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
   try {
@@ -86,6 +85,7 @@ onMounted(async () => {
 })
 
 async function refresh() {
+  isLoading.value = true
   predictions.value = []
   totalPages.value = 0
   totalItems.value = 0
@@ -104,9 +104,10 @@ async function refresh() {
     predictions.value = fetchedPredictions.data
     totalPages.value = fetchedPredictions.pagination.totalPages
     totalItems.value = fetchedPredictions.pagination.totalItems
-    hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
+  } finally {
+    isLoading.value = false
   }
 }
 

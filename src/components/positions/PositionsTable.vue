@@ -1,10 +1,8 @@
 <template>
-  <RefreshButton @click="refresh" />
-  <ErrorMessage
-    v-if="hasError === true"
-    message="Couldn't fetch the positions!"
-  />
-  <div v-else-if="hasError === false">
+  <RefreshButton :disabled="isLoading" @click="refresh" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the positions!" />
+
+  <div v-if="!hasError && !isLoading">
     <TableNavigation
       :current-page="currentPage"
       :pages="totalPages"
@@ -14,7 +12,7 @@
       @prev-page="prevPage"
       class="mb-4"
     />
-    <PositionsDataTable
+    <PositionsClosedDataTable
       :positions="positions"
       :markets="markets"
       :sort-field="sortField"
@@ -37,11 +35,11 @@ import { getPositions } from '../../api.ts'
 import RefreshButton from '../shared/RefreshButton.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import TableNavigation from '../shared/TableNavigation.vue'
-import PositionsDataTable from './PositionsClosedDataTable.vue'
+import PositionsClosedDataTable from './PositionsClosedDataTable.vue'
 import type { Market } from '../../models/market.ts'
 import type { Position } from '../../models/position.ts'
 
-const hasError = ref<null | boolean>(null)
+const hasError = ref<boolean>(false)
 const positions = ref<Position[]>([])
 const markets = ref<Market[]>([])
 const currentPage = ref<number>(1)
@@ -50,12 +48,14 @@ const totalPages = ref<number>(0)
 const totalItems = ref<number>(0)
 const sortField = ref<string>('id')
 const sortOrder = ref<'asc' | 'desc'>('desc')
+const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
   await refresh()
 })
 
 async function refresh() {
+  isLoading.value = true
   positions.value = []
   totalPages.value = 0
   totalItems.value = 0
@@ -74,9 +74,10 @@ async function refresh() {
     positions.value = fetchedPositions.data
     totalPages.value = fetchedPositions.pagination.totalPages
     totalItems.value = fetchedPositions.pagination.totalItems
-    hasError.value = false
   } catch (error: unknown) {
     hasError.value = true
+  } finally {
+    isLoading.value = false
   }
 }
 
