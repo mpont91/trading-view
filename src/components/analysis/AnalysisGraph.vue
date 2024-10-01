@@ -16,7 +16,6 @@ import {
   PointElement,
 } from 'chart.js'
 import type { PropType } from 'vue'
-import type { Signal } from '../../models/signal.ts'
 import { computed } from 'vue'
 
 ChartJS.register(
@@ -39,7 +38,7 @@ const props = defineProps({
     default: () => [],
   },
   signals: {
-    type: Array as PropType<Signal[]>,
+    type: Array as PropType<string[]>,
     default: () => [],
   },
 })
@@ -52,12 +51,12 @@ const data = computed(() => ({
       data: props.prices,
       pointBackgroundColor: props.signals,
       showLine: false,
-      pointRadius: 4,
+      pointRadius: 5,
     },
     {
       label: 'Price',
-      backgroundColor: 'blue',
-      borderColor: 'blue',
+      backgroundColor: 'white',
+      borderColor: 'white',
       data: props.prices,
     },
   ],
