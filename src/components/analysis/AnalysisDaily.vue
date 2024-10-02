@@ -1,9 +1,15 @@
 <template>
   <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the predictions!" />
+  <SelectorRadio
+    class="my-4"
+    v-model="selectedPair"
+    :items="pairs"
+    @change="onChangePair"
+  />
   <AnalysisGraph
     v-if="!hasError && !isLoading"
-    title="Predictions BTCUSDC"
+    :title="`Predictions ${selectedPair}`"
     :dates="dates"
     :prices="prices"
     :signals="signals"
@@ -14,16 +20,19 @@ import { computed, onMounted, ref } from 'vue'
 import AnalysisGraph from './AnalysisGraph.vue'
 import RefreshButton from '../shared/RefreshButton.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
-import { getAnalysis } from '../../api.js'
+import { getAnalysis, getPairs } from '../../api.js'
 import type { Prediction } from '../../models/prediction.ts'
 import type { Analysis } from '../../models/analysis.ts'
 import type { Indicator } from '../../models/indicator.ts'
 import type { Signal, SignalWeights } from '../../models/signal.ts'
+import SelectorRadio from '../shared/SelectorRadio.vue'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
 const indicators = ref<Indicator[]>([])
 const isLoading = ref<boolean>(true)
+const selectedPair = ref<string | null>(null)
+const pairs = ref<string[]>([])
 
 const signalWeights: SignalWeights = {
   'STRONG BUY': 2,
@@ -40,6 +49,13 @@ const indicatorsWeights: Record<string, number> = {
 }
 
 onMounted(async () => {
+  try {
+    pairs.value = await getPairs()
+    selectedPair.value = pairs.value[0]
+  } catch (error: unknown) {
+    hasError.value = true
+  }
+
   await refresh()
 })
 
@@ -59,7 +75,9 @@ async function refresh() {
 }
 
 const filteredPredictions = computed(() =>
-  predictions.value.filter((prediction) => prediction.pair === 'BTCUSDC'),
+  predictions.value.filter(
+    (prediction) => prediction.pair === selectedPair.value,
+  ),
 )
 
 const prices = computed(() =>
@@ -122,5 +140,9 @@ function weightToSignal(averageWeight: number): Signal {
   } else {
     return 'HOLD'
   }
+}
+
+async function onChangePair() {
+  //something
 }
 </script>
