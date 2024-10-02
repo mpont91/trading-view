@@ -22,6 +22,7 @@ import {
 } from './exceptions.ts'
 import { buildQueryParams } from './utils.ts'
 import type { Indicator } from './models/indicator.ts'
+import type { Analysis } from './models/analysis.ts'
 
 const api = import.meta.env.PUBLIC_API
 
@@ -138,7 +139,7 @@ export async function getPCurrencies(): Promise<string[]> {
   }
 }
 
-export async function getAnalysis(): Promise<Prediction[]> {
+export async function getAnalysis(): Promise<Analysis> {
   try {
     const response: Response = await fetch(api + 'analysis')
     const json = await response.json()

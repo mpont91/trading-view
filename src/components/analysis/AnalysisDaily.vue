@@ -3,8 +3,9 @@
   <ErrorMessage v-if="hasError" message="Couldn't fetch the predictions!" />
   <AnalysisGraph
     v-if="!hasError && !isLoading"
-    :dates="reducedDates"
-    :prices="reducedPrices"
+    title="Predictions BTCUSDC"
+    :dates="dates"
+    :prices="prices"
     :signals="signals"
   />
 </template>
@@ -15,10 +16,28 @@ import RefreshButton from '../shared/RefreshButton.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import { getAnalysis } from '../../api.js'
 import type { Prediction } from '../../models/prediction.ts'
+import type { Analysis } from '../../models/analysis.ts'
+import type { Indicator } from '../../models/indicator.ts'
+import type { Signal, SignalWeights } from '../../models/signal.ts'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
+const indicators = ref<Indicator[]>([])
 const isLoading = ref<boolean>(true)
+
+const signalWeights: SignalWeights = {
+  'STRONG BUY': 2,
+  BUY: 1,
+  HOLD: 0,
+  SELL: -1,
+  'STRONG SELL': -2,
+}
+const indicatorsWeights: Record<string, number> = {
+  EMA: 0.35,
+  RSI: 0.35,
+  MACD: 0.25,
+  SMA: 0.15,
+}
 
 onMounted(async () => {
   await refresh()
@@ -29,7 +48,9 @@ async function refresh() {
   predictions.value = []
 
   try {
-    predictions.value = await getAnalysis()
+    const fetchedAnalysis: Analysis = await getAnalysis()
+    predictions.value = fetchedAnalysis.predictions
+    indicators.value = fetchedAnalysis.indicators
   } catch (error: unknown) {
     hasError.value = true
   } finally {
@@ -45,56 +66,6 @@ const prices = computed(() =>
   filteredPredictions.value.map((prediction) => prediction.current_price),
 )
 
-const reducedPrices = computed(() =>
-  filteredPredictions.value
-    .filter((_, index) => index % 5 === 0)
-    .map((prediction) => prediction.current_price),
-)
-
-const reducedSignals = computed(() => {
-  const groupedSignals = []
-  for (let i = 0; i < filteredPredictions.value.length; i += 5) {
-    const chunk = filteredPredictions.value.slice(i, i + 5)
-    const totalWeight = chunk.reduce(
-      (sum, prediction) => sum + getSignalWeight(prediction.signal),
-      0,
-    )
-    const averageWeight = totalWeight / chunk.length
-    groupedSignals.push(getFinalSignal(averageWeight))
-  }
-  return groupedSignals
-})
-
-const reducedDates = computed(() =>
-  filteredPredictions.value
-    .filter((_, index) => index % 5 === 0)
-    .map((prediction) =>
-      new Date(prediction.created_at).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-    ),
-)
-
-const signals = computed(() =>
-  reducedSignals.value.map((signal) => {
-    switch (signal) {
-      case 'STRONG BUY':
-        return '#14532d'
-      case 'BUY':
-        return '#22c55e'
-      case 'SELL':
-        return '#f87171'
-      case 'STRONG SELL':
-        return '#7f1d1d'
-      case 'HOLD':
-        return '#eab308'
-      default:
-        return 'gray'
-    }
-  }),
-)
-
 const dates = computed(() =>
   filteredPredictions.value.map((prediction) =>
     new Date(prediction.created_at).toLocaleTimeString([], {
@@ -104,31 +75,49 @@ const dates = computed(() =>
   ),
 )
 
-function getSignalWeight(signal: string): number {
-  switch (signal) {
-    case 'STRONG BUY':
-      return 2
-    case 'BUY':
-      return 1
-    case 'HOLD':
-      return 0
-    case 'SELL':
-      return -1
-    case 'STRONG SELL':
-      return -2
-    default:
-      return 0
+const signals = computed(() => {
+  const weights: number[] = [2, 1.5, 1.2, 1, 0.8]
+
+  return filteredPredictions.value.map(
+    (prediction, index, predictionsArray) => {
+      const start = Math.max(index - 4, 0)
+      const previousPredictions = predictionsArray.slice(start, index + 1)
+
+      const previousSignals = previousPredictions.map((pred) => pred.signal)
+
+      return calculateWeightedSignal(
+        previousSignals,
+        weights.slice(0, previousSignals.length),
+      )
+    },
+  )
+})
+
+function calculateWeightedSignal(signals: Signal[], weights: number[]): Signal {
+  let weightedSum: number = 0
+  let weightTotal: number = 0
+
+  for (let i: number = 0; i < signals.length && i < weights.length; i++) {
+    const signalValue: number = signalWeights[signals[i]] || 0
+    const weight: number = weights[i]
+
+    weightedSum += signalValue * weight
+    weightTotal += weight
   }
+
+  const weightedAverage: number = weightedSum / weightTotal
+
+  return weightToSignal(weightedAverage)
 }
 
-function getFinalSignal(averageWeight: number): string {
-  if (averageWeight > 1.5) {
+function weightToSignal(averageWeight: number): Signal {
+  if (averageWeight >= 1.5) {
     return 'STRONG BUY'
-  } else if (averageWeight > 0.1) {
+  } else if (averageWeight >= 0.5) {
     return 'BUY'
-  } else if (averageWeight < -1.5) {
+  } else if (averageWeight <= -1.5) {
     return 'STRONG SELL'
-  } else if (averageWeight < -0.1) {
+  } else if (averageWeight <= -0.5) {
     return 'SELL'
   } else {
     return 'HOLD'
