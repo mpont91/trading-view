@@ -1,18 +1,43 @@
 <template>
   <RefreshButton :disabled="isLoading" @click="refresh" />
-  <ErrorMessage v-if="hasError" message="Couldn't fetch the predictions!" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the analysis!" />
   <SelectorRadio
+    v-if="selectedPairPrediction"
     class="my-4"
-    v-model="selectedPair"
+    v-model="selectedPairPrediction"
     :items="pairs"
-    @change="onChangePair"
+    name="prediction-pairs"
   />
+  <Loading v-if="isLoading" />
   <AnalysisGraph
     v-if="!hasError && !isLoading"
-    :title="`Predictions ${selectedPair}`"
-    :dates="dates"
-    :prices="prices"
-    :signals="signals"
+    :title="`Predictions ${selectedPairPrediction}`"
+    :dates="datesPrediction"
+    :prices="pricesPrediction"
+    :signals="signalsPrediction"
+  />
+  <hr class="my-4" />
+  <SelectorRadio
+    v-if="selectedIndicatorName"
+    class="my-4"
+    v-model="selectedIndicatorName"
+    :items="indicatorNames"
+    name="indicators"
+  />
+  <SelectorRadio
+    v-if="selectedPairIndicator"
+    class="my-4"
+    v-model="selectedPairIndicator"
+    :items="pairs"
+    name="indicator-pairs"
+  />
+  <Loading v-if="isLoading" />
+  <AnalysisGraph
+    v-if="!hasError && !isLoading"
+    :title="`Indicator ${selectedIndicatorName} ${selectedPairIndicator}`"
+    :dates="datesIndicator"
+    :prices="pricesIndicator"
+    :signals="signalsIndicator"
   />
 </template>
 <script setup lang="ts">
@@ -26,13 +51,17 @@ import type { Analysis } from '../../models/analysis.ts'
 import type { Indicator } from '../../models/indicator.ts'
 import type { Signal, SignalWeights } from '../../models/signal.ts'
 import SelectorRadio from '../shared/SelectorRadio.vue'
+import Loading from '../shared/Loading.vue'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
 const indicators = ref<Indicator[]>([])
 const isLoading = ref<boolean>(true)
-const selectedPair = ref<string | null>(null)
+const selectedPairPrediction = ref<string | null>(null)
+const selectedPairIndicator = ref<string | null>(null)
 const pairs = ref<string[]>([])
+const selectedIndicatorName = ref<string | null>(null)
+const indicatorNames = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
 
 const signalWeights: SignalWeights = {
   'STRONG BUY': 2,
@@ -41,17 +70,13 @@ const signalWeights: SignalWeights = {
   SELL: -1,
   'STRONG SELL': -2,
 }
-const indicatorsWeights: Record<string, number> = {
-  EMA: 0.35,
-  RSI: 0.35,
-  MACD: 0.25,
-  SMA: 0.15,
-}
 
 onMounted(async () => {
+  selectedIndicatorName.value = indicatorNames.value[0]
   try {
     pairs.value = await getPairs()
-    selectedPair.value = pairs.value[0]
+    selectedPairPrediction.value = pairs.value[0]
+    selectedPairIndicator.value = pairs.value[0]
   } catch (error: unknown) {
     hasError.value = true
   }
@@ -76,16 +101,33 @@ async function refresh() {
 
 const filteredPredictions = computed(() =>
   predictions.value.filter(
-    (prediction) => prediction.pair === selectedPair.value,
+    (prediction: Prediction) =>
+      prediction.pair === selectedPairPrediction.value,
   ),
 )
 
-const prices = computed(() =>
-  filteredPredictions.value.map((prediction) => prediction.current_price),
+const filteredIndicators = computed(() =>
+  indicators.value.filter(
+    (indicator: Indicator) =>
+      indicator.name === selectedIndicatorName.value &&
+      indicator.pair === selectedPairIndicator.value,
+  ),
 )
 
-const dates = computed(() =>
-  filteredPredictions.value.map((prediction) =>
+const pricesPrediction = computed(() =>
+  filteredPredictions.value.map(
+    (prediction: Prediction) => prediction.current_price,
+  ),
+)
+
+const pricesIndicator = computed(() =>
+  filteredIndicators.value.map(
+    (indicator: Indicator) => indicator.current_price,
+  ),
+)
+
+const datesPrediction = computed(() =>
+  filteredPredictions.value.map((prediction: Prediction) =>
     new Date(prediction.created_at).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
@@ -93,7 +135,16 @@ const dates = computed(() =>
   ),
 )
 
-const signals = computed(() => {
+const datesIndicator = computed(() =>
+  filteredIndicators.value.map((indicator: Indicator) =>
+    new Date(indicator.created_at).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    }),
+  ),
+)
+
+const signalsPrediction = computed(() => {
   const weights: number[] = [2, 1.5, 1.2, 1, 0.8]
 
   return filteredPredictions.value.map(
@@ -108,6 +159,12 @@ const signals = computed(() => {
         weights.slice(0, previousSignals.length),
       )
     },
+  )
+})
+
+const signalsIndicator = computed(() => {
+  return filteredIndicators.value.map(
+    (indicator: Indicator) => indicator.signal,
   )
 })
 
@@ -140,9 +197,5 @@ function weightToSignal(averageWeight: number): Signal {
   } else {
     return 'HOLD'
   }
-}
-
-async function onChangePair() {
-  //something
 }
 </script>

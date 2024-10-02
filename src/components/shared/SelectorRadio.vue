@@ -10,7 +10,7 @@
     >
       <div class="flex items-center">
         <input
-          :id="`radio-${item}`"
+          :id="`radio-${name}-${item}`"
           type="radio"
           v-model="selectedItem"
           @change="onChange"
@@ -18,7 +18,7 @@
           class="w-4 h-4 text-blue-600 bg-gray-600 border-gray-500"
         />
         <label
-          :for="`radio-${item}`"
+          :for="`radio-${name}-${item}`"
           class="w-full py-2 ms-2 text-sm font-medium text-gray-300"
         >
           {{ item }}
@@ -36,6 +36,10 @@ const props = defineProps({
   items: {
     type: Array as () => string[],
     default: () => [],
+  },
+  name: {
+    type: String,
+    required: true,
   },
 })
 

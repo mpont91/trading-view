@@ -1,15 +1,10 @@
 <template>
   <header>
     <h2>{{ title }}</h2>
-    <ul>
-      <li
-        class="inline me-4"
-        v-for="(count, signal) in signalCounts"
-        :key="signal"
-      >
-        {{ signal }}: {{ count }}
-      </li>
-    </ul>
+    <AnalysisSignalsCounter
+      :signal-counts="signalCounts"
+      :signal-color="signalColor"
+    />
   </header>
   <div>
     <Line :data="data" :options="options" />
@@ -30,6 +25,7 @@ import {
 import type { PropType } from 'vue'
 import { computed } from 'vue'
 import type { Signal } from '../../models/signal.ts'
+import AnalysisSignalsCounter from './AnalysisSignalsCounter.vue'
 
 ChartJS.register(
   Title,
