@@ -23,8 +23,8 @@
           <td>{{ position.id }}</td>
           <td>{{ position.pair }}</td>
           <td class="text-right">{{ formatAmount(position.amount) }}</td>
-          <td class="text-right">{{ formatAmount(position.buy_price) }}</td>
-          <td class="text-right">{{ formatDate(position.buy_at) }}</td>
+          <td class="text-right">{{ formatNumber(position.buy_price) }}</td>
+          <td class="text-right">$ {{ formatDate(position.buy_at) }}</td>
           <td class="text-right">{{ formatAmount(pnlLive(position)) }}</td>
           <td class="text-right">
             {{ formatPercentage(pnlPercentageLive(position)) }}
@@ -38,7 +38,12 @@
 import type { PropType } from 'vue'
 import type { Position } from '../../models/position.ts'
 import type { Market } from '../../models/market.ts'
-import { formatAmount, formatDate, formatPercentage } from '../../utils.ts'
+import {
+  formatAmount,
+  formatDate,
+  formatNumber,
+  formatPercentage,
+} from '../../utils.ts'
 
 const props = defineProps({
   positions: {
