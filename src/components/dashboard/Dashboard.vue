@@ -4,6 +4,10 @@
   <Loading v-if="isLoading" />
   <div v-if="!hasError && !isLoading" class="mx-auto py-4">
     <DashboardStatus v-if="dashboard?.status" :status="dashboard.status" />
+    <DashboardHoldings
+      v-if="dashboard?.holdings"
+      :holdings="dashboard.holdings"
+    />
     <DashboardLifetime
       v-if="dashboard?.lifetime"
       :lifetime="dashboard.lifetime"
@@ -38,6 +42,7 @@ import DashboardBalances from './DashboardBalances.vue'
 import type { Dashboard } from '../../models/dashboard.ts'
 import DashboardLifetime from './DashboardLifetime.vue'
 import Loading from '../shared/Loading.vue'
+import DashboardHoldings from './DashboardHoldings.vue'
 
 const hasError = ref<boolean>(false)
 const dashboard = ref<Dashboard | null>(null)
