@@ -13,10 +13,10 @@ export interface DashboardLifetime {
   current_value: number
   pnl: number
   pnl_percentage: number
-  total_invested_commission: number
-  total_invested_commission_bnb: number
-  current_commission_value: number
-  current_commission_value_bnb: number
+  total_invested_commission_amount: number
+  total_invested_commission_quantity: number
+  current_commission_amount: number
+  current_commission_quantity: number
 }
 
 export interface DashboardPerformancePair {

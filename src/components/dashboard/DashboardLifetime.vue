@@ -30,19 +30,19 @@
       <div class="bg-yellow-950 text-yellow-300 p-4">
         <p>Total invested in commissions:</p>
         <p class="font-semibold">
-          {{ formatNumber(lifetime.total_invested_commission_bnb) }} BNB
+          {{ formatNumber(lifetime.total_invested_commission_quantity) }} BNB
         </p>
         <p class="font-semibold">
-          {{ formatAmount(lifetime.total_invested_commission) }}
+          {{ formatAmount(lifetime.total_invested_commission_amount) }}
         </p>
       </div>
       <div class="bg-yellow-950 text-yellow-300 p-4">
         <p>Current value available:</p>
         <p class="font-semibold">
-          {{ formatNumber(lifetime.current_commission_value_bnb) }} BNB
+          {{ formatNumber(lifetime.current_commission_quantity) }} BNB
         </p>
         <p class="font-semibold">
-          {{ formatAmount(lifetime.current_commission_value) }}
+          {{ formatAmount(lifetime.current_commission_amount) }}
         </p>
       </div>
       <div class="bg-yellow-950 text-yellow-300 p-4">
@@ -50,8 +50,8 @@
         <p class="font-semibold">
           {{
             formatNumber(
-              lifetime.total_invested_commission_bnb -
-                lifetime.current_commission_value_bnb,
+              lifetime.total_invested_commission_quantity -
+                lifetime.current_commission_quantity,
             )
           }}
           BNB
@@ -59,8 +59,8 @@
         <p class="font-semibold">
           {{
             formatAmount(
-              lifetime.total_invested_commission -
-                lifetime.current_commission_value,
+              lifetime.total_invested_commission_amount -
+                lifetime.current_commission_amount,
             )
           }}
         </p>
