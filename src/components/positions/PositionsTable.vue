@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the positions!" />
 
   <SelectorMultiple
@@ -37,7 +36,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getPairs, getPositions } from '../../api.ts'
-import RefreshButton from '../shared/RefreshButton.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import TableNavigation from '../shared/TableNavigation.vue'
 import PositionsClosedDataTable from './PositionsClosedDataTable.vue'

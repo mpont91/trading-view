@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the markets!" />
   <div
     v-if="!hasError && !isLoading"
@@ -29,7 +28,6 @@
 import { ref, onMounted } from 'vue'
 import { getMarkets } from '../api.ts'
 import { formatAmount, formatDate } from '../utils.ts'
-import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Market } from '../models/market.ts'
 

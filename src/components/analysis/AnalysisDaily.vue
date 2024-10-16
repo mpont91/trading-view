@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the analysis!" />
   <SelectorRadio
     v-if="selectedPairPrediction"
@@ -43,7 +42,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import AnalysisGraph from './AnalysisGraph.vue'
-import RefreshButton from '../shared/RefreshButton.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import { getAnalysis, getPairs } from '../../api.js'
 import type { Prediction } from '../../models/prediction.ts'

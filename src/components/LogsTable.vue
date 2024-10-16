@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the logs!" />
   <div
     class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between pb-4 sm:space-x-4"
@@ -51,7 +50,6 @@
 import { ref, onMounted } from 'vue'
 import { getLogs } from '../api'
 import { formatDate } from '../utils.ts'
-import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import TableNavigation from './shared/TableNavigation.vue'
 import SearchField from './shared/SearchField.vue'

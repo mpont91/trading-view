@@ -23,8 +23,8 @@
           <td>{{ position.id }}</td>
           <td>{{ position.pair }}</td>
           <td class="text-right">{{ formatAmount(position.amount) }}</td>
-          <td class="text-right">{{ formatNumber(position.buy_price) }}</td>
-          <td class="text-right">$ {{ formatDate(position.buy_at) }}</td>
+          <td class="text-right">$ {{ formatNumber(position.buy_price) }}</td>
+          <td class="text-right">{{ formatDate(position.buy_at) }}</td>
           <td class="text-right">{{ formatAmount(pnlLive(position)) }}</td>
           <td class="text-right">
             {{ formatPercentage(pnlPercentageLive(position)) }}

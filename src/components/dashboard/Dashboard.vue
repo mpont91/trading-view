@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the dashboard!" />
   <Loading v-if="isLoading" />
   <div v-if="!hasError && !isLoading" class="mx-auto py-4">
@@ -36,7 +35,6 @@ import DashboardStatus from './DashboardStatus.vue'
 import DashboardOpenedPositions from './DashboardOpenedPositions.vue'
 import DashboardPerformance from './DashboardPerformance.vue'
 import DashboardLogs from './DashboardLogs.vue'
-import RefreshButton from '../shared/RefreshButton.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import DashboardBalances from './DashboardBalances.vue'
 import type { Dashboard } from '../../models/dashboard.ts'

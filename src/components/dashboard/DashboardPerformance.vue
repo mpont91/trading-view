@@ -1,6 +1,6 @@
 <template>
   <div class="bg-neutral-800 shadow p-6 mb-6">
-    <h2>Performance summary</h2>
+    <h2>Performance</h2>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-4">
       <div class="bg-green-950 text-green-300 p-4">
         <p>
@@ -28,62 +28,6 @@
           </span>
           ({{ formatPercentage(performance.total_pnl_percentage) }})
         </p>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-4">
-      <div v-if="performance.best_performing_pair">
-        <h3 class="text-lg font-semibold mt-4">Best performing market</h3>
-        <div class="bg-green-950 text-green-300 p-4 mt-2">
-          <p>
-            Pair:
-            <span class="font-semibold">
-              {{ performance.best_performing_pair.pair }}
-            </span>
-          </p>
-          <p>
-            Trades:
-            <span class="font-semibold">
-              {{ performance.best_performing_pair.trades }}
-            </span>
-          </p>
-          <p>
-            PnL:
-            <span class="font-semibold">
-              {{ formatAmount(performance.best_performing_pair.pnl) }}
-            </span>
-            ({{
-              formatPercentage(performance.best_performing_pair.pnl_percentage)
-            }})
-          </p>
-        </div>
-      </div>
-      <div v-if="performance.worst_performing_pair">
-        <h3 class="text-lg font-semibold mt-4">Worst performing pair</h3>
-        <div class="bg-red-950 text-red-300 p-4 mt-2">
-          <p>
-            Pair:
-            <span class="font-semibold">
-              {{ performance.worst_performing_pair.pair }}
-            </span>
-          </p>
-          <p>
-            Trades:
-            <span class="font-semibold">
-              {{ performance.worst_performing_pair.trades }}
-            </span>
-          </p>
-          <p>
-            PnL:
-            <span class="font-semibold">
-              {{ formatAmount(performance.worst_performing_pair.pnl) }}
-            </span>
-            ({{
-              formatPercentage(
-                performance.worst_performing_pair.pnl_percentage,
-              )
-            }})
-          </p>
-        </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the predictions!" />
 
   <SelectorMultiple
@@ -52,7 +51,6 @@ import { onMounted, ref } from 'vue'
 import { formatAmount, formatDate } from '../utils.ts'
 import { getPairs, getPredictions } from '../api.ts'
 import TableNavigation from './shared/TableNavigation.vue'
-import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Prediction } from '../models/prediction.ts'
 import SelectorMultiple from './shared/SelectorMultiple.vue'

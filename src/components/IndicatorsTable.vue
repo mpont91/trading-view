@@ -1,5 +1,4 @@
 <template>
-  <RefreshButton :disabled="isLoading" @click="refresh" />
   <ErrorMessage v-if="hasError" message="Couldn't fetch the indicators!" />
   <SelectorMultiple
     v-model="selectedNames"
@@ -58,7 +57,6 @@ import { onMounted, ref } from 'vue'
 import { formatAmount, formatDate } from '../utils.ts'
 import { getIndicators, getPairs } from '../api.ts'
 import TableNavigation from './shared/TableNavigation.vue'
-import RefreshButton from './shared/RefreshButton.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Indicator } from '../models/indicator.ts'
 import SelectorMultiple from './shared/SelectorMultiple.vue'
