@@ -56,6 +56,18 @@ export async function getPosition(id: number): Promise<Position> {
   return json.data
 }
 
+export async function getPnl(
+  pair: string,
+  price: number,
+  quantity: number,
+): Promise<{ amount: number; percentage: number }> {
+  const response: Response = await fetch(
+    api + `pnl?pair=${pair}&price=${price}&quantity=${quantity}`,
+  )
+  const json = await response.json()
+  return json.data
+}
+
 export async function getMarkets(): Promise<Market[]> {
   try {
     const response: Response = await fetch(api + 'markets')
