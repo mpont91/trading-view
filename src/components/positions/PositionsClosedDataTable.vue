@@ -15,7 +15,7 @@
       </thead>
       <tbody>
         <tr
-          @click="openModal(position)"
+          @click="showPosition(position)"
           class="cursor-pointer hover:bg-neutral-800"
           :class="{
             'bg-green-950': position.pnl! >= 0,
@@ -39,15 +39,9 @@
         </tr>
       </tbody>
     </table>
-    <PositionsDetails
-      :isOpen="isModalOpen"
-      :position="selectedPosition"
-      @close="closeModal"
-    />
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
 import PositionsTableHeader from './PositionsTableHeader.vue'
 import type { PropType } from 'vue'
 import type { Position } from '../../models/position.ts'
@@ -57,7 +51,6 @@ import {
   formatNumber,
   formatPercentage,
 } from '../../utils.ts'
-import PositionsDetails from './PositionsDetails.vue'
 
 defineProps({
   positions: {
@@ -88,33 +81,12 @@ const fieldsMapping: { name: string; value: string }[] = [
   { name: 'pnl %', value: 'pnl_percentage' },
 ]
 
-const isModalOpen = ref(false)
-const selectedPosition = ref<Position | null>(null)
-
-function openModal(position: Position) {
-  selectedPosition.value = position
-  isModalOpen.value = true
-}
-
-function closeModal() {
-  isModalOpen.value = false
-}
-
-function handleKeyDown(event: KeyboardEvent) {
-  if (event.key === 'Escape') {
-    closeModal()
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', handleKeyDown)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', handleKeyDown)
-})
-
 function sort(field: string) {
   emit('sort', field)
+}
+
+function showPosition(position: Position) {
+  const url = `/positions/${position.id}`
+  window.open(url, '_blank')
 }
 </script>

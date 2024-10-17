@@ -1,0 +1,13 @@
+---
+import IndexLayout from '../../layouts/IndexLayout.astro'
+import PositionsView from '../../components/positions/PositionsView.vue'
+const params = Astro.params
+const id: string = params.id as string
+---
+
+<IndexLayout>
+  <header>
+    <h1>Position {id}</h1>
+  </header>
+  <PositionsView id={id} client:load />
+</IndexLayout>

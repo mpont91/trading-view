@@ -50,6 +50,12 @@ export async function getPositions(
   }
 }
 
+export async function getPosition(id: number): Promise<Position> {
+  const response: Response = await fetch(api + `positions/${id}`)
+  const json = await response.json()
+  return json.data
+}
+
 export async function getMarkets(): Promise<Market[]> {
   try {
     const response: Response = await fetch(api + 'markets')

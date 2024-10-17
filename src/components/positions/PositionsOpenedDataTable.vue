@@ -14,6 +14,8 @@
       </thead>
       <tbody>
         <tr
+          @click="showPosition(position)"
+          class="cursor-pointer hover:bg-neutral-800"
           :class="{
             'bg-green-950': pnlLive(position) >= 0,
             'bg-red-950': pnlLive(position) < 0,
@@ -68,5 +70,10 @@ function pnlLive(position: Position): number {
 function pnlPercentageLive(position: Position) {
   const market = getMarket(position.pair)
   return ((market.price - position.buy_price) / position.buy_price) * 100
+}
+
+function showPosition(position: Position) {
+  const url = `/positions/${position.id}`
+  window.open(url, '_blank')
 }
 </script>
