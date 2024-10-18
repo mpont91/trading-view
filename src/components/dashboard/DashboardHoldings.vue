@@ -1,6 +1,12 @@
 <template>
   <div class="bg-neutral-800 shadow p-6 mb-6">
     <h2>Holdings</h2>
+    <DateRangeField
+      :from="dateFrom"
+      :to="dateTo"
+      @update:from="updateFrom"
+      @update:to="updateTo"
+    />
     <Line :data="data" :options="options" />
   </div>
 </template>
@@ -20,7 +26,11 @@ import {
   Legend,
 } from 'chart.js'
 
-import { computed } from 'vue'
+const dateFrom = ref(new Date())
+const dateTo = ref(new Date())
+
+import { ref, computed } from 'vue'
+import DateRangeField from '../shared/DateRangeField.vue'
 
 ChartJS.register(
   CategoryScale,
@@ -63,4 +73,12 @@ const dates = computed(() =>
 const amounts = computed(() =>
   props.holdings.map((holding: Holding) => holding.amount),
 )
+
+const updateFrom = (newFrom: Date) => {
+  dateFrom.value = newFrom
+}
+
+const updateTo = (newTo: Date) => {
+  dateTo.value = newTo
+}
 </script>
