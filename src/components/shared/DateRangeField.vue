@@ -8,6 +8,7 @@
     :enable-time-picker="false"
     :range="{ partialRange: false }"
     auto-apply
+    :clearable="false"
   />
 </template>
 <script setup lang="ts">
