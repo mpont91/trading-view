@@ -11,9 +11,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import DateRangeField from '../shared/DateRangeField.vue'
+import { getHoldings } from '../../api.ts'
 import type { Holding } from '../../models/holding'
-
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -26,12 +27,6 @@ import {
   Legend,
 } from 'chart.js'
 
-const dateFrom = ref(new Date())
-const dateTo = ref(new Date())
-
-import { ref, computed } from 'vue'
-import DateRangeField from '../shared/DateRangeField.vue'
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -42,10 +37,14 @@ ChartJS.register(
   Legend,
 )
 
-const props = defineProps({
-  holdings: {
-    type: Array as PropType<Holding[]>,
-  },
+const isLoading = ref<boolean>(true)
+const hasError = ref<boolean>(false)
+const dateFrom = ref(new Date(new Date().setMonth(new Date().getMonth() - 1)))
+const dateTo = ref(new Date())
+const holdings = ref<Holding[]>([])
+
+onMounted(async () => {
+  await refresh()
 })
 
 const data = computed(() => ({
@@ -65,20 +64,33 @@ const options = {
 }
 
 const dates = computed(() =>
-  props.holdings.map((holding: Holding) =>
+  holdings.value.map((holding: Holding) =>
     new Date(holding.created_at).toLocaleDateString(),
   ),
 )
 
 const amounts = computed(() =>
-  props.holdings.map((holding: Holding) => holding.amount),
+  holdings.value.map((holding: Holding) => holding.amount),
 )
 
-const updateFrom = (newFrom: Date) => {
-  dateFrom.value = newFrom
+async function refresh() {
+  isLoading.value = true
+  try {
+    holdings.value = await getHoldings(dateFrom.value, dateTo.value)
+  } catch (error: unknown) {
+    hasError.value = true
+  } finally {
+    isLoading.value = false
+  }
 }
 
-const updateTo = (newTo: Date) => {
+async function updateFrom(newFrom: Date) {
+  dateFrom.value = newFrom
+  await refresh()
+}
+
+async function updateTo(newTo: Date) {
   dateTo.value = newTo
+  await refresh()
 }
 </script>

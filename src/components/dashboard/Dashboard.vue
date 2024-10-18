@@ -3,10 +3,7 @@
   <Loading v-if="isLoading" />
   <div v-if="!hasError && !isLoading" class="mx-auto py-4">
     <DashboardStatus v-if="dashboard?.status" :status="dashboard.status" />
-    <DashboardHoldings
-      v-if="dashboard?.holdings"
-      :holdings="dashboard.holdings"
-    />
+    <DashboardHoldings />
     <DashboardLifetime
       v-if="dashboard?.lifetime"
       :lifetime="dashboard.lifetime"

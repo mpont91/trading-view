@@ -23,6 +23,7 @@ import {
 import { buildQueryParams } from './utils.ts'
 import type { Indicator } from './models/indicator.ts'
 import type { Analysis } from './models/analysis.ts'
+import type { Holding } from './models/holding.ts'
 
 const api = import.meta.env.PUBLIC_API
 
@@ -165,4 +166,11 @@ export async function getAnalysis(): Promise<Analysis> {
   } catch (error: unknown) {
     throw new FetchAnalysisException(error)
   }
+}
+
+export async function getHoldings(from: Date, to: Date): Promise<Holding[]> {
+  const queryParams: string = `from=${from.toISOString().split('T')[0]}&to=${to.toISOString().split('T')[0]}`
+  const response: Response = await fetch(api + `holdings?${queryParams}`)
+  const json = await response.json()
+  return json.data
 }
