@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import DateRangeField from '../shared/DateRangeField.vue'
-import { getHoldings } from '../../api.ts'
+import { getHoldingsGraph } from '../../api.ts'
 import type { Holding } from '../../models/holding'
 import { Line } from 'vue-chartjs'
 import {
@@ -76,7 +76,7 @@ const amounts = computed(() =>
 async function refresh() {
   isLoading.value = true
   try {
-    holdings.value = await getHoldings(dateFrom.value, dateTo.value)
+    holdings.value = await getHoldingsGraph(dateFrom.value, dateTo.value)
   } catch (error: unknown) {
     hasError.value = true
   } finally {

@@ -68,4 +68,8 @@ watch(
   --dp-border-radius: 0px;
   --dp-cell-border-radius: 0px;
 }
+
+.dp__theme_dark {
+  --dp-background-color: #404040;
+}
 </style>

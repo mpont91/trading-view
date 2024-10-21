@@ -6,6 +6,13 @@
     v-model="selectedPairPrediction"
     :items="pairs"
     name="prediction-pairs"
+    @change="refreshPredictions"
+  />
+  <DateRangeField
+    class="my-4"
+    :from="predictionsDateFrom"
+    :to="predictionsDateTo"
+    @change="refreshPredictions"
   />
   <Loading v-if="isLoading" />
   <AnalysisGraph
@@ -22,6 +29,7 @@
     v-model="selectedIndicatorName"
     :items="indicatorNames"
     name="indicators"
+    @change="refreshIndicators"
   />
   <SelectorRadio
     v-if="selectedPairIndicator"
@@ -29,6 +37,13 @@
     v-model="selectedPairIndicator"
     :items="pairs"
     name="indicator-pairs"
+    @change="refreshIndicators"
+  />
+  <DateRangeField
+    class="my-4"
+    :from="indicatorsDateFrom"
+    :to="indicatorsDateTo"
+    @change="refreshIndicators"
   />
   <Loading v-if="isLoading" />
   <AnalysisGraph
@@ -43,13 +58,13 @@
 import { computed, onMounted, ref } from 'vue'
 import AnalysisGraph from './AnalysisGraph.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
-import { getAnalysis, getPairs } from '../../api.js'
+import { getIndicatorsGraph, getPairs, getPredictionsGraph } from '../../api.js'
 import type { Prediction } from '../../models/prediction.ts'
-import type { Analysis } from '../../models/analysis.ts'
 import type { Indicator } from '../../models/indicator.ts'
 import type { Signal, SignalWeights } from '../../models/signal.ts'
 import SelectorRadio from '../shared/SelectorRadio.vue'
 import Loading from '../shared/Loading.vue'
+import DateRangeField from '../shared/DateRangeField.vue'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
@@ -60,6 +75,14 @@ const selectedPairIndicator = ref<string | null>(null)
 const pairs = ref<string[]>([])
 const selectedIndicatorName = ref<string | null>(null)
 const indicatorNames = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
+const predictionsDateFrom = ref(
+  new Date(new Date().setMonth(new Date().getMonth() - 1)),
+)
+const predictionsDateTo = ref(new Date())
+const indicatorsDateFrom = ref(
+  new Date(new Date().setMonth(new Date().getMonth() - 1)),
+)
+const indicatorsDateTo = ref(new Date())
 
 const signalWeights: SignalWeights = {
   'STRONG BUY': 2,
@@ -85,11 +108,20 @@ onMounted(async () => {
 async function refresh() {
   isLoading.value = true
   predictions.value = []
+  indicators.value = []
 
   try {
-    const fetchedAnalysis: Analysis = await getAnalysis()
-    predictions.value = fetchedAnalysis.predictions
-    indicators.value = fetchedAnalysis.indicators
+    predictions.value = await getPredictionsGraph(
+      selectedPairPrediction.value,
+      predictionsDateFrom.value,
+      predictionsDateTo.value,
+    )
+    indicators.value = await getIndicatorsGraph(
+      selectedPairIndicator.value,
+      selectedIndicatorName.value,
+      indicatorsDateFrom.value,
+      indicatorsDateTo.value,
+    )
   } catch (error: unknown) {
     hasError.value = true
   } finally {
@@ -97,73 +129,79 @@ async function refresh() {
   }
 }
 
-const filteredPredictions = computed(() =>
-  predictions.value.filter(
-    (prediction: Prediction) =>
-      prediction.pair === selectedPairPrediction.value,
-  ),
-)
+async function refreshPredictions() {
+  isLoading.value = true
+  predictions.value = []
 
-const filteredIndicators = computed(() =>
-  indicators.value.filter(
-    (indicator: Indicator) =>
-      indicator.name === selectedIndicatorName.value &&
-      indicator.pair === selectedPairIndicator.value,
-  ),
-)
+  try {
+    predictions.value = await getPredictionsGraph(
+      selectedPairPrediction.value,
+      predictionsDateFrom.value,
+      predictionsDateTo.value,
+    )
+  } catch (error: unknown) {
+    hasError.value = true
+  } finally {
+    isLoading.value = false
+  }
+}
+
+async function refreshIndicators() {
+  isLoading.value = true
+  indicators.value = []
+
+  try {
+    indicators.value = await getIndicatorsGraph(
+      selectedPairIndicator.value,
+      selectedIndicatorName.value,
+      indicatorsDateFrom.value,
+      indicatorsDateTo.value,
+    )
+  } catch (error: unknown) {
+    hasError.value = true
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const pricesPrediction = computed(() =>
-  filteredPredictions.value.map(
-    (prediction: Prediction) => prediction.current_price,
-  ),
+  predictions.value.map((prediction: Prediction) => prediction.current_price),
 )
 
 const pricesIndicator = computed(() =>
-  filteredIndicators.value.map(
-    (indicator: Indicator) => indicator.current_price,
-  ),
+  indicators.value.map((indicator: Indicator) => indicator.current_price),
 )
 
 const datesPrediction = computed(() =>
-  filteredPredictions.value.map((prediction: Prediction) =>
-    new Date(prediction.created_at).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
+  predictions.value.map((prediction: Prediction) =>
+    new Date(prediction.created_at).toLocaleDateString(),
   ),
 )
 
 const datesIndicator = computed(() =>
-  filteredIndicators.value.map((indicator: Indicator) =>
-    new Date(indicator.created_at).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
+  indicators.value.map((indicator: Indicator) =>
+    new Date(indicator.created_at).toLocaleDateString(),
   ),
 )
 
 const signalsPrediction = computed(() => {
   const weights: number[] = [2, 1.5, 1.2, 1, 0.8]
 
-  return filteredPredictions.value.map(
-    (prediction, index, predictionsArray) => {
-      const start = Math.max(index - 4, 0)
-      const previousPredictions = predictionsArray.slice(start, index + 1)
+  return predictions.value.map((prediction, index, predictionsArray) => {
+    const start = Math.max(index - 4, 0)
+    const previousPredictions = predictionsArray.slice(start, index + 1)
 
-      const previousSignals = previousPredictions.map((pred) => pred.signal)
+    const previousSignals = previousPredictions.map((pred) => pred.signal)
 
-      return calculateWeightedSignal(
-        previousSignals,
-        weights.slice(0, previousSignals.length),
-      )
-    },
-  )
+    return calculateWeightedSignal(
+      previousSignals,
+      weights.slice(0, previousSignals.length),
+    )
+  })
 })
 
 const signalsIndicator = computed(() => {
-  return filteredIndicators.value.map(
-    (indicator: Indicator) => indicator.signal,
-  )
+  return indicators.value.map((indicator: Indicator) => indicator.signal)
 })
 
 function calculateWeightedSignal(signals: Signal[], weights: number[]): Signal {

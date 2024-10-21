@@ -168,9 +168,39 @@ export async function getAnalysis(): Promise<Analysis> {
   }
 }
 
-export async function getHoldings(from: Date, to: Date): Promise<Holding[]> {
+export async function getHoldingsGraph(
+  from: Date,
+  to: Date,
+): Promise<Holding[]> {
   const queryParams: string = `from=${from.toISOString().split('T')[0]}&to=${to.toISOString().split('T')[0]}`
-  const response: Response = await fetch(api + `holdings?${queryParams}`)
+  const response: Response = await fetch(api + `graph/holdings?${queryParams}`)
+  const json = await response.json()
+  return json.data
+}
+
+export async function getPredictionsGraph(
+  pair: string,
+  from: Date,
+  to: Date,
+): Promise<Prediction[]> {
+  const queryParams: string = `pair=${pair}&from=${from.toISOString().split('T')[0]}&to=${to.toISOString().split('T')[0]}`
+  const response: Response = await fetch(
+    api + `graph/predictions?${queryParams}`,
+  )
+  const json = await response.json()
+  return json.data
+}
+
+export async function getIndicatorsGraph(
+  pair: string,
+  indicator: string,
+  from: Date,
+  to: Date,
+): Promise<Indicator[]> {
+  const queryParams: string = `pair=${pair}&indicator=${indicator}&from=${from.toISOString().split('T')[0]}&to=${to.toISOString().split('T')[0]}`
+  const response: Response = await fetch(
+    api + `graph/indicators?${queryParams}`,
+  )
   const json = await response.json()
   return json.data
 }
