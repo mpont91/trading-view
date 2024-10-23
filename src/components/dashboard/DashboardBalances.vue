@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import { formatAmount, formatDate, formatNumber } from '../../utils.ts'
-import type { Market } from '../../models/market.ts'
+import type { Pair } from '../../models/pair.ts'
 import type { Balance } from '../../models/balance.ts'
 
 const props = defineProps({
@@ -40,8 +40,8 @@ const props = defineProps({
     type: Array as PropType<Balance[]>,
     default: () => [],
   },
-  markets: {
-    type: Array as PropType<Market[]>,
+  pairs: {
+    type: Array as PropType<Pair[]>,
     default: () => [],
   },
 })
@@ -49,14 +49,12 @@ const props = defineProps({
 function calculateAmount(currency: string, quantity: number) {
   if (currency === 'USDC') return quantity
 
-  const market = props.markets.find(
-    (market) => market.pair === `${currency}USDC`,
-  )
+  const pair = props.pairs.find((pair) => pair.pair === `${currency}USDC`)
 
-  if (!market) {
+  if (!pair) {
     return null
   }
 
-  return quantity * market.price
+  return quantity * pair.price
 }
 </script>

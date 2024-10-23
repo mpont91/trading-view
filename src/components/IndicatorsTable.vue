@@ -76,7 +76,7 @@ const isLoading = ref<boolean>(true)
 onMounted(async () => {
   selectedNames.value = names.value
   try {
-    pairs.value = await getPairs()
+    pairs.value = (await getPairs()).map((p: Pair) => p.name)
     selectedPairs.value = pairs.value
   } catch (error: unknown) {
     hasError.value = true

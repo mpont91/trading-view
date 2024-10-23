@@ -3,7 +3,7 @@
 
   <SelectorMultiple
     v-model="selectedPairs"
-    :items="pairs"
+    :items="availablePairs"
     @change="onChangePair"
   />
   <div v-if="!hasError && !isLoading">
@@ -18,7 +18,7 @@
     />
     <PositionsClosedDataTable
       :positions="positions"
-      :markets="markets"
+      :pairs="pairs"
       :sort-field="sortField"
       :sort-order="sortOrder"
       @sort="sort"
@@ -39,13 +39,12 @@ import { getPairs, getPositions } from '../../api.ts'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import TableNavigation from '../shared/TableNavigation.vue'
 import PositionsClosedDataTable from './PositionsClosedDataTable.vue'
-import type { Market } from '../../models/market.ts'
+import type { Pair } from '../../models/pair.ts'
 import type { Position } from '../../models/position.ts'
 import SelectorMultiple from '../shared/SelectorMultiple.vue'
 
 const hasError = ref<boolean>(false)
 const positions = ref<Position[]>([])
-const markets = ref<Market[]>([])
 const currentPage = ref<number>(1)
 const positionsPerPage = ref<number>(50)
 const totalPages = ref<number>(0)
@@ -53,13 +52,14 @@ const totalItems = ref<number>(0)
 const sortField = ref<string>('id')
 const sortOrder = ref<'asc' | 'desc'>('desc')
 const isLoading = ref<boolean>(true)
-const pairs = ref<string[]>([])
+const pairs = ref<Pair[]>([])
+const availablePairs = ref<string[]>([])
 const selectedPairs = ref<string[]>([])
 
 onMounted(async () => {
   try {
-    pairs.value = await getPairs()
-    selectedPairs.value = pairs.value
+    availablePairs.value = (await getPairs()).map((p: Pair) => p.name)
+    selectedPairs.value = availablePairs.value
   } catch (error: unknown) {
     hasError.value = true
   }

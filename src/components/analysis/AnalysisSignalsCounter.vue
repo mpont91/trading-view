@@ -15,7 +15,7 @@ import type { PropType } from 'vue'
 
 defineProps({
   signalCounts: {
-    type: Array as PropType<string[]>,
+    type: Object as PropType<Record<string, number>>,
     default: () => [],
   },
   signalColor: {

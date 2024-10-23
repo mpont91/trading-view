@@ -65,6 +65,7 @@ import type { Signal, SignalWeights } from '../../models/signal.ts'
 import SelectorRadio from '../shared/SelectorRadio.vue'
 import Loading from '../shared/Loading.vue'
 import DateRangeField from '../shared/DateRangeField.vue'
+import type { Pair } from '../../models/pair.ts'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
@@ -95,7 +96,7 @@ const signalWeights: SignalWeights = {
 onMounted(async () => {
   selectedIndicatorName.value = indicatorNames.value[0]
   try {
-    pairs.value = await getPairs()
+    pairs.value = (await getPairs()).map((p: Pair) => p.name)
     selectedPairPrediction.value = pairs.value[0]
     selectedPairIndicator.value = pairs.value[0]
   } catch (error: unknown) {
@@ -112,13 +113,13 @@ async function refresh() {
 
   try {
     predictions.value = await getPredictionsGraph(
-      selectedPairPrediction.value,
+      selectedPairPrediction.value as string,
       predictionsDateFrom.value,
       predictionsDateTo.value,
     )
     indicators.value = await getIndicatorsGraph(
-      selectedPairIndicator.value,
-      selectedIndicatorName.value,
+      selectedPairIndicator.value as string,
+      selectedIndicatorName.value as string,
       indicatorsDateFrom.value,
       indicatorsDateTo.value,
     )
@@ -135,7 +136,7 @@ async function refreshPredictions() {
 
   try {
     predictions.value = await getPredictionsGraph(
-      selectedPairPrediction.value,
+      selectedPairPrediction.value as string,
       predictionsDateFrom.value,
       predictionsDateTo.value,
     )
@@ -152,8 +153,8 @@ async function refreshIndicators() {
 
   try {
     indicators.value = await getIndicatorsGraph(
-      selectedPairIndicator.value,
-      selectedIndicatorName.value,
+      selectedPairIndicator.value as string,
+      selectedIndicatorName.value as string,
       indicatorsDateFrom.value,
       indicatorsDateTo.value,
     )

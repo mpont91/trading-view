@@ -13,14 +13,14 @@
       :performance="dashboard.performance"
     />
     <DashboardBalances
-      v-if="dashboard?.balances && dashboard?.markets"
+      v-if="dashboard?.balances && dashboard?.pairs"
       :balances="dashboard.balances"
-      :markets="dashboard.markets"
+      :pairs="dashboard.pairs"
     />
     <DashboardOpenedPositions
-      v-if="dashboard?.opened_positions && dashboard?.markets"
+      v-if="dashboard?.opened_positions && dashboard?.pairs"
       :positions="dashboard.opened_positions"
-      :markets="dashboard.markets"
+      :pairs="dashboard.pairs"
     />
     <DashboardLogs v-if="dashboard?.logs" :logs="dashboard.logs" />
   </div>

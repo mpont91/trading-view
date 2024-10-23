@@ -1,6 +1,6 @@
 import type { Position } from './position'
 import type { Balance } from './balance'
-import type { Market } from './market'
+import type { Pair } from './pair.ts'
 
 export interface DashboardStatus {
   active: boolean
@@ -37,5 +37,5 @@ export interface Dashboard {
   opened_positions: Position[]
   logs: DashboardLogs
   balances: Balance[]
-  markets: Market[]
+  pairs: Pair[]
 }

@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { Position } from '../../models/position.ts'
-import type { Market } from '../../models/market.ts'
+import type { Pair } from '../../models/pair.ts'
 import {
   formatAmount,
   formatDate,
@@ -52,24 +52,24 @@ const props = defineProps({
     type: Array as PropType<Position[]>,
     default: () => [],
   },
-  markets: {
-    type: Array as PropType<Market[]>,
+  pairs: {
+    type: Array as PropType<Pair[]>,
     default: () => [],
   },
 })
 
-function getMarket(pair: string) {
-  return props.markets.filter((market: Market) => market.pair === pair)[0]
+function getPair(pair: string) {
+  return props.pairs.filter((p: Pair) => p.name === pair)[0]
 }
 
 function pnlLive(position: Position): number {
-  const market = getMarket(position.pair)
-  return (market.price - position.buy_price) * position.quantity
+  const pair = getPair(position.pair)
+  return (pair.price - position.buy_price) * position.quantity
 }
 
 function pnlPercentageLive(position: Position) {
-  const market = getMarket(position.pair)
-  return ((market.price - position.buy_price) / position.buy_price) * 100
+  const pair = getPair(position.pair)
+  return ((pair.price - position.buy_price) / position.buy_price) * 100
 }
 
 function showPosition(position: Position) {

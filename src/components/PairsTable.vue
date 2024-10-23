@@ -1,5 +1,5 @@
 <template>
-  <ErrorMessage v-if="hasError" message="Couldn't fetch the markets!" />
+  <ErrorMessage v-if="hasError" message="Couldn't fetch the pairs!" />
   <div
     v-if="!hasError && !isLoading"
     class="relative overflow-x-auto shadow-md"
@@ -14,11 +14,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="market in markets">
-          <td>{{ market.pair }}</td>
-          <td>{{ formatAmount(market.price) }}</td>
-          <td>{{ market.signal }}</td>
-          <td>{{ formatDate(market.updated_at) }}</td>
+        <tr v-for="pair in pairs">
+          <td>{{ pair.name }}</td>
+          <td>{{ formatAmount(pair.price) }}</td>
+          <td>{{ pair.signal }}</td>
+          <td>{{ formatDate(pair.updated_at) }}</td>
         </tr>
       </tbody>
     </table>
@@ -26,13 +26,13 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { getMarkets } from '../api.ts'
+import { getPairs } from '../api.ts'
 import { formatAmount, formatDate } from '../utils.ts'
 import ErrorMessage from './shared/ErrorMessage.vue'
-import type { Market } from '../models/market.ts'
+import type { Pair } from '../models/pair.ts'
 
 const hasError = ref<boolean>(false)
-const markets = ref<Market[]>([])
+const pairs = ref<Pair[]>([])
 const isLoading = ref<boolean>(true)
 
 onMounted(async () => {
@@ -41,9 +41,9 @@ onMounted(async () => {
 
 async function refresh() {
   isLoading.value = true
-  markets.value = []
+  pairs.value = []
   try {
-    markets.value = await getMarkets()
+    pairs.value = await getPairs()
   } catch (error: unknown) {
     hasError.value = true
   } finally {

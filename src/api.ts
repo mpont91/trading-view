@@ -1,7 +1,7 @@
 import type { Dashboard } from './models/dashboard.ts'
 import type { Log } from './models/log.ts'
 import type { Position } from './models/position.ts'
-import type { Market } from './models/market.ts'
+import type { Pair } from './models/pair.ts'
 import type { Balance } from './models/balance.ts'
 import type { Prediction } from './models/prediction.ts'
 import type { SearchCriteria } from './models/search-criteria.ts'
@@ -44,8 +44,8 @@ export async function getPnl(
   return json.data
 }
 
-export async function getMarkets(): Promise<Market[]> {
-  const response: Response = await fetch(api + 'markets')
+export async function getPairs(): Promise<Pair[]> {
+  const response: Response = await fetch(api + 'pairs')
   const json = await response.json()
   return json.data
 }
@@ -89,13 +89,7 @@ export async function getDashboard(): Promise<Dashboard> {
   return (await response.json()).data as Dashboard
 }
 
-export async function getPairs(): Promise<string[]> {
-  const response: Response = await fetch(api + 'pairs')
-  const json = await response.json()
-  return json.data
-}
-
-export async function getPCurrencies(): Promise<string[]> {
+export async function getCurrencies(): Promise<string[]> {
   const response: Response = await fetch(api + 'currencies')
   const json = await response.json()
   return json.data
