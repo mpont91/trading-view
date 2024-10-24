@@ -46,13 +46,13 @@ const props = defineProps({
   },
 })
 
-function calculateAmount(currency: string, quantity: number) {
+function calculateAmount(currency: string, quantity: number): number {
   if (currency === 'USDC') return quantity
 
-  const pair = props.pairs.find((pair) => pair.pair === `${currency}USDC`)
+  const pair = props.pairs.find((pair) => pair.name === `${currency}USDC`)
 
   if (!pair) {
-    return null
+    return 0
   }
 
   return quantity * pair.price
