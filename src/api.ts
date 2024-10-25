@@ -32,18 +32,6 @@ export async function getPosition(id: number): Promise<Position> {
   return json.data
 }
 
-export async function getPnl(
-  pair: string,
-  price: number,
-  quantity: number,
-): Promise<{ amount: number; percentage: number }> {
-  const response: Response = await fetch(
-    api + `pnl?pair=${pair}&price=${price}&quantity=${quantity}`,
-  )
-  const json = await response.json()
-  return json.data
-}
-
 export async function getPairs(): Promise<Pair[]> {
   const response: Response = await fetch(api + 'pairs')
   const json = await response.json()
@@ -87,12 +75,6 @@ export async function getLogs(
 export async function getDashboard(): Promise<Dashboard> {
   const response: Response = await fetch(api + 'dashboard')
   return (await response.json()).data as Dashboard
-}
-
-export async function getCurrencies(): Promise<string[]> {
-  const response: Response = await fetch(api + 'currencies')
-  const json = await response.json()
-  return json.data
 }
 
 export async function getHoldingsGraph(
