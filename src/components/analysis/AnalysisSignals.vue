@@ -1,6 +1,6 @@
 <template>
   <ErrorMessage v-if="hasError" message="Couldn't fetch the analysis!" />
-  <SelectorRadio
+  <SelectorSingle
     v-if="selectedPairPrediction"
     class="my-4"
     v-model="selectedPairPrediction"
@@ -23,7 +23,7 @@
     :signals="signalsPrediction"
   />
   <hr class="my-4" />
-  <SelectorRadio
+  <SelectorSingle
     v-if="selectedIndicatorName"
     class="my-4"
     v-model="selectedIndicatorName"
@@ -31,7 +31,7 @@
     name="indicators"
     @change="refreshIndicators"
   />
-  <SelectorRadio
+  <SelectorSingle
     v-if="selectedPairIndicator"
     class="my-4"
     v-model="selectedPairIndicator"
@@ -62,7 +62,7 @@ import { getIndicatorsGraph, getPairs, getPredictionsGraph } from '../../api.js'
 import type { Prediction } from '../../models/prediction.ts'
 import type { Indicator } from '../../models/indicator.ts'
 import type { Signal, SignalWeights } from '../../models/signal.ts'
-import SelectorRadio from '../shared/SelectorRadio.vue'
+import SelectorSingle from '../shared/SelectorSingle.vue'
 import Loading from '../shared/Loading.vue'
 import DateRangeField from '../shared/DateRangeField.vue'
 import type { Pair } from '../../models/pair.ts'

@@ -4,11 +4,14 @@
     v-model="selectedNames"
     :items="names"
     @change="onChangeName"
+    name="names"
+    class="mb-4"
   />
   <SelectorMultiple
     v-model="selectedPairs"
     :items="pairs"
     @change="onChangePair"
+    name="pairs"
   />
   <div v-if="!hasError && !isLoading">
     <TableNavigation

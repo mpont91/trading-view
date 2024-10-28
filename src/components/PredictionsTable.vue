@@ -5,6 +5,7 @@
     v-model="selectedPairs"
     :items="pairs"
     @change="onChangePair"
+    name="pairs"
   />
   <div v-if="!hasError && !isLoading">
     <TableNavigation

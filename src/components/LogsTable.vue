@@ -3,7 +3,12 @@
   <div
     class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 justify-between pb-4 sm:space-x-4"
   >
-    <SelectorMultiple v-model="types" :items="items" @change="onChangeLevel" />
+    <SelectorMultiple
+      v-model="types"
+      :items="items"
+      @change="onChangeLevel"
+      name="logs"
+    />
     <SearchField @change="onSearch" v-model="search" />
   </div>
 
