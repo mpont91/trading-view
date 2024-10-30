@@ -12,7 +12,8 @@
     class="my-4"
     :from="predictionsDateFrom"
     :to="predictionsDateTo"
-    @change="refreshPredictions"
+    @update:from="refreshPredictions"
+    @update:to="refreshPredictions"
   />
   <Loading v-if="isLoading" />
   <AnalysisGraph
@@ -43,7 +44,8 @@
     class="my-4"
     :from="indicatorsDateFrom"
     :to="indicatorsDateTo"
-    @change="refreshIndicators"
+    @update:from="refreshIndicators"
+    @update:to="refreshIndicators"
   />
   <Loading v-if="isLoading" />
   <AnalysisGraph
