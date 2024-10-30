@@ -77,21 +77,13 @@ const pairs = ref<string[]>([])
 const selectedIndicatorName = ref<string | null>(null)
 const indicatorNames = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
 const predictionsDateFrom = ref(
-  new Date(new Date().setMonth(new Date().getMonth() - 1)),
+  new Date(new Date().setDate(new Date().getDate() - 1)),
 )
 const predictionsDateTo = ref(new Date())
 const indicatorsDateFrom = ref(
-  new Date(new Date().setMonth(new Date().getMonth() - 1)),
+  new Date(new Date().setDate(new Date().getDate() - 1)),
 )
 const indicatorsDateTo = ref(new Date())
-
-const signalWeights: SignalWeights = {
-  'STRONG BUY': 2,
-  BUY: 1,
-  HOLD: 0,
-  SELL: -1,
-  'STRONG SELL': -2,
-}
 
 onMounted(async () => {
   selectedIndicatorName.value = indicatorNames.value[0]
@@ -175,64 +167,35 @@ const pricesIndicator = computed(() =>
 
 const datesPrediction = computed(() =>
   predictions.value.map((prediction: Prediction) =>
-    new Date(prediction.created_at).toLocaleDateString(),
+    new Date(prediction.created_at).toLocaleString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }),
   ),
 )
 
 const datesIndicator = computed(() =>
   indicators.value.map((indicator: Indicator) =>
-    new Date(indicator.created_at).toLocaleDateString(),
+    new Date(indicator.created_at).toLocaleString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    }),
   ),
 )
 
 const signalsPrediction = computed(() => {
-  const weights: number[] = [2, 1.5, 1.2, 1, 0.8]
-
-  return predictions.value.map((prediction, index, predictionsArray) => {
-    const start = Math.max(index - 4, 0)
-    const previousPredictions = predictionsArray.slice(start, index + 1)
-
-    const previousSignals = previousPredictions.map((pred) => pred.signal)
-
-    return calculateWeightedSignal(
-      previousSignals,
-      weights.slice(0, previousSignals.length),
-    )
-  })
+  return predictions.value.map((prediction: Prediction) => prediction.signal)
 })
 
 const signalsIndicator = computed(() => {
   return indicators.value.map((indicator: Indicator) => indicator.signal)
 })
-
-function calculateWeightedSignal(signals: Signal[], weights: number[]): Signal {
-  let weightedSum: number = 0
-  let weightTotal: number = 0
-
-  for (let i: number = 0; i < signals.length && i < weights.length; i++) {
-    const signalValue: number = signalWeights[signals[i]] || 0
-    const weight: number = weights[i]
-
-    weightedSum += signalValue * weight
-    weightTotal += weight
-  }
-
-  const weightedAverage: number = weightedSum / weightTotal
-
-  return weightToSignal(weightedAverage)
-}
-
-function weightToSignal(averageWeight: number): Signal {
-  if (averageWeight >= 1.5) {
-    return 'STRONG BUY'
-  } else if (averageWeight >= 0.5) {
-    return 'BUY'
-  } else if (averageWeight <= -1.5) {
-    return 'STRONG SELL'
-  } else if (averageWeight <= -0.5) {
-    return 'SELL'
-  } else {
-    return 'HOLD'
-  }
-}
 </script>
