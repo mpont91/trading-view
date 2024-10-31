@@ -21,7 +21,6 @@ export async function getPositions(
   searchCriteria: SearchCriteria,
 ): Promise<{ data: Position[]; pagination: Pagination }> {
   const params: URLSearchParams = buildQueryParams(searchCriteria)
-  console.log(`${api}positions?${params.toString()}`)
   const response: Response = await fetch(`${api}positions?${params.toString()}`)
   return await response.json()
 }

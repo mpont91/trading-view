@@ -128,20 +128,37 @@
       <h2>Profits</h2>
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div
+          v-if="position.is_closed"
           class="p-4"
           :class="{
-            'bg-blue-950 text-blue-300': !position.is_closed,
+            'bg-blue-950 text-blue-300': position.pnl! === 0,
             'bg-green-950 text-green-300': position.pnl! > 0,
             'bg-red-950 text-red-300': position.pnl! < 0,
           }"
         >
           <p>
             PnL:
-            <span v-if="position.is_closed" class="font-semibold">
+            <span class="font-semibold">
               {{ formatAmount(position.pnl) }}
               ({{ formatPercentage(position.pnl_percentage) }})
             </span>
-            <span v-else class="font-semibold"> - </span>
+          </p>
+        </div>
+        <div
+          v-else
+          class="p-4"
+          :class="{
+            'bg-blue-950 text-blue-300': pnlLive(position) === 0,
+            'bg-green-950 text-green-300': pnlLive(position) > 0,
+            'bg-red-950 text-red-300': pnlLive(position) < 0,
+          }"
+        >
+          <p>
+            PnL (live):
+            <span class="font-semibold">
+              {{ formatAmount(pnlLive(position)) }}
+              ({{ formatPercentage(pnlPercentageLive(position)) }})
+            </span>
           </p>
         </div>
         <div class="bg-yellow-950 text-yellow-300 p-4">
@@ -206,13 +223,15 @@ import {
 } from '../../utils'
 import type { Position } from '../../models/position.ts'
 import { onMounted } from 'vue'
-import { getPosition } from '../../api'
+import { getPairs, getPosition } from '../../api'
 import { ref } from 'vue'
 import Info from '../../icons/Info.vue'
+import type { Pair } from '../../models/pair.ts'
 
 const hasError = ref<boolean>(false)
 const isLoading = ref<boolean>(true)
 const position = ref<Position | null>(null)
+const pairs = ref<Pair[]>([])
 
 const props = defineProps({
   id: {
@@ -229,10 +248,27 @@ async function refresh() {
   isLoading.value = true
   try {
     position.value = await getPosition(parseInt(props.id))
+    if (!position.value.is_closed) {
+      pairs.value = await getPairs()
+    }
   } catch (error: unknown) {
     hasError.value = true
   } finally {
     isLoading.value = false
   }
+}
+
+function getPair(pair: string) {
+  return pairs.value.filter((p: Pair) => p.name === pair)[0]
+}
+
+function pnlLive(position: Position): number {
+  const pair = getPair(position.pair)
+  return (pair.price - position.buy_price) * position.quantity
+}
+
+function pnlPercentageLive(position: Position) {
+  const pair = getPair(position.pair)
+  return ((pair.price - position.buy_price) / position.buy_price) * 100
 }
 </script>

@@ -1,11 +1,16 @@
 ---
 import IndexLayout from '../../layouts/IndexLayout.astro'
-import PositionsTable from '../../components/positions/PositionsTable.vue'
+import PositionsOpenedTable from '../../components/positions/PositionsOpenedTable.vue'
+import PositionsClosedTable from '../../components/positions/PositionsClosedTable.vue'
 ---
 
 <IndexLayout>
   <header>
+    <h1>Opened positions</h1>
+  </header>
+  <PositionsOpenedTable client:load />
+  <header class="mt-12">
     <h1>Closed positions</h1>
   </header>
-  <PositionsTable client:load />
+  <PositionsClosedTable client:load />
 </IndexLayout>
