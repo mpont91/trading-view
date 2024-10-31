@@ -7,7 +7,7 @@ export type OrderComment =
   | 'TRAILING'
 
 export interface Position {
-  id?: number
+  id: number
   is_closed: boolean
   is_trailing: boolean
   pair: string

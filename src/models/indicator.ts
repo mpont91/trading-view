@@ -1,7 +1,7 @@
 import type { Signal } from './signal'
 
 export interface Indicator {
-  id?: number
+  id: number
   name: string
   pair: string
   current_price: number
