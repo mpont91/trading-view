@@ -31,7 +31,11 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import { formatAmount, formatDate, formatNumber } from '../../utils.ts'
+import {
+  formatAmount,
+  formatDate,
+  formatNumber,
+} from '../../helpers/format-helper.ts'
 import type { Pair } from '../../models/pair.ts'
 import type { Balance } from '../../models/balance.ts'
 

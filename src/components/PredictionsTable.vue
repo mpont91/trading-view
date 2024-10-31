@@ -49,7 +49,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { formatAmount, formatDate } from '../utils.ts'
+import { formatAmount, formatDate } from '../helpers/format-helper.ts'
 import { getPairs, getPredictions } from '../api.ts'
 import TableNavigation from './shared/TableNavigation.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'

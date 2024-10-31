@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getPairs } from '../api.ts'
-import { formatAmount, formatDate } from '../utils.ts'
+import { formatAmount, formatDate } from '../helpers/format-helper.ts'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Pair } from '../models/pair.ts'
 

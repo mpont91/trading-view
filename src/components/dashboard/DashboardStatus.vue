@@ -19,7 +19,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { formatTime } from '../../utils.ts'
+import { formatTime } from '../../helpers/format-helper.ts'
 import type { DashboardStatus } from '../../models/dashboard.ts'
 import type { PropType } from 'vue'
 

@@ -63,7 +63,11 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import type { DashboardLifetime } from '../../models/dashboard.ts'
-import { formatAmount, formatNumber, formatPercentage } from '../../utils.ts'
+import {
+  formatAmount,
+  formatNumber,
+  formatPercentage,
+} from '../../helpers/format-helper.ts'
 
 defineProps({
   lifetime: {

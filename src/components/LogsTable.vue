@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { getLogs } from '../api'
-import { formatDate } from '../utils.ts'
+import { formatDate } from '../helpers/format-helper.ts'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import TableNavigation from './shared/TableNavigation.vue'
 import SearchField from './shared/SearchField.vue'

@@ -45,7 +45,7 @@ import {
   formatDate,
   formatNumber,
   formatPercentage,
-} from '../../utils.ts'
+} from '../../helpers/format-helper.ts'
 
 const props = defineProps({
   positions: {

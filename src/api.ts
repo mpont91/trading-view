@@ -6,7 +6,7 @@ import type { Balance } from './models/balance.ts'
 import type { Prediction } from './models/prediction.ts'
 import type { SearchCriteria } from './models/search-criteria.ts'
 import type { Pagination } from './models/pagination.ts'
-import { buildQueryParams } from './utils.ts'
+import { buildQueryParams } from './helpers/search-criteria-helper.ts'
 import type { Indicator } from './models/indicator.ts'
 import type { Holding } from './models/holding.ts'
 

@@ -220,7 +220,7 @@ import {
   formatDate,
   formatNumber,
   formatPercentage,
-} from '../../utils'
+} from '../../helpers/format-helper.ts'
 import type { Position } from '../../models/position.ts'
 import { onMounted } from 'vue'
 import { getPairs, getPosition } from '../../api'

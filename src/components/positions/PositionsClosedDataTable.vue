@@ -50,7 +50,7 @@ import {
   formatDate,
   formatNumber,
   formatPercentage,
-} from '../../utils.ts'
+} from '../../helpers/format-helper.ts'
 
 defineProps({
   positions: {

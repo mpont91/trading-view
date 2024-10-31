@@ -33,7 +33,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { formatAmount, formatPercentage } from '../../utils.ts'
+import { formatAmount, formatPercentage } from '../../helpers/format-helper.ts'
 import type { PropType } from 'vue'
 import type { DashboardPerformance } from '../../models/dashboard.ts'
 
