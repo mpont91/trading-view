@@ -18,7 +18,11 @@
             <td>
               {{
                 formatAmount(
-                  calculateAmount(balance.currency, balance.quantity),
+                  calculateAmountInBaseCurrency(
+                    balance.currency,
+                    balance.quantity,
+                    pairs,
+                  ),
                 )
               }}
             </td>
@@ -38,8 +42,9 @@ import {
 } from '../../helpers/format-helper.ts'
 import type { Pair } from '../../models/pair.ts'
 import type { Balance } from '../../models/balance.ts'
+import { calculateAmountInBaseCurrency } from '../../helpers/pairs-helper.ts'
 
-const props = defineProps({
+defineProps({
   balances: {
     type: Array as PropType<Balance[]>,
     default: () => [],
@@ -49,16 +54,4 @@ const props = defineProps({
     default: () => [],
   },
 })
-
-function calculateAmount(currency: string, quantity: number): number {
-  if (currency === 'USDC') return quantity
-
-  const pair = props.pairs.find((pair) => pair.name === `${currency}USDC`)
-
-  if (!pair) {
-    return 0
-  }
-
-  return quantity * pair.price
-}
 </script>

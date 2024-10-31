@@ -11,6 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { signalColor } from '../../helpers/signal-helper.ts'
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -98,21 +99,4 @@ const signalCounts = computed(() => {
     {} as Record<string, number>,
   )
 })
-
-function signalColor(signal: Signal): string {
-  switch (signal) {
-    case 'STRONG BUY':
-      return '#14532d'
-    case 'BUY':
-      return '#22c55e'
-    case 'SELL':
-      return '#f87171'
-    case 'STRONG SELL':
-      return '#7f1d1d'
-    case 'HOLD':
-      return '#eab308'
-    default:
-      return 'transparent'
-  }
-}
 </script>

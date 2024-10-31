@@ -55,6 +55,7 @@ import TableNavigation from './shared/TableNavigation.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Prediction } from '../models/prediction.ts'
 import SelectorMultiple from './shared/SelectorMultiple.vue'
+import type { Pair } from '../models/pair.ts'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])

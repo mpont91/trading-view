@@ -14,22 +14,23 @@
       </thead>
       <tbody>
         <tr
-          @click="showPosition(position)"
+          @click="showPositionLink(position)"
           class="cursor-pointer hover:bg-neutral-800"
-          :class="{
-            'bg-green-950': pnlLive(position) >= 0,
-            'bg-red-950': pnlLive(position) < 0,
-          }"
+          :class="pnlClass(pnlLive(position, pairs))"
           v-for="position in positions"
         >
           <td>{{ position.id }}</td>
           <td>{{ position.pair }}</td>
           <td class="text-right">{{ formatAmount(position.amount) }}</td>
-          <td class="text-right">$ {{ formatNumber(position.buy_price) }}</td>
-          <td class="text-right">{{ formatDate(position.buy_at) }}</td>
-          <td class="text-right">{{ formatAmount(pnlLive(position)) }}</td>
           <td class="text-right">
-            {{ formatPercentage(pnlPercentageLive(position)) }}
+            {{ fiatCurrency }} {{ formatNumber(position.buy_price) }}
+          </td>
+          <td class="text-right">{{ formatDate(position.buy_at) }}</td>
+          <td class="text-right">
+            {{ formatAmount(pnlLive(position, pairs)) }}
+          </td>
+          <td class="text-right">
+            {{ formatPercentage(pnlPercentageLive(position, pairs)) }}
           </td>
         </tr>
       </tbody>
@@ -46,8 +47,14 @@ import {
   formatNumber,
   formatPercentage,
 } from '../../helpers/format-helper.ts'
+import {
+  fiatCurrency,
+  pnlLive,
+  pnlPercentageLive,
+} from '../../helpers/pairs-helper.ts'
+import { pnlClass, showPositionLink } from '../../helpers/position-helper.ts'
 
-const props = defineProps({
+defineProps({
   positions: {
     type: Array as PropType<Position[]>,
     default: () => [],
@@ -57,23 +64,4 @@ const props = defineProps({
     default: () => [],
   },
 })
-
-function getPair(pair: string) {
-  return props.pairs.filter((p: Pair) => p.name === pair)[0]
-}
-
-function pnlLive(position: Position): number {
-  const pair = getPair(position.pair)
-  return (pair.price - position.buy_price) * position.quantity
-}
-
-function pnlPercentageLive(position: Position) {
-  const pair = getPair(position.pair)
-  return ((pair.price - position.buy_price) / position.buy_price) * 100
-}
-
-function showPosition(position: Position) {
-  const url = `/positions/${position.id}`
-  window.open(url, '_blank')
-}
 </script>

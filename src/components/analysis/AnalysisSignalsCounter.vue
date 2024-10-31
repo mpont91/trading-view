@@ -12,6 +12,7 @@
 </template>
 <script setup lang="ts">
 import type { PropType } from 'vue'
+import { signals } from '../../helpers/signal-helper.ts'
 
 defineProps({
   signalCounts: {
@@ -23,6 +24,4 @@ defineProps({
     required: true,
   },
 })
-
-const signals = ['STRONG BUY', 'BUY', 'HOLD', 'SELL', 'STRONG SELL']
 </script>

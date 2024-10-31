@@ -63,6 +63,7 @@ import TableNavigation from './shared/TableNavigation.vue'
 import ErrorMessage from './shared/ErrorMessage.vue'
 import type { Indicator } from '../models/indicator.ts'
 import SelectorMultiple from './shared/SelectorMultiple.vue'
+import type { Pair } from '../models/pair.ts'
 
 const hasError = ref<boolean>(false)
 const indicators = ref<Indicator[]>([])

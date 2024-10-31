@@ -15,12 +15,9 @@
       </thead>
       <tbody>
         <tr
-          @click="showPosition(position)"
+          @click="showPositionLink(position)"
           class="cursor-pointer hover:bg-neutral-800"
-          :class="{
-            'bg-green-950': position.pnl! >= 0,
-            'bg-red-950': position.pnl! < 0,
-          }"
+          :class="pnlClass(position.pnl!)"
           v-for="position in positions"
         >
           <td>
@@ -28,9 +25,13 @@
           </td>
           <td>{{ position.pair }}</td>
           <td class="text-right">{{ formatAmount(position.amount) }}</td>
-          <td class="text-right">$ {{ formatNumber(position.buy_price) }}</td>
+          <td class="text-right">
+            {{ fiatCurrency }} {{ formatNumber(position.buy_price) }}
+          </td>
           <td class="text-right">{{ formatDate(position.buy_at) }}</td>
-          <td class="text-right">$ {{ formatNumber(position.sell_price) }}</td>
+          <td class="text-right">
+            {{ fiatCurrency }} {{ formatNumber(position.sell_price) }}
+          </td>
           <td class="text-right">{{ formatDate(position.sell_at) }}</td>
           <td class="text-right">{{ formatAmount(position.pnl) }}</td>
           <td class="text-right">
@@ -51,6 +52,12 @@ import {
   formatNumber,
   formatPercentage,
 } from '../../helpers/format-helper.ts'
+import { fiatCurrency } from '../../helpers/pairs-helper.ts'
+import {
+  fieldsMapping,
+  pnlClass,
+  showPositionLink,
+} from '../../helpers/position-helper.ts'
 
 defineProps({
   positions: {
@@ -69,24 +76,7 @@ defineProps({
 
 const emit = defineEmits(['sort'])
 
-const fieldsMapping: { name: string; value: string }[] = [
-  { name: 'id', value: 'id' },
-  { name: 'pair', value: 'pair' },
-  { name: 'amount $', value: 'amount' },
-  { name: 'buy price $', value: 'buy_price' },
-  { name: 'buy at', value: 'buy_at' },
-  { name: 'sell price $', value: 'sell_price' },
-  { name: 'sell at', value: 'sell_at' },
-  { name: 'pnl $', value: 'pnl' },
-  { name: 'pnl %', value: 'pnl_percentage' },
-]
-
 function sort(field: string) {
   emit('sort', field)
-}
-
-function showPosition(position: Position) {
-  const url = `/positions/${position.id}`
-  window.open(url, '_blank')
 }
 </script>

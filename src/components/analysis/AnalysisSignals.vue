@@ -67,6 +67,11 @@ import SelectorSingle from '../shared/SelectorSingle.vue'
 import Loading from '../shared/Loading.vue'
 import DateRangeField from '../shared/DateRangeField.vue'
 import type { Pair } from '../../models/pair.ts'
+import { indicatorNames as indicatorsListNames } from '../../helpers/indicators-helper.ts'
+import {
+  dateTimeFormatLocale,
+  dateTimeFormatOptions,
+} from '../../helpers/format-helper.ts'
 
 const hasError = ref<boolean>(false)
 const predictions = ref<Prediction[]>([])
@@ -76,7 +81,7 @@ const selectedPairPrediction = ref<string | null>(null)
 const selectedPairIndicator = ref<string | null>(null)
 const pairs = ref<string[]>([])
 const selectedIndicatorName = ref<string | null>(null)
-const indicatorNames = ref<string[]>(['SMA', 'EMA', 'MACD', 'RSI'])
+const indicatorNames = ref<string[]>(indicatorsListNames)
 const predictionsDateFrom = ref(
   new Date(new Date().setDate(new Date().getDate() - 1)),
 )
@@ -168,27 +173,19 @@ const pricesIndicator = computed(() =>
 
 const datesPrediction = computed(() =>
   predictions.value.map((prediction: Prediction) =>
-    new Date(prediction.created_at).toLocaleString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    }),
+    new Date(prediction.created_at).toLocaleString(
+      dateTimeFormatLocale,
+      dateTimeFormatOptions,
+    ),
   ),
 )
 
 const datesIndicator = computed(() =>
   indicators.value.map((indicator: Indicator) =>
-    new Date(indicator.created_at).toLocaleString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    }),
+    new Date(indicator.created_at).toLocaleString(
+      dateTimeFormatLocale,
+      dateTimeFormatOptions,
+    ),
   ),
 )
 

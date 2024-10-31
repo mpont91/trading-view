@@ -55,7 +55,7 @@
           <p>
             Price:
             <span class="font-semibold">
-              $ {{ formatNumber(position.buy_price) }}
+              {{ fiatCurrency }} {{ formatNumber(position.buy_price) }}
             </span>
           </p>
         </div>
@@ -63,7 +63,8 @@
           <p>
             Commission:
             <span class="font-semibold">
-              {{ formatNumber(position.buy_commission_quantity) }} BNB ($
+              {{ formatNumber(position.buy_commission_quantity) }}
+              {{ commissionsCurrency }} ($
               {{ formatNumber(position.buy_commission_amount) }})
             </span>
           </p>
@@ -93,7 +94,7 @@
           <p>
             Price:
             <span class="font-semibold">
-              $ {{ formatNumber(position.sell_price) }}
+              {{ fiatCurrency }} {{ formatNumber(position.sell_price) }}
             </span>
           </p>
         </div>
@@ -101,7 +102,8 @@
           <p>
             Commission:
             <span class="font-semibold">
-              {{ formatNumber(position.sell_commission_quantity) }} BNB ($
+              {{ formatNumber(position.sell_commission_quantity) }}
+              {{ commissionsCurrency }} ($
               {{ formatNumber(position.sell_commission_amount) }})
             </span>
           </p>
@@ -130,11 +132,7 @@
         <div
           v-if="position.is_closed"
           class="p-4"
-          :class="{
-            'bg-blue-950 text-blue-300': position.pnl! === 0,
-            'bg-green-950 text-green-300': position.pnl! > 0,
-            'bg-red-950 text-red-300': position.pnl! < 0,
-          }"
+          :class="pnlClass(position.pnl!)"
         >
           <p>
             PnL:
@@ -144,20 +142,12 @@
             </span>
           </p>
         </div>
-        <div
-          v-else
-          class="p-4"
-          :class="{
-            'bg-blue-950 text-blue-300': pnlLive(position) === 0,
-            'bg-green-950 text-green-300': pnlLive(position) > 0,
-            'bg-red-950 text-red-300': pnlLive(position) < 0,
-          }"
-        >
+        <div v-else class="p-4" :class="pnlClass(pnlLive(position, pairs))">
           <p>
             PnL (live):
             <span class="font-semibold">
-              {{ formatAmount(pnlLive(position)) }}
-              ({{ formatPercentage(pnlPercentageLive(position)) }})
+              {{ formatAmount(pnlLive(position, pairs)) }}
+              ({{ formatPercentage(pnlPercentageLive(position, pairs)) }})
             </span>
           </p>
         </div>
@@ -165,7 +155,8 @@
           <p>
             Total commission:
             <span class="font-semibold">
-              {{ formatNumber(position.total_commission_quantity) }} BNB ($
+              {{ formatNumber(position.total_commission_quantity) }}
+              {{ commissionsCurrency }} ($
               {{ formatNumber(position.total_commission_amount) }})
             </span>
           </p>
@@ -179,7 +170,7 @@
           <p>
             Stop profit:
             <span class="font-semibold">
-              $ {{ formatNumber(position.stop_profit) }}
+              {{ fiatCurrency }} {{ formatNumber(position.stop_profit) }}
             </span>
           </p>
         </div>
@@ -187,7 +178,7 @@
           <p>
             Stop loss:
             <span class="font-semibold">
-              $ {{ formatNumber(position.stop_loss) }}
+              {{ fiatCurrency }} {{ formatNumber(position.stop_loss) }}
             </span>
           </p>
         </div>
@@ -195,7 +186,7 @@
           <p>
             Trailing highest:
             <span v-if="position.is_trailing" class="font-semibold">
-              $ {{ formatNumber(position.trailing_highest) }}
+              {{ fiatCurrency }} {{ formatNumber(position.trailing_highest) }}
             </span>
             <span v-else class="font-semibold"> - </span>
           </p>
@@ -204,7 +195,7 @@
           <p>
             Trailing lowest:
             <span v-if="position.is_trailing" class="font-semibold">
-              $ {{ formatNumber(position.trailing_lowest) }}
+              {{ fiatCurrency }} {{ formatNumber(position.trailing_lowest) }}
             </span>
             <span v-else class="font-semibold"> - </span>
           </p>
@@ -227,6 +218,13 @@ import { getPairs, getPosition } from '../../api'
 import { ref } from 'vue'
 import Info from '../../icons/Info.vue'
 import type { Pair } from '../../models/pair.ts'
+import {
+  commissionsCurrency,
+  fiatCurrency,
+  pnlLive,
+  pnlPercentageLive,
+} from '../../helpers/pairs-helper.ts'
+import { pnlClass } from '../../helpers/position-helper.ts'
 
 const hasError = ref<boolean>(false)
 const isLoading = ref<boolean>(true)
@@ -256,19 +254,5 @@ async function refresh() {
   } finally {
     isLoading.value = false
   }
-}
-
-function getPair(pair: string) {
-  return pairs.value.filter((p: Pair) => p.name === pair)[0]
-}
-
-function pnlLive(position: Position): number {
-  const pair = getPair(position.pair)
-  return (pair.price - position.buy_price) * position.quantity
-}
-
-function pnlPercentageLive(position: Position) {
-  const pair = getPair(position.pair)
-  return ((pair.price - position.buy_price) / position.buy_price) * 100
 }
 </script>

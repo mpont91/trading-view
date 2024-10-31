@@ -27,14 +27,17 @@
         <p>
           Total invested in commissions:
           <span class="font-semibold">
-            {{ formatNumber(lifetime.total_invested_commission_quantity) }} BNB
-            ({{ formatAmount(lifetime.total_invested_commission_amount) }})
+            {{ formatNumber(lifetime.total_invested_commission_quantity) }}
+            {{ commissionsCurrency }} ({{
+              formatAmount(lifetime.total_invested_commission_amount)
+            }})
           </span>
         </p>
         <p>
           Current value available:
           <span class="font-semibold">
-            {{ formatNumber(lifetime.current_commission_quantity) }} BNB ({{
+            {{ formatNumber(lifetime.current_commission_quantity) }}
+            {{ commissionsCurrency }} ({{
               formatAmount(lifetime.current_commission_amount)
             }})
           </span>
@@ -48,7 +51,7 @@
                   lifetime.current_commission_quantity,
               )
             }}
-            BNB ({{
+            {{ commissionsCurrency }} ({{
               formatAmount(
                 lifetime.total_invested_commission_amount -
                   lifetime.current_commission_amount,
@@ -68,6 +71,7 @@ import {
   formatNumber,
   formatPercentage,
 } from '../../helpers/format-helper.ts'
+import { commissionsCurrency } from '../../helpers/pairs-helper.ts'
 
 defineProps({
   lifetime: {

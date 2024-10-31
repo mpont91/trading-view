@@ -26,6 +26,13 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import {
+  graphDefaultDateFrom,
+  graphDefaultDateTo,
+  graphOptionsBackgroundColor,
+  graphOptionsBorderColor,
+  graphOptionsLabel,
+} from '../../helpers/holdings-helper.ts'
 
 ChartJS.register(
   CategoryScale,
@@ -39,8 +46,8 @@ ChartJS.register(
 
 const isLoading = ref<boolean>(true)
 const hasError = ref<boolean>(false)
-const dateFrom = ref(new Date(new Date().setMonth(new Date().getMonth() - 1)))
-const dateTo = ref(new Date())
+const dateFrom = ref(graphDefaultDateFrom)
+const dateTo = ref(graphDefaultDateTo)
 const holdings = ref<Holding[]>([])
 
 onMounted(async () => {
@@ -51,9 +58,9 @@ const data = computed(() => ({
   labels: dates.value,
   datasets: [
     {
-      label: 'Amount ($)',
-      backgroundColor: '#22c55e',
-      borderColor: '#166534',
+      label: graphOptionsLabel,
+      backgroundColor: graphOptionsBackgroundColor,
+      borderColor: graphOptionsBorderColor,
       data: amounts.value,
     },
   ],
