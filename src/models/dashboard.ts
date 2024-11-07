@@ -7,15 +7,9 @@ export interface DashboardStatus {
   uptime: number
 }
 
-export interface DashboardLifetime {
-  total_invested: number
-  current_value: number
-  pnl: number
-  pnl_percentage: number
-  total_invested_commission_amount: number
-  total_invested_commission_quantity: number
-  current_commission_amount: number
-  current_commission_quantity: number
+export interface DashboardCommissions {
+  amount_available: number
+  quantity_available: number
 }
 
 export interface DashboardPerformance {
@@ -24,6 +18,8 @@ export interface DashboardPerformance {
   failed_trades: number
   total_pnl: number
   total_pnl_percentage: number
+  total_commission_amount_paid: number
+  total_commission_quantity_paid: number
 }
 
 export interface DashboardLogs {
@@ -32,8 +28,8 @@ export interface DashboardLogs {
 
 export interface Dashboard {
   status: DashboardStatus
-  lifetime: DashboardLifetime
   performance: DashboardPerformance
+  commissions: DashboardCommissions
   opened_positions: Position[]
   logs: DashboardLogs
   balances: Balance[]

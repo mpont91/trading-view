@@ -4,12 +4,13 @@
   <div v-if="!hasError && !isLoading" class="mx-auto py-4">
     <DashboardStatus v-if="dashboard?.status" :status="dashboard.status" />
     <DashboardHoldings />
-    <DashboardLifetime
-      v-if="dashboard?.lifetime"
-      :lifetime="dashboard.lifetime"
-    />
     <DashboardPerformance
       v-if="dashboard?.performance"
+      :performance="dashboard.performance"
+    />
+    <DashboardCommissions
+      v-if="dashboard?.commissions && dashboard?.performance"
+      :commissions="dashboard.commissions"
       :performance="dashboard.performance"
     />
     <DashboardBalances
@@ -35,7 +36,7 @@ import DashboardLogs from './DashboardLogs.vue'
 import ErrorMessage from '../shared/ErrorMessage.vue'
 import DashboardBalances from './DashboardBalances.vue'
 import type { Dashboard } from '../../models/dashboard.ts'
-import DashboardLifetime from './DashboardLifetime.vue'
+import DashboardCommissions from './DashboardCommissions.vue'
 import Loading from '../shared/Loading.vue'
 import DashboardHoldings from './DashboardHoldings.vue'
 
