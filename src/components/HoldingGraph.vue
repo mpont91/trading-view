@@ -1,13 +1,14 @@
 <template>
   <Card>
     <h2>Holdings</h2>
-    <Line :data="data" />
+    <Line :data="data" :options="options" />
   </Card>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PropType } from 'vue'
 import type { Holding } from '../models/holding'
+import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import Card from './Card.vue'
 import {
@@ -47,6 +48,18 @@ const data = computed(() => ({
     },
   ],
 }))
+
+const options: ChartOptions<'line'> = {
+  responsive: true,
+  scales: {
+    x: {
+      ticks: {
+        maxRotation: 0,
+        minRotation: 0,
+      },
+    },
+  },
+}
 
 const dates = computed(() =>
   props.holdings.map((holding: Holding) =>
