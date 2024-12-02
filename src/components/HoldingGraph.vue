@@ -1,6 +1,7 @@
 <template>
   <Card>
     <h2>Holdings</h2>
+    <GraphInterval v-model="interval" />
     <Line :data="data" :options="options" />
   </Card>
 </template>
@@ -20,6 +21,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import GraphInterval from './GraphInterval.vue'
 
 ChartJS.register(
   CategoryScale,
@@ -31,11 +33,17 @@ ChartJS.register(
 )
 
 const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
+  },
   holdings: {
     type: Array as PropType<Holding[]>,
     default: () => [],
   },
 })
+
+const emit = defineEmits(['update:modelValue'])
 
 const data = computed(() => ({
   labels: dates.value,
@@ -48,6 +56,11 @@ const data = computed(() => ({
     },
   ],
 }))
+
+const interval = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
+})
 
 const options: ChartOptions<'line'> = {
   responsive: true,
