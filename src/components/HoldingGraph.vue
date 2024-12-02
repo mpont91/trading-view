@@ -22,6 +22,7 @@ import {
   Legend,
 } from 'chart.js'
 import GraphInterval from './GraphInterval.vue'
+import type { TimeInterval } from '../types/time-interval.ts'
 
 ChartJS.register(
   CategoryScale,
@@ -66,21 +67,42 @@ const options: ChartOptions<'line'> = {
   responsive: true,
   scales: {
     x: {
+      grid: {
+        color: '#525252',
+      },
       ticks: {
+        callback: (_, index) => formatLabel(dates.value[index], interval.value),
+        autoSkip: true,
         maxRotation: 0,
         minRotation: 0,
+      },
+    },
+    y: {
+      grid: {
+        color: '#525252',
       },
     },
   },
 }
 
 const dates = computed(() =>
-  props.holdings.map((holding: Holding) =>
-    new Date(holding.createdAt).toLocaleDateString(),
-  ),
+  props.holdings.map((holding: Holding) => holding.createdAt),
 )
 
 const amounts = computed(() =>
   props.holdings.map((holding: Holding) => holding.amount),
 )
+
+function formatLabel(dateString: Date, interval: TimeInterval): string {
+  const date = new Date(dateString)
+  switch (interval) {
+    case 'day':
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    default:
+      return date.toLocaleDateString([], {
+        month: 'short',
+        day: 'numeric',
+      })
+  }
+}
 </script>
