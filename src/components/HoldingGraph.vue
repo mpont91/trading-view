@@ -1,7 +1,7 @@
 <template>
   <Card>
     <h2>Holdings</h2>
-    <GraphInterval v-model="interval" />
+    <GraphInterval class="float-right mb-4" v-model="interval" />
     <Line :data="data" :options="options" />
   </Card>
 </template>
