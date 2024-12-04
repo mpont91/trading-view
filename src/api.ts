@@ -13,13 +13,17 @@ export async function getHoldingGraph(
   interval: TimeInterval,
 ): Promise<Holding[]> {
   const queryParams: string = `interval=${interval}`
-  const response: Response = await fetch(api + `graph/holding?${queryParams}`)
-  const json = await response.json()
-  return json.data
+  const endpoint: string = `graph/holding?${queryParams}`
+  return fetchJsonData<Holding[]>(endpoint)
 }
 
 export async function getPerformance(): Promise<Performance> {
-  const response: Response = await fetch(api + `performance`)
+  const endpoint: string = 'performance'
+  return fetchJsonData<Performance>(endpoint)
+}
+
+async function fetchJsonData<T>(endpoint: string): Promise<T> {
+  const response: Response = await fetch(api + endpoint)
   const json = await response.json()
   return json.data
 }
