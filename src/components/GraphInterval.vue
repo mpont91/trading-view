@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex rounded-md shadow-sm" role="group">
+  <div class="inline-flex shadow-sm" role="group">
     <button
       v-for="option in timeIntervalOptions"
       :key="option"
@@ -13,8 +13,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { timeIntervalOptions } from '../types/time-interval'
 import { computed } from 'vue'
+import { timeIntervalOptions } from '../types/time-interval'
 
 const props = defineProps({
   modelValue: {
