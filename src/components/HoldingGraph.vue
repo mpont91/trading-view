@@ -1,7 +1,10 @@
 <template>
   <Card>
     <h2>Holdings</h2>
-    <GraphInterval class="float-right mb-4" v-model="interval" />
+    <p class="text-xl font-extrabold text-lime-600">
+      {{ formatAmount(currentHolding) }}
+    </p>
+    <GraphInterval class="my-4 sm:float-right" v-model="interval" />
     <Line :data="data" :options="options" />
   </Card>
 </template>
@@ -23,6 +26,7 @@ import {
 } from 'chart.js'
 import GraphInterval from './GraphInterval.vue'
 import type { TimeInterval } from '../types/time-interval.ts'
+import { formatAmount } from '../helpers/format-helper.ts'
 
 ChartJS.register(
   CategoryScale,
@@ -92,6 +96,14 @@ const dates = computed(() =>
 const amounts = computed(() =>
   props.holdings.map((holding: Holding) => holding.amount),
 )
+
+const currentHolding = computed(() => {
+  if (props.holdings.length === 0) {
+    return 0
+  }
+
+  return props.holdings[props.holdings.length - 1].amount
+})
 
 function formatLabel(dateString: Date, interval: TimeInterval): string {
   const date = new Date(dateString)

@@ -4,7 +4,7 @@
       v-for="option in timeIntervalOptions"
       :key="option"
       type="button"
-      class="px-4 py-2 capitalize text-sm font-medium border bg-neutral-800 border-neutral-700 text-white hover:bg-neutral-700"
+      class="px-4 py-2 capitalize text-xs font-medium border bg-neutral-800 border-neutral-700 text-white hover:bg-neutral-700"
       :class="{ 'bg-neutral-900': option === active }"
       @click="updateActive(option)"
     >

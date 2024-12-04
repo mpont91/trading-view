@@ -1,6 +1,6 @@
 <template>
   <Card
-    class="animate-pulse h-72 2xl:h-[858px] xl:h-[730px] lg:h-[602px] md:h-[474px] sm:h-[410px]"
+    class="animate-pulse h-[350px] 2xl:h-[914px] xl:h-[786px] lg:h-[658px] md:h-[530px] sm:h-[466px]"
   >
     <h2>Holdings</h2>
   </Card>
