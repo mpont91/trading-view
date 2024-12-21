@@ -23,8 +23,8 @@
       <div
         class="p-4"
         :class="{
-          'bg-emerald-950 text-emerald-300': performance.net >= 0,
-          'bg-rose-950 text-rose-300': performance.net < 0,
+          'bg-emerald-950 text-emerald-300': performance.pnl >= 0,
+          'bg-rose-950 text-rose-300': performance.pnl < 0,
         }"
       >
         <p>
