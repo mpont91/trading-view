@@ -75,7 +75,8 @@ const options: ChartOptions<'line'> = {
         color: '#525252',
       },
       ticks: {
-        callback: (_, index) => formatLabel(dates.value[index], interval.value),
+        callback: (_, index) =>
+          formatLabel(dates.value[index], interval.value as TimeInterval),
         autoSkip: true,
         maxRotation: 0,
         minRotation: 0,

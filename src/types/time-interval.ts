@@ -1,4 +1,4 @@
-export const timeIntervalOptions: string[] = [
+export const timeIntervalOptions = [
   'day',
   'week',
   'month',
