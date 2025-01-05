@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import Menu from '../icons/Menu.vue'
 
+const { tradingMode } = Astro.params
 const currentPath: string = Astro.url.pathname
 ---
 
@@ -9,9 +10,12 @@ const currentPath: string = Astro.url.pathname
   <div
     class="container flex flex-wrap items-center justify-between mx-auto p-4"
   >
-    <a href="/">
-      <Image src="/logo.webp" alt="Trading bot logo" width="50" height="50" />
-    </a>
+    <div class="flex items-center">
+      <a href="/">
+        <Image src="/logo.webp" alt="Trading bot logo" width="50" height="50" />
+      </a>
+      <p>{tradingMode}</p>
+    </div>
     <button
       data-collapse-toggle="navbar-solid-bg"
       type="button"

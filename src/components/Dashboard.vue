@@ -8,6 +8,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
+import type { PropType } from 'vue'
 import { TradingApi } from '../trading-api.ts'
 import type { Holding } from '../models/holding.ts'
 import type { TimeInterval } from '../types/time-interval.ts'
@@ -17,8 +18,16 @@ import Performance from './Performance.vue'
 import HoldingGraphSkeleton from './skeletons/HoldingGraphSkeleton.vue'
 import PerformanceSkeleton from './skeletons/PerformanceSkeleton.vue'
 import CardError from './errors/CardError.vue'
+import type { TradingMode } from '../types/trading-mode.ts'
 
-const api = new TradingApi('spot')
+const props = defineProps({
+  tradingMode: {
+    type: Object as PropType<TradingMode>,
+    required: true,
+  },
+})
+
+const api = new TradingApi(props.tradingMode)
 const interval = ref<TimeInterval>('all')
 const holdings = ref<Holding[]>([])
 const performance = ref<PerformanceType>({
