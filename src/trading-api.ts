@@ -2,6 +2,7 @@ import type { Holding } from './models/holding.ts'
 import type { TimeInterval } from './types/time-interval.ts'
 import type { Performance } from './types/performance.ts'
 import type { TradingMode } from './types/trading-mode.ts'
+import type { CommissionAvailable } from './types/commission-available.ts'
 
 export class TradingApi {
   private readonly tradingMode: TradingMode
@@ -32,6 +33,11 @@ export class TradingApi {
   async getPerformance(): Promise<Performance> {
     const endpoint: string = 'performance'
     return this.fetchJsonData<Performance>(endpoint)
+  }
+
+  async getCommissionAvailable(): Promise<CommissionAvailable> {
+    const endpoint: string = 'commission-available'
+    return this.fetchJsonData<CommissionAvailable>(endpoint)
   }
 
   private async fetchJsonData<T>(endpoint: string): Promise<T> {
