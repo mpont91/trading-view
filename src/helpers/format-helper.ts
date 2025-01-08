@@ -3,3 +3,29 @@ export function formatAmount(amount?: number): string {
 
   return `$ ${amount.toFixed(2)}`
 }
+
+export function formatTime(seconds: number): string {
+  const days: number = Math.floor(seconds / (24 * 60 * 60))
+  const hours: number = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60))
+  const minutes: number = Math.floor((seconds % (60 * 60)) / 60)
+  const remainingSeconds: number = Math.floor(seconds % 60)
+
+  const daysStr: string = days > 0 ? `${days} days,` : ''
+  const hoursStr: string = hours > 0 ? `${hours} hours,` : ''
+  const minutesStr: string = minutes > 0 ? `${minutes} minutes,` : ''
+
+  return `${daysStr} ${hoursStr} ${minutesStr} ${remainingSeconds} seconds`
+}
+
+export function formatDate(dateString: string): string {
+  const date: Date = new Date(dateString)
+
+  const year: number = date.getFullYear()
+  const month: string = String(date.getMonth() + 1).padStart(2, '0')
+  const day: string = String(date.getDate()).padStart(2, '0')
+  const hours: string = String(date.getHours()).padStart(2, '0')
+  const minutes: string = String(date.getMinutes()).padStart(2, '0')
+  const seconds: string = String(date.getSeconds()).padStart(2, '0')
+
+  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
+}

@@ -3,6 +3,7 @@ import type { TimeInterval } from './types/time-interval.ts'
 import type { Performance } from './types/performance.ts'
 import type { TradingMode } from './types/trading-mode.ts'
 import type { CommissionAvailable } from './types/commission-available.ts'
+import type { Trade } from './types/trade.ts'
 
 export class TradingApi {
   private readonly tradingMode: TradingMode
@@ -24,6 +25,11 @@ export class TradingApi {
     return response.ok
   }
 
+  async getUptime(): Promise<number> {
+    const endpoint: string = 'uptime'
+    return this.fetchJsonData<number>(endpoint)
+  }
+
   async getHoldingGraph(interval: TimeInterval): Promise<Holding[]> {
     const queryParams: string = `interval=${interval}`
     const endpoint: string = `graph/holding?${queryParams}`
@@ -38,6 +44,11 @@ export class TradingApi {
   async getCommissionAvailable(): Promise<CommissionAvailable> {
     const endpoint: string = 'commission-available'
     return this.fetchJsonData<CommissionAvailable>(endpoint)
+  }
+
+  async getLatestTrades(): Promise<Trade[]> {
+    const endpoint: string = 'latest-trades'
+    return this.fetchJsonData<Trade[]>(endpoint)
   }
 
   private async fetchJsonData<T>(endpoint: string): Promise<T> {

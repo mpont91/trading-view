@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets'
 import Menu from '../icons/Menu.vue'
 
-const { tradingMode } = Astro.params
+const tradingMode = Astro.params.tradingMode
 const navClass: string =
   tradingMode === 'futures'
     ? 'bg-indigo-800 border-indigo-700'
