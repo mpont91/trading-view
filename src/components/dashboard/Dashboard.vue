@@ -16,7 +16,9 @@
     :commission-available="commissionAvailable"
   />
 
-  <LatestTrades :trades="latestTrades" />
+  <LatestTradesSkeleton v-if="isLoadingLatestTrades" />
+  <CardError title="Latest trades" v-else-if="hasErrorLatestTrades" />
+  <LatestTrades v-else :trades="latestTrades" />
 </template>
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
@@ -37,6 +39,7 @@ import Status from './Status.vue'
 import StatusSkeleton from '../skeletons/StatusSkeleton.vue'
 import LatestTrades from './LatestTrades.vue'
 import type { Trade } from '../../types/trade.ts'
+import LatestTradesSkeleton from '../skeletons/LatestTradesSkeleton.vue'
 
 const props = defineProps({
   tradingMode: {
@@ -61,7 +64,7 @@ const commissionAvailable = ref<CommissionAvailableType>({
   id: 1,
   amount: 0,
   quantity: 0,
-  createdAt: new Date(),
+  createdAt: new Date().toString(),
 })
 const latestTrades = ref<Trade[]>([])
 

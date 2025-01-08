@@ -1,15 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 import Menu from '../icons/Menu.vue'
-import type { TradingMode } from '../types/trading-mode'
 
-const tradingModeParam: string | undefined = Astro.params.tradingMode
-
-if (!tradingModeParam || !['futures', 'spot'].includes(tradingModeParam)) {
-  throw new Error('Invalid trading mode: ' + tradingModeParam)
-}
-
-const tradingMode: TradingMode = tradingModeParam as TradingMode
+const tradingMode: string | undefined = Astro.params.tradingMode
 
 const navClass: string =
   tradingMode === 'futures'
