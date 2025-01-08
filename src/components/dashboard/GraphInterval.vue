@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { timeIntervalOptions } from '../types/time-interval'
+import { timeIntervalOptions } from '../../types/time-interval.ts'
 
 const props = defineProps({
   modelValue: {

@@ -11,10 +11,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PropType } from 'vue'
-import type { Holding } from '../models/holding'
+import type { Holding } from '../../models/holding.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import Card from './Card.vue'
+import Card from '../Card.vue'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,8 +25,8 @@ import {
   Legend,
 } from 'chart.js'
 import GraphInterval from './GraphInterval.vue'
-import type { TimeInterval } from '../types/time-interval.ts'
-import { formatAmount } from '../helpers/format-helper.ts'
+import type { TimeInterval } from '../../types/time-interval.ts'
+import { formatAmount } from '../../helpers/format-helper.ts'
 
 ChartJS.register(
   CategoryScale,

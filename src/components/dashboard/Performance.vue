@@ -60,10 +60,10 @@
   </Card>
 </template>
 <script setup lang="ts">
-import type { Performance } from '../types/performance.ts'
+import type { Performance } from '../../types/performance.ts'
 import type { PropType } from 'vue'
-import Card from './Card.vue'
-import { formatAmount } from '../helpers/format-helper.ts'
+import Card from '../Card.vue'
+import { formatAmount } from '../../helpers/format-helper.ts'
 
 defineProps({
   performance: {

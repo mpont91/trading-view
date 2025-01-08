@@ -14,10 +14,10 @@
   </Card>
 </template>
 <script setup lang="ts">
-import Card from './Card.vue'
-import { formatAmount } from '../helpers/format-helper.ts'
+import Card from '../Card.vue'
+import { formatAmount } from '../../helpers/format-helper.ts'
 import type { PropType } from 'vue'
-import type { CommissionAvailable } from '../types/commission-available.ts'
+import type { CommissionAvailable } from '../../types/commission-available.ts'
 
 defineProps({
   commissionAvailable: {
