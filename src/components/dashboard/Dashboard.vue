@@ -40,7 +40,7 @@ import type { Trade } from '../../types/trade.ts'
 
 const props = defineProps({
   tradingMode: {
-    type: Object as PropType<TradingMode>,
+    type: String as PropType<TradingMode>,
     required: true,
   },
 })

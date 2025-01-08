@@ -1,8 +1,9 @@
 ---
 import IndexLayout from '../../layouts/IndexLayout.astro'
 import Dashboard from '../../components/dashboard/Dashboard.vue'
+import { TradingMode } from '../../types/trading-mode'
 
-const tradingMode = Astro.params.tradingMode
+const tradingMode: TradingMode = Astro.params.tradingMode
 ---
 
 <IndexLayout>
