@@ -4,7 +4,7 @@
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div class="bg-emerald-950 text-emerald-300 p-4">
         <p>
-          <span class="font-semibold"> Futures trading bot is running!</span>
+          <span class="font-semibold"> Trading bot is running!</span>
         </p>
       </div>
       <div class="bg-sky-950 text-sky-300 p-4">
