@@ -28,9 +28,9 @@
             </th>
             <td class="px-6 py-4">{{ trade.side }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.entryDate) }}</td>
-            <td class="px-6 py-4">{{ formatAmount(trade.entryPrice) }}</td>
+            <td class="px-6 py-4">{{ formatNumber(trade.entryPrice) }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.exitDate) }}</td>
-            <td class="px-6 py-4">{{ formatAmount(trade.exitPrice) }}</td>
+            <td class="px-6 py-4">{{ formatNumber(trade.exitPrice) }}</td>
             <td class="px-6 py-4">{{ formatAmount(trade.profit) }}</td>
           </tr>
         </tbody>
@@ -42,7 +42,11 @@
 import Card from '../Card.vue'
 import type { PropType } from 'vue'
 import type { Trade } from '../../types/trade.ts'
-import { formatAmount, formatDate } from '../../helpers/format-helper.ts'
+import {
+  formatAmount,
+  formatNumber,
+  formatDate,
+} from '../../helpers/format-helper.ts'
 
 defineProps({
   trades: {

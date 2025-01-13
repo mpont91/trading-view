@@ -4,6 +4,22 @@ export function formatAmount(amount?: number): string {
   return `$ ${amount.toFixed(2)}`
 }
 
+export function formatNumber(number?: number): string {
+  if (number === null || number === undefined) return ''
+
+  const absNumber: number = Math.abs(number)
+
+  if (absNumber > 999) {
+    return Math.round(number).toString()
+  }
+
+  if (absNumber >= 99) {
+    return number.toFixed(2)
+  }
+
+  return number.toFixed(4)
+}
+
 export function formatTime(seconds: number): string {
   const days: number = Math.floor(seconds / (24 * 60 * 60))
   const hours: number = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60))

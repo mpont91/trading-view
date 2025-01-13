@@ -1,6 +1,5 @@
 export interface CommissionAvailable {
-  id: number
   quantity: number
+  symbol: string
   amount: number
-  createdAt: string
 }

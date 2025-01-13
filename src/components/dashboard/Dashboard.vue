@@ -11,10 +11,14 @@
   <CardError title="Performance" v-else-if="hasErrorPerformance" />
   <Performance v-else :performance="performance" />
 
-  <CommissionAvailable
-    v-if="tradingMode === 'spot'"
-    :commission-available="commissionAvailable"
-  />
+  <template v-if="tradingMode === 'spot'">
+    <CommissionAvailableSkeleton v-if="isLoadingCommissionAvailable" />
+    <CardError
+      title="Commission available"
+      v-else-if="hasErrorCommissionAvailable"
+    />
+    <CommissionAvailable v-else :commission-available="commissionAvailable" />
+  </template>
 
   <LatestTradesSkeleton v-if="isLoadingLatestTrades" />
   <CardError title="Latest trades" v-else-if="hasErrorLatestTrades" />
@@ -40,6 +44,7 @@ import StatusSkeleton from '../skeletons/StatusSkeleton.vue'
 import LatestTrades from './LatestTrades.vue'
 import type { Trade } from '../../types/trade.ts'
 import LatestTradesSkeleton from '../skeletons/LatestTradesSkeleton.vue'
+import CommissionAvailableSkeleton from '../skeletons/CommissionAvailableSkeleton.vue'
 
 const props = defineProps({
   tradingMode: {
@@ -61,10 +66,9 @@ const performance = ref<PerformanceType>({
   net: 0,
 })
 const commissionAvailable = ref<CommissionAvailableType>({
-  id: 1,
   amount: 0,
+  symbol: '',
   quantity: 0,
-  createdAt: new Date().toString(),
 })
 const latestTrades = ref<Trade[]>([])
 
@@ -74,6 +78,8 @@ const isLoadingHoldings = ref(true)
 const hasErrorHoldings = ref(false)
 const isLoadingPerformance = ref(true)
 const hasErrorPerformance = ref(false)
+const isLoadingCommissionAvailable = ref(true)
+const hasErrorCommissionAvailable = ref(false)
 const isLoadingLatestTrades = ref(true)
 const hasErrorLatestTrades = ref(false)
 
@@ -82,6 +88,10 @@ onMounted(() => {
   fetchHoldings()
   fetchPerformance()
   fetchLatestTrades()
+
+  if (props.tradingMode === 'spot') {
+    fetchCommissionAvailable()
+  }
 })
 
 watch(interval, () => {
@@ -121,6 +131,18 @@ async function fetchPerformance() {
     hasErrorPerformance.value = true
   } finally {
     isLoadingPerformance.value = false
+  }
+}
+
+async function fetchCommissionAvailable() {
+  hasErrorCommissionAvailable.value = false
+  isLoadingCommissionAvailable.value = true
+  try {
+    commissionAvailable.value = await api.getCommissionAvailable()
+  } catch (error) {
+    hasErrorCommissionAvailable.value = true
+  } finally {
+    isLoadingCommissionAvailable.value = false
   }
 }
 
