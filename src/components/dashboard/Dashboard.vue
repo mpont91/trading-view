@@ -3,21 +3,21 @@
   <CardError title="Status" v-else-if="hasErrorUptime" />
   <Status v-else :uptime="uptime" />
 
-  <HoldingGraphSkeleton v-if="isLoadingHoldings" />
-  <CardError title="Holdings" v-else-if="hasErrorHoldings" />
-  <HoldingGraph v-else v-model="interval" :holdings="holdings" />
+  <EquityGraphSkeleton v-if="isLoadingEquity" />
+  <CardError title="Equity" v-else-if="hasErrorEquity" />
+  <EquityGraph v-else v-model="interval" :equity="equity" />
 
   <PerformanceSkeleton v-if="isLoadingPerformance" />
   <CardError title="Performance" v-else-if="hasErrorPerformance" />
   <Performance v-else :performance="performance" />
 
   <template v-if="tradingMode === 'spot'">
-    <CommissionAvailableSkeleton v-if="isLoadingCommissionAvailable" />
+    <CommissionEquitySkeleton v-if="isLoadingCommissionEquity" />
     <CardError
       title="Commission available"
-      v-else-if="hasErrorCommissionAvailable"
+      v-else-if="hasErrorCommissionEquity"
     />
-    <CommissionAvailable v-else :commission-available="commissionAvailable" />
+    <CommissionEquity v-else :commission-equity="commissionEquity" />
   </template>
 
   <LatestTradesSkeleton v-if="isLoadingLatestTrades" />
@@ -28,23 +28,23 @@
 import { onMounted, ref, watch } from 'vue'
 import type { PropType } from 'vue'
 import { TradingApi } from '../../trading-api'
-import type { Holding } from '../../models/holding.ts'
+import type { Equity } from '../../models/equity.ts'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import type { Performance as PerformanceType } from '../../types/performance.ts'
-import type { CommissionAvailable as CommissionAvailableType } from '../../types/commission-available.ts'
-import HoldingGraph from './HoldingGraph.vue'
+import type { CommissionEquity as CommissionEquityType } from '../../models/commission-equity.ts'
 import Performance from './Performance.vue'
-import HoldingGraphSkeleton from '../skeletons/HoldingGraphSkeleton.vue'
 import PerformanceSkeleton from '../skeletons/PerformanceSkeleton.vue'
 import CardError from '../errors/CardError.vue'
 import type { TradingMode } from '../../types/trading-mode.ts'
-import CommissionAvailable from './CommissionAvailable.vue'
 import Status from './Status.vue'
 import StatusSkeleton from '../skeletons/StatusSkeleton.vue'
 import LatestTrades from './LatestTrades.vue'
 import type { Trade } from '../../types/trade.ts'
 import LatestTradesSkeleton from '../skeletons/LatestTradesSkeleton.vue'
-import CommissionAvailableSkeleton from '../skeletons/CommissionAvailableSkeleton.vue'
+import CommissionEquity from './CommissionEquity.vue'
+import EquityGraph from './EquityGraph.vue'
+import EquityGraphSkeleton from '../skeletons/EquityGraphSkeleton.vue'
+import CommissionEquitySkeleton from '../skeletons/CommissionEquitySkeleton.vue'
 
 const props = defineProps({
   tradingMode: {
@@ -56,7 +56,7 @@ const props = defineProps({
 const api = new TradingApi(props.tradingMode)
 const uptime = ref<Number>(0)
 const interval = ref<TimeInterval>('all')
-const holdings = ref<Holding[]>([])
+const equity = ref<Equity[]>([])
 const performance = ref<PerformanceType>({
   trades: 0,
   success: 0,
@@ -65,37 +65,37 @@ const performance = ref<PerformanceType>({
   fees: 0,
   net: 0,
 })
-const commissionAvailable = ref<CommissionAvailableType>({
+const commissionEquity = ref<CommissionEquityType>({
   amount: 0,
-  symbol: '',
+  currency: '',
   quantity: 0,
 })
 const latestTrades = ref<Trade[]>([])
 
 const isLoadingUptime = ref(true)
 const hasErrorUptime = ref(false)
-const isLoadingHoldings = ref(true)
-const hasErrorHoldings = ref(false)
+const isLoadingEquity = ref(true)
+const hasErrorEquity = ref(false)
 const isLoadingPerformance = ref(true)
 const hasErrorPerformance = ref(false)
-const isLoadingCommissionAvailable = ref(true)
-const hasErrorCommissionAvailable = ref(false)
+const isLoadingCommissionEquity = ref(true)
+const hasErrorCommissionEquity = ref(false)
 const isLoadingLatestTrades = ref(true)
 const hasErrorLatestTrades = ref(false)
 
 onMounted(() => {
   fetchUptime()
-  fetchHoldings()
+  fetchEquity()
   fetchPerformance()
   fetchLatestTrades()
 
   if (props.tradingMode === 'spot') {
-    fetchCommissionAvailable()
+    fetchCommissionEquity()
   }
 })
 
 watch(interval, () => {
-  fetchHoldings()
+  fetchEquity()
 })
 
 async function fetchUptime() {
@@ -110,15 +110,15 @@ async function fetchUptime() {
   }
 }
 
-async function fetchHoldings() {
-  hasErrorHoldings.value = false
-  isLoadingHoldings.value = true
+async function fetchEquity() {
+  hasErrorEquity.value = false
+  isLoadingEquity.value = true
   try {
-    holdings.value = await api.getHoldingGraph(interval.value)
+    equity.value = await api.getEquityGraph(interval.value)
   } catch (error) {
-    hasErrorHoldings.value = true
+    hasErrorEquity.value = true
   } finally {
-    isLoadingHoldings.value = false
+    isLoadingEquity.value = false
   }
 }
 
@@ -134,15 +134,15 @@ async function fetchPerformance() {
   }
 }
 
-async function fetchCommissionAvailable() {
-  hasErrorCommissionAvailable.value = false
-  isLoadingCommissionAvailable.value = true
+async function fetchCommissionEquity() {
+  hasErrorCommissionEquity.value = false
+  isLoadingCommissionEquity.value = true
   try {
-    commissionAvailable.value = await api.getCommissionAvailable()
+    commissionEquity.value = await api.getCommissionEquity()
   } catch (error) {
-    hasErrorCommissionAvailable.value = true
+    hasErrorCommissionEquity.value = true
   } finally {
-    isLoadingCommissionAvailable.value = false
+    isLoadingCommissionEquity.value = false
   }
 }
 

@@ -5,9 +5,9 @@
       <div class="bg-amber-950 text-amber-300 p-4">
         <p>
           <span class="font-semibold">
-            {{ formatNumber(commissionAvailable.quantity) }}
-            {{ commissionAvailable.symbol }} ({{
-              formatAmount(commissionAvailable.amount)
+            {{ formatNumber(commissionEquity.quantity) }}
+            {{ commissionEquity.currency }} ({{
+              formatAmount(commissionEquity.amount)
             }})
           </span>
         </p>
@@ -19,11 +19,11 @@
 import Card from '../Card.vue'
 import { formatAmount, formatNumber } from '../../helpers/format-helper.ts'
 import type { PropType } from 'vue'
-import type { CommissionAvailable } from '../../types/commission-available.ts'
+import type { CommissionEquity } from '../../models/commission-equity.ts'
 
 defineProps({
-  commissionAvailable: {
-    type: Object as PropType<CommissionAvailable>,
+  commissionEquity: {
+    type: Object as PropType<CommissionEquity>,
     required: true,
   },
 })

@@ -1,8 +1,8 @@
 <template>
   <Card>
-    <h2>Holdings</h2>
+    <h2>Equity</h2>
     <p class="text-xl font-extrabold text-lime-600">
-      {{ formatAmount(currentHolding) }}
+      {{ formatAmount(currentEquity) }}
     </p>
     <GraphInterval class="my-4 sm:float-right" v-model="interval" />
     <Line :data="data" :options="options" />
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PropType } from 'vue'
-import type { Holding } from '../../models/holding.ts'
+import type { Equity } from '../../models/equity.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import Card from '../Card.vue'
@@ -42,8 +42,8 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  holdings: {
-    type: Array as PropType<Holding[]>,
+  equity: {
+    type: Array as PropType<Equity[]>,
     default: () => [],
   },
 })
@@ -91,19 +91,19 @@ const options: ChartOptions<'line'> = {
 }
 
 const dates = computed(() =>
-  props.holdings.map((holding: Holding) => holding.createdAt),
+  props.equity.map((equity: Equity) => equity.createdAt),
 )
 
 const amounts = computed(() =>
-  props.holdings.map((holding: Holding) => holding.amount),
+  props.equity.map((equity: Equity) => equity.amount),
 )
 
-const currentHolding = computed(() => {
-  if (props.holdings.length === 0) {
+const currentEquity = computed(() => {
+  if (props.equity.length === 0) {
     return 0
   }
 
-  return props.holdings[props.holdings.length - 1].amount
+  return props.equity[props.equity.length - 1].amount
 })
 
 function formatLabel(dateString: Date, interval: TimeInterval): string {

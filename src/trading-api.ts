@@ -1,9 +1,9 @@
-import type { Holding } from './models/holding.ts'
+import type { Equity } from './models/equity.ts'
 import type { TimeInterval } from './types/time-interval.ts'
 import type { Performance } from './types/performance.ts'
 import type { TradingMode } from './types/trading-mode.ts'
-import type { CommissionAvailable } from './types/commission-available.ts'
 import type { Trade } from './types/trade.ts'
+import type { CommissionEquity } from './models/commission-equity.ts'
 
 export class TradingApi {
   private readonly tradingMode: TradingMode
@@ -11,13 +11,7 @@ export class TradingApi {
 
   constructor(tradingMode: TradingMode) {
     this.tradingMode = tradingMode
-    if (this.tradingMode === 'spot') {
-      this.api = import.meta.env.PUBLIC_SPOT_API
-    } else if (this.tradingMode === 'futures') {
-      this.api = import.meta.env.PUBLIC_FUTURES_API
-    } else {
-      throw Error('Invalid trading mode')
-    }
+    this.api = import.meta.env.PUBLIC_API
   }
 
   async getHealthCheck(): Promise<boolean> {
@@ -30,24 +24,25 @@ export class TradingApi {
     return this.fetchJsonData<number>(endpoint)
   }
 
-  async getHoldingGraph(interval: TimeInterval): Promise<Holding[]> {
+  async getEquityGraph(interval: TimeInterval): Promise<Equity[]> {
     const queryParams: string = `interval=${interval}`
-    const endpoint: string = `graph/holding?${queryParams}`
-    return this.fetchJsonData<Holding[]>(endpoint)
+    const endpoint: string = `${this.tradingMode}/graph/equity?${queryParams}`
+    console.log(endpoint)
+    return this.fetchJsonData<Equity[]>(endpoint)
   }
 
   async getPerformance(): Promise<Performance> {
-    const endpoint: string = 'performance'
+    const endpoint: string = `${this.tradingMode}/performance`
     return this.fetchJsonData<Performance>(endpoint)
   }
 
-  async getCommissionAvailable(): Promise<CommissionAvailable> {
-    const endpoint: string = 'commission-available'
-    return this.fetchJsonData<CommissionAvailable>(endpoint)
+  async getCommissionEquity(): Promise<CommissionEquity> {
+    const endpoint: string = `${this.tradingMode}/commission-equity`
+    return this.fetchJsonData<CommissionEquity>(endpoint)
   }
 
   async getLatestTrades(): Promise<Trade[]> {
-    const endpoint: string = 'latest-trades'
+    const endpoint: string = `${this.tradingMode}/latest-trades`
     return this.fetchJsonData<Trade[]>(endpoint)
   }
 
