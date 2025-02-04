@@ -14,7 +14,10 @@ const tradingMode: TradingMode = tradingModeParam as TradingMode
 
 <IndexLayout>
   <header>
-    <h1>Dashboard</h1>
+    <h1>
+      {tradingMode.charAt(0).toUpperCase() + tradingMode.slice(1)}
+      trading
+    </h1>
   </header>
   <Dashboard tradingMode={tradingMode} client:load />
 </IndexLayout>

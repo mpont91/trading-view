@@ -2,18 +2,10 @@
 import { Image } from 'astro:assets'
 import Menu from '../icons/Menu.vue'
 
-const tradingMode: string | undefined = Astro.params.tradingMode
-
-const navClass: string =
-  tradingMode === 'futures'
-    ? 'bg-indigo-800 border-indigo-700'
-    : tradingMode === 'spot'
-      ? 'bg-sky-800 border-sky-700'
-      : 'bg-gray-800 border-gray-700'
 const currentPath: string = Astro.url.pathname
 ---
 
-<nav class={navClass}>
+<nav class="bg-gray-800 border-gray-700">
   <div
     class="container flex flex-wrap items-center justify-between mx-auto p-4"
   >
@@ -21,15 +13,6 @@ const currentPath: string = Astro.url.pathname
       <a href="/">
         <Image src="/logo.webp" alt="Trading bot logo" width="50" height="50" />
       </a>
-      <p class="ms-4">
-        {
-          tradingMode === 'futures'
-            ? 'Futures trading'
-            : tradingMode === 'spot'
-              ? 'Spot trading'
-              : null
-        }
-      </p>
     </div>
     <button
       data-collapse-toggle="navbar-solid-bg"
@@ -52,6 +35,22 @@ const currentPath: string = Astro.url.pathname
             class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Home
+          </a>
+        </li>
+        <li>
+          <a
+            href="/spot"
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/spot' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+          >
+            Spot
+          </a>
+        </li>
+        <li>
+          <a
+            href="/futures"
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/futures' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+          >
+            Futures
           </a>
         </li>
       </ul>

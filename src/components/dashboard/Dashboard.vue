@@ -1,8 +1,4 @@
 <template>
-  <StatusSkeleton v-if="isLoadingUptime" />
-  <CardError title="Status" v-else-if="hasErrorUptime" />
-  <Status v-else :uptime="uptime" />
-
   <EquityGraphSkeleton v-if="isLoadingEquity" />
   <CardError title="Equity" v-else-if="hasErrorEquity" />
   <EquityGraph v-else v-model="interval" :equity="equity" />
@@ -36,8 +32,6 @@ import Performance from './Performance.vue'
 import PerformanceSkeleton from '../skeletons/PerformanceSkeleton.vue'
 import CardError from '../errors/CardError.vue'
 import type { TradingMode } from '../../types/trading-mode.ts'
-import Status from './Status.vue'
-import StatusSkeleton from '../skeletons/StatusSkeleton.vue'
 import LatestTrades from './LatestTrades.vue'
 import type { Trade } from '../../types/trade.ts'
 import LatestTradesSkeleton from '../skeletons/LatestTradesSkeleton.vue'
@@ -54,7 +48,6 @@ const props = defineProps({
 })
 
 const api = new TradingApi(props.tradingMode)
-const uptime = ref<Number>(0)
 const interval = ref<TimeInterval>('all')
 const equity = ref<Equity[]>([])
 const performance = ref<PerformanceType>({
@@ -71,9 +64,6 @@ const commissionEquity = ref<CommissionEquityType>({
   quantity: 0,
 })
 const latestTrades = ref<Trade[]>([])
-
-const isLoadingUptime = ref(true)
-const hasErrorUptime = ref(false)
 const isLoadingEquity = ref(true)
 const hasErrorEquity = ref(false)
 const isLoadingPerformance = ref(true)
@@ -84,7 +74,6 @@ const isLoadingLatestTrades = ref(true)
 const hasErrorLatestTrades = ref(false)
 
 onMounted(() => {
-  fetchUptime()
   fetchEquity()
   fetchPerformance()
   fetchLatestTrades()
@@ -97,18 +86,6 @@ onMounted(() => {
 watch(interval, () => {
   fetchEquity()
 })
-
-async function fetchUptime() {
-  hasErrorUptime.value = false
-  isLoadingUptime.value = true
-  try {
-    uptime.value = await api.getUptime()
-  } catch (error) {
-    hasErrorUptime.value = true
-  } finally {
-    isLoadingUptime.value = false
-  }
-}
 
 async function fetchEquity() {
   hasErrorEquity.value = false

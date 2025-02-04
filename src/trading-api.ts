@@ -6,10 +6,10 @@ import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './models/commission-equity.ts'
 
 export class TradingApi {
-  private readonly tradingMode: TradingMode
+  private readonly tradingMode: TradingMode | null
   private readonly api: string
 
-  constructor(tradingMode: TradingMode) {
+  constructor(tradingMode: TradingMode | null = null) {
     this.tradingMode = tradingMode
     this.api = import.meta.env.PUBLIC_API
   }
