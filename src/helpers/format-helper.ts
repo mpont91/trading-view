@@ -13,11 +13,15 @@ export function formatNumber(number?: number): string {
     return Math.round(number).toString()
   }
 
-  if (absNumber >= 99) {
+  if (absNumber >= 20) {
     return number.toFixed(2)
   }
 
-  return number.toFixed(4)
+  if (absNumber > 0.1) {
+    return number.toFixed(4)
+  }
+
+  return number.toFixed(6)
 }
 
 export function formatTime(seconds: number): string {

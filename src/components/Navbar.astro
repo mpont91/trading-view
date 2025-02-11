@@ -53,6 +53,14 @@ const currentPath: string = Astro.url.pathname
             Futures
           </a>
         </li>
+        <li>
+          <a
+            href="/market"
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/market' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+          >
+            Market
+          </a>
+        </li>
       </ul>
     </div>
   </div>
