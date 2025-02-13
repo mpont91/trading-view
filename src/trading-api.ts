@@ -5,6 +5,8 @@ import type { TradingMode } from './types/trading-mode.ts'
 import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './models/commission-equity.ts'
 import type { Indicator } from './types/indicator.ts'
+import type { Strategy } from './types/strategy.ts'
+import type { IndicatorsRulesSettings } from './types/settings.ts'
 
 export class TradingApi {
   private readonly tradingMode: TradingMode | null
@@ -50,6 +52,21 @@ export class TradingApi {
   async getIndicators(): Promise<Indicator[]> {
     const endpoint: string = `market/indicators`
     return this.fetchJsonData<Indicator[]>(endpoint)
+  }
+
+  async getStrategies(): Promise<Strategy[]> {
+    const endpoint: string = `market/strategies`
+    return this.fetchJsonData<Strategy[]>(endpoint)
+  }
+
+  async getLatestOpportunities(): Promise<Strategy[]> {
+    const endpoint: string = `market/latest-opportunities`
+    return this.fetchJsonData<Strategy[]>(endpoint)
+  }
+
+  async getRules(): Promise<IndicatorsRulesSettings> {
+    const endpoint: string = `market/rules`
+    return this.fetchJsonData<IndicatorsRulesSettings>(endpoint)
   }
 
   private async fetchJsonData<T>(endpoint: string): Promise<T> {
