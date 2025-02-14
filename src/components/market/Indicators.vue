@@ -17,7 +17,7 @@
             :key="symbol"
             class="border-b bg-neutral-800 border-neutral-700"
           >
-            <td class="px-6 py-4 font-bold">{{ symbol }}</td>
+            <td class="px-6 py-4">{{ symbol }}</td>
             <td
               v-for="header in headers"
               :key="`${symbol}-${header}`"
