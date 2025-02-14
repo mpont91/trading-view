@@ -9,12 +9,11 @@
 
   <OpportunitiesSkeleton v-if="isLoadingOpportunities" />
   <CardError title="Latest opportunities" v-else-if="hasErrorOpportunities" />
-  <Opportunities v-else :opportunities="opportunities" />
+  <Strategies v-else :strategies="opportunities" />
 </template>
 <script setup lang="ts">
 import Indicators from './Indicators.vue'
 import Strategies from './Strategies.vue'
-import Opportunities from './Opportunities.vue'
 import IndicatorsSkeleton from '../skeletons/IndicatorsSkeleton.vue'
 import CardError from '../errors/CardError.vue'
 import { TradingApi } from '../../trading-api.ts'
