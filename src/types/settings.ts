@@ -3,8 +3,14 @@ import type { Side } from './side'
 export interface IndicatorsRulesSettings {
   side: IndicatorSideRuleSettings[]
   leverage: IndicatorLeverageRuleSettings[]
-  tp: IndicatorAtrMultiplier[]
-  sl: IndicatorAtrMultiplier[]
+  tp: IndicatorTPSLRuleSettings
+  sl: IndicatorTPSLRuleSettings
+}
+
+export interface IndicatorTPSLRuleSettings {
+  atr: IndicatorAtrMultiplier[]
+  min: number
+  max: number
 }
 
 export interface IndicatorAtrMultiplier {
