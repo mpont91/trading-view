@@ -55,7 +55,7 @@ export class TradingApi {
   }
 
   async getStrategies(): Promise<Strategy[]> {
-    const endpoint: string = `market/strategies`
+    const endpoint: string = `market/latest-strategies`
     return this.fetchJsonData<Strategy[]>(endpoint)
   }
 
