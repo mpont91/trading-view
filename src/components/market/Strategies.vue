@@ -1,6 +1,6 @@
 <template>
   <Card>
-    <h2>Latest strategies</h2>
+    <h2>{{ title }}</h2>
     <table class="w-full text-sm text-left text-neutral-400">
       <thead class="text-xs uppercase bg-neutral-700 text-neutral-400">
         <tr>
@@ -41,6 +41,10 @@ import type { Strategy } from '../../types/strategy.ts'
 import { formatDate, formatNumber } from '../../helpers/format-helper.ts'
 
 defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
   strategies: {
     type: Array as PropType<Strategy[]>,
     required: true,

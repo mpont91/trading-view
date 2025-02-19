@@ -7,13 +7,16 @@
   <CardError title="Rules" v-else-if="hasErrorRules" />
   <Rules v-else :rules="rules" />
 
-  <StrategiesSkeleton v-if="isLoadingStrategies" />
-  <CardError title="Strategies" v-else-if="hasErrorStrategies" />
-  <Strategies v-else :strategies="strategies" />
+  <StrategiesSkeleton title="Latest strategies" v-if="isLoadingStrategies" />
+  <CardError title="Latest strategies" v-else-if="hasErrorStrategies" />
+  <Strategies v-else title="Latest strategies" :strategies="strategies" />
 
-  <OpportunitiesSkeleton v-if="isLoadingOpportunities" />
+  <StrategiesSkeleton
+    title="Latest opportunities"
+    v-if="isLoadingOpportunities"
+  />
   <CardError title="Latest opportunities" v-else-if="hasErrorOpportunities" />
-  <Strategies v-else :strategies="opportunities" />
+  <Strategies title="Latest opportunities" v-else :strategies="opportunities" />
 </template>
 <script setup lang="ts">
 import Indicators from './Indicators.vue'
@@ -27,7 +30,6 @@ import type { Indicator } from '../../types/indicator.ts'
 import type { Strategy } from '../../types/strategy.ts'
 import type { IndicatorsRulesSettings } from '../../types/settings.ts'
 import StrategiesSkeleton from '../skeletons/StrategiesSkeleton.vue'
-import OpportunitiesSkeleton from '../skeletons/OpportunitiesSkeleton.vue'
 import RulesSkeleton from '../skeletons/RulesSkeleton.vue'
 
 const api = new TradingApi()
