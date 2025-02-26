@@ -26,11 +26,11 @@
               {{ trade.symbol }}
             </th>
             <td class="px-6 py-4">{{ trade.side }}</td>
-            <td class="px-6 py-4">{{ formatDate(trade.entryDate) }}</td>
+            <td class="px-6 py-4">{{ formatDate(trade.entryAt) }}</td>
             <td class="px-6 py-4">{{ formatNumber(trade.entryPrice) }}</td>
-            <td class="px-6 py-4">{{ formatDate(trade.exitDate) }}</td>
+            <td class="px-6 py-4">{{ formatDate(trade.exitAt) }}</td>
             <td class="px-6 py-4">{{ formatNumber(trade.exitPrice) }}</td>
-            <td class="px-6 py-4">{{ formatAmount(trade.profit) }}</td>
+            <td class="px-6 py-4">{{ formatAmount(trade.pnl) }}</td>
           </tr>
         </tbody>
       </table>

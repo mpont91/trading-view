@@ -37,7 +37,7 @@ export function formatTime(seconds: number): string {
   return `${daysStr} ${hoursStr} ${minutesStr} ${remainingSeconds} seconds`
 }
 
-export function formatDate(dateString: string): string {
+export function formatDate(dateString: string | Date): string {
   const date: Date = new Date(dateString)
 
   const year: number = date.getFullYear()
