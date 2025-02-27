@@ -19,7 +19,7 @@
 import Card from '../Card.vue'
 import { formatAmount, formatNumber } from '../../helpers/format-helper.ts'
 import type { PropType } from 'vue'
-import type { CommissionEquity } from '../../models/commission-equity.ts'
+import type { CommissionEquity } from '../../types/commission-equity.ts'
 
 defineProps({
   commissionEquity: {

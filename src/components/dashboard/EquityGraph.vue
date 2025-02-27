@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PropType } from 'vue'
-import type { Equity } from '../../models/equity.ts'
+import type { Equity } from '../../types/equity.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import Card from '../Card.vue'

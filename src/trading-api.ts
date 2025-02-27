@@ -1,17 +1,15 @@
-import type { Equity } from './models/equity.ts'
+import type { Equity } from './types/equity.ts'
 import type { TimeInterval } from './types/time-interval.ts'
 import type { Performance } from './types/performance.ts'
 import type { TradingMode } from './types/trading-mode.ts'
 import type { Trade } from './types/trade.ts'
-import type { CommissionEquity } from './models/commission-equity.ts'
+import type { CommissionEquity } from './types/commission-equity.ts'
 import type { Strategy } from './types/strategy.ts'
 
 export class TradingApi {
-  private readonly tradingMode: TradingMode | null
   private readonly api: string
 
-  constructor(tradingMode: TradingMode | null = null) {
-    this.tradingMode = tradingMode
+  constructor(private readonly tradingMode: TradingMode | null = null) {
     this.api = import.meta.env.PUBLIC_API
   }
 
@@ -34,6 +32,11 @@ export class TradingApi {
 
   async getPerformance(): Promise<Performance> {
     const endpoint: string = `${this.tradingMode}/performance`
+    return this.fetchJsonData<Performance>(endpoint)
+  }
+
+  async getFullPerformance(): Promise<Performance> {
+    const endpoint: string = 'performance'
     return this.fetchJsonData<Performance>(endpoint)
   }
 
