@@ -26,7 +26,12 @@ export class TradingApi {
   async getEquityGraph(interval: TimeInterval): Promise<Equity[]> {
     const queryParams: string = `interval=${interval}`
     const endpoint: string = `${this.tradingMode}/graph/equity?${queryParams}`
-    console.log(endpoint)
+    return this.fetchJsonData<Equity[]>(endpoint)
+  }
+
+  async getFullEquityGraph(interval: TimeInterval): Promise<Equity[]> {
+    const queryParams: string = `interval=${interval}`
+    const endpoint: string = `graph/equity?${queryParams}`
     return this.fetchJsonData<Equity[]>(endpoint)
   }
 
