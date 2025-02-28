@@ -19,50 +19,55 @@ export class TradingApi {
   }
 
   async getUptime(): Promise<number> {
-    const endpoint: string = 'uptime'
+    const endpoint: string = this.createEndpoint('uptime')
     return this.fetchJsonData<number>(endpoint)
   }
 
   async getEquityGraph(interval: TimeInterval): Promise<Equity[]> {
-    const queryParams: string = `interval=${interval}`
-    const endpoint: string = `${this.tradingMode}/graph/equity?${queryParams}`
-    return this.fetchJsonData<Equity[]>(endpoint)
-  }
-
-  async getFullEquityGraph(interval: TimeInterval): Promise<Equity[]> {
-    const queryParams: string = `interval=${interval}`
-    const endpoint: string = `graph/equity?${queryParams}`
+    const endpoint: string = this.createEndpoint(
+      'graph/equity',
+      `interval=${interval}`,
+    )
     return this.fetchJsonData<Equity[]>(endpoint)
   }
 
   async getPerformance(): Promise<Performance> {
-    const endpoint: string = `${this.tradingMode}/performance`
-    return this.fetchJsonData<Performance>(endpoint)
-  }
-
-  async getFullPerformance(): Promise<Performance> {
-    const endpoint: string = 'performance'
+    const endpoint: string = this.createEndpoint('performance')
     return this.fetchJsonData<Performance>(endpoint)
   }
 
   async getCommissionEquity(): Promise<CommissionEquity> {
-    const endpoint: string = `${this.tradingMode}/commission-equity`
+    const endpoint: string = this.createEndpoint('commission-equity')
     return this.fetchJsonData<CommissionEquity>(endpoint)
   }
 
   async getLatestTrades(): Promise<Trade[]> {
-    const endpoint: string = `${this.tradingMode}/latest-trades`
+    const endpoint: string = this.createEndpoint('latest-trades')
     return this.fetchJsonData<Trade[]>(endpoint)
   }
 
   async getStrategies(): Promise<Strategy[]> {
-    const endpoint: string = `market/latest-strategies`
+    const endpoint: string = this.createEndpoint('market/latest-strategies')
     return this.fetchJsonData<Strategy[]>(endpoint)
   }
 
   async getLatestOpportunities(): Promise<Strategy[]> {
-    const endpoint: string = `market/latest-opportunities`
+    const endpoint: string = this.createEndpoint('market/latest-opportunities')
     return this.fetchJsonData<Strategy[]>(endpoint)
+  }
+
+  private createEndpoint(path: string, params: string | null = null): string {
+    let endpoint: string = path
+
+    if (this.tradingMode) {
+      endpoint = `${this.tradingMode}/${endpoint}`
+    }
+
+    if (params) {
+      endpoint += `?${params}`
+    }
+
+    return endpoint
   }
 
   private async fetchJsonData<T>(endpoint: string): Promise<T> {

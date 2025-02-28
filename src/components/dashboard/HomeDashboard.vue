@@ -71,7 +71,7 @@ async function fetchEquity() {
   hasErrorEquity.value = false
   isLoadingEquity.value = true
   try {
-    equity.value = await api.getFullEquityGraph(interval.value)
+    equity.value = await api.getEquityGraph(interval.value)
   } catch (error) {
     hasErrorEquity.value = true
   } finally {
@@ -83,7 +83,7 @@ async function fetchPerformance() {
   hasErrorPerformance.value = false
   isLoadingPerformance.value = true
   try {
-    performance.value = await api.getFullPerformance()
+    performance.value = await api.getPerformance()
   } catch (error) {
     hasErrorPerformance.value = true
   } finally {
