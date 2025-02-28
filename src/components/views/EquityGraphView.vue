@@ -14,7 +14,7 @@ import type { PropType } from 'vue'
 import type { Equity } from '../../types/equity.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
-import Card from '../Card.vue'
+import Card from '../common/Card.vue'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,7 +24,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import GraphInterval from './GraphInterval.vue'
+import GraphInterval from './GraphIntervalView.vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import { formatAmount } from '../../helpers/format-helper.ts'
 
@@ -44,7 +44,7 @@ const props = defineProps({
   },
   equity: {
     type: Array as PropType<Equity[]>,
-    default: () => [],
+    required: true,
   },
 })
 

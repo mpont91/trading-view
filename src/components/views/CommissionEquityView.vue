@@ -16,7 +16,7 @@
   </Card>
 </template>
 <script setup lang="ts">
-import Card from '../Card.vue'
+import Card from '../common/Card.vue'
 import { formatAmount, formatNumber } from '../../helpers/format-helper.ts'
 import type { PropType } from 'vue'
 import type { CommissionEquity } from '../../types/commission-equity.ts'

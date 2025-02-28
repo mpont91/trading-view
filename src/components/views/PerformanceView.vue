@@ -62,20 +62,13 @@
 <script setup lang="ts">
 import type { Performance } from '../../types/performance.ts'
 import type { PropType } from 'vue'
-import Card from '../Card.vue'
+import Card from '../common/Card.vue'
 import { formatAmount } from '../../helpers/format-helper.ts'
 
 defineProps({
   performance: {
     type: Object as PropType<Performance>,
-    default: {
-      trades: 0,
-      success: 0,
-      failed: 0,
-      pnl: 0,
-      fees: 0,
-      net: 0,
-    },
+    required: true,
   },
 })
 </script>

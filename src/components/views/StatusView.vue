@@ -16,7 +16,7 @@
   </Card>
 </template>
 <script setup lang="ts">
-import Card from '../Card.vue'
+import Card from '../common/Card.vue'
 import { formatTime } from '../../helpers/format-helper.ts'
 
 defineProps({

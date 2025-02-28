@@ -5,7 +5,7 @@
   </Card>
 </template>
 <script setup lang="ts">
-import Card from '../Card.vue'
+import Card from '../common/Card.vue'
 
 defineProps({
   title: {

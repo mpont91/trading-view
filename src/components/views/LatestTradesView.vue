@@ -38,7 +38,7 @@
   </Card>
 </template>
 <script setup lang="ts">
-import Card from '../Card.vue'
+import Card from '../common/Card.vue'
 import type { PropType } from 'vue'
 import type { Trade } from '../../types/trade.ts'
 import {
