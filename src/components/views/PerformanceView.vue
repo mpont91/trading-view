@@ -1,6 +1,5 @@
 <template>
-  <Card>
-    <h2>Performance</h2>
+  <Card title="Performance">
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 2xl:grid-cols-6">
       <div class="bg-sky-950 text-sky-300 p-4">
         <p>

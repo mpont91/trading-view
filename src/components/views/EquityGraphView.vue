@@ -1,6 +1,5 @@
 <template>
-  <Card>
-    <h2>Equity</h2>
+  <Card title="Equity">
     <p class="text-xl font-extrabold text-lime-600">
       {{ formatAmount(currentEquity) }}
     </p>

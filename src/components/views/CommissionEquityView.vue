@@ -1,6 +1,5 @@
 <template>
-  <Card>
-    <h2>Commission available</h2>
+  <Card title="Commission available">
     <div class="grid grid-cols-1">
       <div class="bg-amber-950 text-amber-300 p-4">
         <p>

@@ -1,6 +1,5 @@
 <template>
-  <Card class="animate-pulse">
-    <h2>Commission available</h2>
+  <Card title="Commission available" class="animate-pulse">
     <div class="grid grid-cols-1">
       <div class="bg-neutral-900 h-14"></div>
     </div>

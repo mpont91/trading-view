@@ -1,6 +1,5 @@
 <template>
-  <Card>
-    <h2>{{ title }}</h2>
+  <Card :title="title">
     <p class="text-red-400">Something went wrong...</p>
   </Card>
 </template>
