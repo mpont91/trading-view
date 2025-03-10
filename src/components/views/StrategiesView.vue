@@ -19,7 +19,14 @@
             :key="strategy.id"
             class="border-b bg-neutral-800 border-neutral-700"
           >
-            <td class="px-6 py-3">{{ strategy.symbol }}</td>
+            <td class="px-6 py-3">
+              <a
+                :href="`/market/${strategy.symbol.toLowerCase()}`"
+                class="font-medium text-blue-500 hover:underline"
+              >
+                {{ strategy.symbol }}
+              </a>
+            </td>
             <td class="px-6 py-3">{{ formatNumber(strategy.price) }}</td>
             <td class="px-6 py-3">{{ strategy.side.toUpperCase() }}</td>
             <td class="px-6 py-3">{{ formatNumber(strategy.tp) }}</td>

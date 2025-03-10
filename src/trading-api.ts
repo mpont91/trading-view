@@ -41,19 +41,32 @@ export class TradingApi {
     return this.fetchJsonData<CommissionEquity>(endpoint)
   }
 
-  async getLatestTrades(): Promise<Trade[]> {
-    const endpoint: string = this.createEndpoint('latest-trades')
+  async getLatestTrades(symbol: string = ''): Promise<Trade[]> {
+    const path: string = this.createPath('latest-trades', symbol)
+    const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Trade[]>(endpoint)
   }
 
-  async getStrategies(): Promise<Strategy[]> {
-    const endpoint: string = this.createEndpoint('market/latest-strategies')
+  async getStrategies(symbol: string = ''): Promise<Strategy[]> {
+    const path: string = this.createPath('market/latest-strategies', symbol)
+    const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Strategy[]>(endpoint)
   }
 
-  async getLatestOpportunities(): Promise<Strategy[]> {
-    const endpoint: string = this.createEndpoint('market/latest-opportunities')
+  async getLatestOpportunities(symbol: string = ''): Promise<Strategy[]> {
+    const path: string = this.createPath('market/latest-opportunities', symbol)
+    const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Strategy[]>(endpoint)
+  }
+
+  private createPath(base: string, param: string): string {
+    let path: string = base
+
+    if (param) {
+      path += '/' + param
+    }
+
+    return path
   }
 
   private createEndpoint(path: string, params: string | null = null): string {

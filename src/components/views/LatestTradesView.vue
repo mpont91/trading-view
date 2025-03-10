@@ -18,12 +18,17 @@
             v-for="trade in trades"
             class="border-b bg-neutral-800 border-neutral-700"
           >
-            <th
+            <td
               scope="row"
               class="px-6 py-4 font-medium whitespace-nowrap text-white"
             >
-              {{ trade.symbol }}
-            </th>
+              <a
+                :href="`/market/${trade.symbol.toLowerCase()}`"
+                class="font-medium text-blue-500 hover:underline"
+              >
+                {{ trade.symbol }}
+              </a>
+            </td>
             <td class="px-6 py-4">{{ trade.side }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.entryAt) }}</td>
             <td class="px-6 py-4">{{ formatNumber(trade.entryPrice) }}</td>
