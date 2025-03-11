@@ -5,6 +5,7 @@ import type { TradingMode } from './types/trading-mode.ts'
 import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './types/commission-equity.ts'
 import type { Strategy } from './types/strategy.ts'
+import type { Signals } from './types/signals.ts'
 
 export class TradingApi {
   private readonly api: string
@@ -57,6 +58,15 @@ export class TradingApi {
     const path: string = this.createPath('market/last-opportunities', symbol)
     const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Strategy[]>(endpoint)
+  }
+
+  async getSignalsGraph(
+    symbol: string,
+    interval: TimeInterval,
+  ): Promise<Signals> {
+    const path: string = this.createPath('market/graph/signals', symbol)
+    const endpoint: string = this.createEndpoint(path, `interval=${interval}`)
+    return this.fetchJsonData<Signals>(endpoint)
   }
 
   private createPath(base: string, param: string): string {
