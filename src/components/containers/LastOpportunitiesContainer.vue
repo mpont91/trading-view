@@ -18,6 +18,13 @@ import { onMounted, ref } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
 import type { Strategy } from '../../types/strategy.ts'
 
+const props = defineProps({
+  symbol: {
+    type: String,
+    default: '',
+  },
+})
+
 const api = new TradingApi()
 const opportunities = ref<Strategy[]>([])
 const isLoadingOpportunities = ref(true)
@@ -31,7 +38,7 @@ async function fetchLastOpportunities() {
   hasErrorOpportunities.value = false
   isLoadingOpportunities.value = true
   try {
-    opportunities.value = await api.getLastOpportunities()
+    opportunities.value = await api.getLastOpportunities(props.symbol)
   } catch (error) {
     hasErrorOpportunities.value = true
   } finally {

@@ -21,7 +21,7 @@
           >
             <td class="px-6 py-3">
               <a
-                :href="`/market/${strategy.symbol.toLowerCase()}`"
+                :href="`/${getFirstSegment()}/${strategy.symbol.toLowerCase()}`"
                 class="font-medium text-blue-500 hover:underline"
               >
                 {{ strategy.symbol }}
@@ -47,6 +47,7 @@ import Card from '../common/Card.vue'
 import type { PropType } from 'vue'
 import type { Strategy } from '../../types/strategy.ts'
 import { formatDate, formatNumber } from '../../helpers/format-helper.ts'
+import { getFirstSegment } from '../../helpers/url-helper.ts'
 
 defineProps({
   title: {

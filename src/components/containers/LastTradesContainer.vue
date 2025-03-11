@@ -18,6 +18,10 @@ const props = defineProps({
     type: String as PropType<TradingMode>,
     required: true,
   },
+  symbol: {
+    type: String,
+    default: '',
+  },
 })
 
 const api = new TradingApi(props.tradingMode)
@@ -33,7 +37,7 @@ async function fetchLastTrades() {
   hasErrorLastTrades.value = false
   isLoadingLastTrades.value = true
   try {
-    lastTrades.value = await api.getLastTrades()
+    lastTrades.value = await api.getLastTrades(props.symbol)
   } catch (error) {
     hasErrorLastTrades.value = true
   } finally {

@@ -40,7 +40,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/spot"
-            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/spot' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath.startsWith('/spot') ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Spot
           </a>
@@ -48,7 +48,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/futures"
-            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/futures' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath.startsWith('/futures') ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Futures
           </a>
@@ -56,7 +56,7 @@ const currentPath: string = Astro.url.pathname
         <li>
           <a
             href="/market"
-            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/market' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
+            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath.startsWith('/market') ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >
             Market
           </a>

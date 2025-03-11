@@ -23,7 +23,7 @@
               class="px-6 py-4 font-medium whitespace-nowrap text-white"
             >
               <a
-                :href="`/market/${trade.symbol.toLowerCase()}`"
+                :href="`/${getFirstSegment()}/${trade.symbol.toLowerCase()}`"
                 class="font-medium text-blue-500 hover:underline"
               >
                 {{ trade.symbol }}
@@ -50,6 +50,7 @@ import {
   formatNumber,
   formatDate,
 } from '../../helpers/format-helper.ts'
+import { getFirstSegment } from '../../helpers/url-helper.ts'
 
 defineProps({
   trades: {
