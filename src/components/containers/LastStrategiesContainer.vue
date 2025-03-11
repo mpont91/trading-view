@@ -1,7 +1,7 @@
 <template>
-  <StrategiesSkeleton title="Latest strategies" v-if="isLoadingStrategies" />
-  <CardError title="Latest strategies" v-else-if="hasErrorStrategies" />
-  <StrategiesView v-else title="Latest strategies" :strategies="strategies" />
+  <StrategiesSkeleton title="Last strategies" v-if="isLoadingStrategies" />
+  <CardError title="Last strategies" v-else-if="hasErrorStrategies" />
+  <StrategiesView v-else title="Last strategies" :strategies="strategies" />
 </template>
 <script setup lang="ts">
 import StrategiesView from '../views/StrategiesView.vue'

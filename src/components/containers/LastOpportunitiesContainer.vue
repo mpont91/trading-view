@@ -1,11 +1,11 @@
 <template>
   <StrategiesSkeleton
-    title="Latest opportunities"
+    title="Last opportunities"
     v-if="isLoadingOpportunities"
   />
-  <CardError title="Latest opportunities" v-else-if="hasErrorOpportunities" />
+  <CardError title="Last opportunities" v-else-if="hasErrorOpportunities" />
   <StrategiesView
-    title="Latest opportunities"
+    title="Last opportunities"
     v-else
     :strategies="opportunities"
   />
@@ -24,14 +24,14 @@ const isLoadingOpportunities = ref(true)
 const hasErrorOpportunities = ref(false)
 
 onMounted(() => {
-  fetchLatestOpportunities()
+  fetchLastOpportunities()
 })
 
-async function fetchLatestOpportunities() {
+async function fetchLastOpportunities() {
   hasErrorOpportunities.value = false
   isLoadingOpportunities.value = true
   try {
-    opportunities.value = await api.getLatestOpportunities()
+    opportunities.value = await api.getLastOpportunities()
   } catch (error) {
     hasErrorOpportunities.value = true
   } finally {

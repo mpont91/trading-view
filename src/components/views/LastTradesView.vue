@@ -1,5 +1,5 @@
 <template>
-  <Card title="Latest trades">
+  <Card title="Last trades">
     <div class="relative overflow-x-auto">
       <table class="w-full text-sm text-left text-neutral-400">
         <thead class="text-xs uppercase bg-neutral-700 text-neutral-400">

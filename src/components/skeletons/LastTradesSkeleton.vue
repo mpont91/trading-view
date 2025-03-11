@@ -1,5 +1,5 @@
 <template>
-  <Card title="Latest trades" class="animate-pulse">
+  <Card title="Last trades" class="animate-pulse">
     <div class="grid grid-cols-1 gap-2">
       <div class="bg-neutral-900 h-16"></div>
       <div class="bg-neutral-900 h-10"></div>

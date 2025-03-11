@@ -41,20 +41,20 @@ export class TradingApi {
     return this.fetchJsonData<CommissionEquity>(endpoint)
   }
 
-  async getLatestTrades(symbol: string = ''): Promise<Trade[]> {
-    const path: string = this.createPath('latest-trades', symbol)
+  async getLastTrades(symbol: string = ''): Promise<Trade[]> {
+    const path: string = this.createPath('last-trades', symbol)
     const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Trade[]>(endpoint)
   }
 
   async getStrategies(symbol: string = ''): Promise<Strategy[]> {
-    const path: string = this.createPath('market/latest-strategies', symbol)
+    const path: string = this.createPath('market/last-strategies', symbol)
     const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Strategy[]>(endpoint)
   }
 
-  async getLatestOpportunities(symbol: string = ''): Promise<Strategy[]> {
-    const path: string = this.createPath('market/latest-opportunities', symbol)
+  async getLastOpportunities(symbol: string = ''): Promise<Strategy[]> {
+    const path: string = this.createPath('market/last-opportunities', symbol)
     const endpoint: string = this.createEndpoint(path)
     return this.fetchJsonData<Strategy[]>(endpoint)
   }

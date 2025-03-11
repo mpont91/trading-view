@@ -1,8 +1,8 @@
 <template>
-  <LatestStrategiesContainer />
-  <LatestOpportunitiesContainer />
+  <LastStrategiesContainer />
+  <LastOpportunitiesContainer />
 </template>
 <script setup lang="ts">
-import LatestStrategiesContainer from '../containers/LatestStrategiesContainer.vue'
-import LatestOpportunitiesContainer from '../containers/LatestOpportunitiesContainer.vue'
+import LastStrategiesContainer from '../containers/LastStrategiesContainer.vue'
+import LastOpportunitiesContainer from '../containers/LastOpportunitiesContainer.vue'
 </script>
