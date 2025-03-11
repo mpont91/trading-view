@@ -14,27 +14,12 @@ import type { Equity } from '../../types/equity.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import Card from '../common/Card.vue'
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-} from 'chart.js'
 import GraphInterval from './GraphIntervalView.vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import { formatAmount } from '../../helpers/format-helper.ts'
+import { formatLabel, registerChartJs } from '../../helpers/graph-helper.ts'
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-)
+registerChartJs()
 
 const props = defineProps({
   modelValue: {
@@ -104,17 +89,4 @@ const currentEquity = computed(() => {
 
   return props.equity[props.equity.length - 1].amount
 })
-
-function formatLabel(dateString: Date, interval: TimeInterval): string {
-  const date = new Date(dateString)
-  switch (interval) {
-    case 'day':
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    default:
-      return date.toLocaleDateString([], {
-        month: 'short',
-        day: 'numeric',
-      })
-  }
-}
 </script>
