@@ -1,5 +1,7 @@
 <template>
-  <SignalsGraphView v-model="interval" :signals="signals" />
+  <GraphSkeleton title="Signals" v-if="isLoadingSignals" />
+  <CardError title="Signals" v-else-if="hasErrorSignals" />
+  <SignalsGraphView v-else v-model="interval" :signals="signals" />
 </template>
 <script setup lang="ts">
 import SignalsGraphView from '../views/SignalsGraphView.vue'
@@ -7,6 +9,8 @@ import { TradingApi } from '../../trading-api.ts'
 import { onMounted, ref, watch } from 'vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import type { Signals } from '../../types/signals.ts'
+import GraphSkeleton from '../skeletons/GraphSkeleton.vue'
+import CardError from '../errors/CardError.vue'
 
 const api = new TradingApi()
 const interval = ref<TimeInterval>('all')

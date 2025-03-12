@@ -8,7 +8,14 @@
 import { computed } from 'vue'
 import Card from '../common/Card.vue'
 import GraphInterval from './GraphIntervalView.vue'
-import { formatLabel, registerChartJs } from '../../helpers/graph-helper.ts'
+import {
+  getChartOptions,
+  greenPointColor,
+  redPointColor,
+  registerChartJs,
+  whiteLineColor,
+  whitePointColor,
+} from '../../helpers/graph-helper.ts'
 import type { PropType } from 'vue'
 import type { Signals } from '../../types/signals.ts'
 import type { ChartOptions } from 'chart.js'
@@ -34,52 +41,31 @@ const data = computed(() => ({
   labels: priceDates.value,
   datasets: [
     {
-      label: 'Long Opportunities',
+      label: 'Long',
       data: longOpportunities.value,
-      backgroundColor: '#22c55e',
+      backgroundColor: greenPointColor,
       borderColor: 'transparent',
       pointRadius: 5,
       pointHoverRadius: 7,
     },
     {
-      label: 'Short Opportunities',
+      label: 'Short',
       data: shortOpportunities.value,
-      backgroundColor: '#ef4444',
+      backgroundColor: redPointColor,
       borderColor: 'transparent',
       pointRadius: 5,
       pointHoverRadius: 7,
     },
     {
       label: 'Price ($)',
-      backgroundColor: '#EEE',
-      borderColor: '#FFF',
+      backgroundColor: whitePointColor,
+      borderColor: whiteLineColor,
       data: priceAmounts.value,
+      pointRadius: 0,
+      pointHoverRadius: 0,
     },
   ],
 }))
-
-const options: ChartOptions<'line'> = {
-  responsive: true,
-  scales: {
-    x: {
-      grid: {
-        color: '#525252',
-      },
-      ticks: {
-        callback: (_, index) =>
-          formatLabel(priceDates.value[index], interval.value as TimeInterval),
-        autoSkip: true,
-        maxRotation: 0,
-        minRotation: 0,
-      },
-    },
-    y: {
-      grid: {
-        color: '#525252',
-      },
-    },
-  },
-}
 
 const priceDates = computed(() => props.signals?.prices.map((p) => p.date))
 const priceAmounts = computed(() => props.signals?.prices.map((p) => p.amount))
@@ -133,4 +119,8 @@ const interval = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 })
+
+const options = computed<ChartOptions<'line'>>(() =>
+  getChartOptions(priceDates.value, interval.value as TimeInterval),
+)
 </script>

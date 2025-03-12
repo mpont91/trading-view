@@ -1,11 +1,11 @@
 <template>
-  <EquityGraphSkeleton v-if="isLoadingEquity" />
+  <GraphSkeleton title="Equity" v-if="isLoadingEquity" />
   <CardError title="Equity" v-else-if="hasErrorEquity" />
   <EquityGraphView v-else v-model="interval" :equity="equity" />
 </template>
 <script setup lang="ts">
 import EquityGraphView from '../views/EquityGraphView.vue'
-import EquityGraphSkeleton from '../skeletons/EquityGraphSkeleton.vue'
+import GraphSkeleton from '../skeletons/GraphSkeleton.vue'
 import CardError from '../errors/CardError.vue'
 import { onMounted, ref, watch } from 'vue'
 import { TradingApi } from '../../trading-api.ts'

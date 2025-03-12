@@ -17,7 +17,12 @@ import Card from '../common/Card.vue'
 import GraphInterval from './GraphIntervalView.vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import { formatAmount } from '../../helpers/format-helper.ts'
-import { formatLabel, registerChartJs } from '../../helpers/graph-helper.ts'
+import {
+  getChartOptions,
+  greenLineColor,
+  greenPointColor,
+  registerChartJs,
+} from '../../helpers/graph-helper.ts'
 
 registerChartJs()
 
@@ -39,8 +44,8 @@ const data = computed(() => ({
   datasets: [
     {
       label: 'Amount ($)',
-      backgroundColor: '#22c55e',
-      borderColor: '#166534',
+      backgroundColor: greenPointColor,
+      borderColor: greenLineColor,
       data: amounts.value,
     },
   ],
@@ -50,29 +55,6 @@ const interval = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value),
 })
-
-const options: ChartOptions<'line'> = {
-  responsive: true,
-  scales: {
-    x: {
-      grid: {
-        color: '#525252',
-      },
-      ticks: {
-        callback: (_, index) =>
-          formatLabel(dates.value[index], interval.value as TimeInterval),
-        autoSkip: true,
-        maxRotation: 0,
-        minRotation: 0,
-      },
-    },
-    y: {
-      grid: {
-        color: '#525252',
-      },
-    },
-  },
-}
 
 const dates = computed(() =>
   props.equity.map((equity: Equity) => equity.createdAt),
@@ -89,4 +71,8 @@ const currentEquity = computed(() => {
 
   return props.equity[props.equity.length - 1].amount
 })
+
+const options = computed<ChartOptions<'line'>>(() =>
+  getChartOptions(dates.value, interval.value as TimeInterval),
+)
 </script>
