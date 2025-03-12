@@ -72,12 +72,12 @@ const priceAmounts = computed(() => props.signals?.prices.map((p) => p.amount))
 const longOpportunities = computed(() => {
   const alignedData = new Array(props.signals?.prices.length).fill(null)
 
-  props.signals?.opportunities.forEach((o) => {
-    if (o.side === 'long') {
+  props.signals?.opportunities
+    .filter((o) => o.side === 'long')
+    .forEach((o) => {
       const closestIndex = findClosestPriceIndex(o.date)
       alignedData[closestIndex] = priceAmounts.value[closestIndex]
-    }
-  })
+    })
 
   return alignedData
 })
@@ -85,12 +85,12 @@ const longOpportunities = computed(() => {
 const shortOpportunities = computed(() => {
   const alignedData = new Array(props.signals?.prices.length).fill(null)
 
-  props.signals?.opportunities.forEach((o) => {
-    if (o.side === 'short') {
+  props.signals?.opportunities
+    .filter((o) => o.side === 'short')
+    .forEach((o) => {
       const closestIndex = findClosestPriceIndex(o.date)
       alignedData[closestIndex] = priceAmounts.value[closestIndex]
-    }
-  })
+    })
 
   return alignedData
 })
