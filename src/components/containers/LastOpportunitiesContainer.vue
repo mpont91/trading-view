@@ -1,11 +1,14 @@
 <template>
   <StrategiesSkeleton
-    title="Last opportunities"
+    :title="`Last opportunities ${tradingMode}`"
     v-if="isLoadingOpportunities"
   />
-  <CardError title="Last opportunities" v-else-if="hasErrorOpportunities" />
+  <CardError
+    :title="`Last opportunities ${tradingMode}`"
+    v-else-if="hasErrorOpportunities"
+  />
   <StrategiesView
-    title="Last opportunities"
+    :title="`Last opportunities ${tradingMode}`"
     v-else
     :strategies="opportunities"
   />
@@ -14,18 +17,23 @@
 import StrategiesView from '../views/StrategiesView.vue'
 import StrategiesSkeleton from '../skeletons/StrategiesSkeleton.vue'
 import CardError from '../errors/CardError.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, type PropType } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
 import type { Strategy } from '../../types/strategy.ts'
+import type { TradingMode } from '../../types/trading-mode.ts'
 
 const props = defineProps({
+  tradingMode: {
+    type: String as PropType<TradingMode>,
+    required: true,
+  },
   symbol: {
     type: String,
     default: '',
   },
 })
 
-const api = new TradingApi()
+const api = new TradingApi(props.tradingMode)
 const opportunities = ref<Strategy[]>([])
 const isLoadingOpportunities = ref(true)
 const hasErrorOpportunities = ref(false)

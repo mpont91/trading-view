@@ -1,5 +1,5 @@
 <template>
-  <Card title="Signals">
+  <Card :title="title">
     <GraphInterval class="my-4 sm:float-right" v-model="interval" />
     <Line :data="data" :options="options" />
   </Card>
@@ -26,6 +26,10 @@ registerChartJs()
 
 const props = defineProps({
   modelValue: {
+    type: String,
+    required: true,
+  },
+  title: {
     type: String,
     required: true,
   },
