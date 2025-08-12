@@ -1,10 +1,14 @@
 <template>
   <StatusContainer />
-  <EquityGraphHomeContainer />
-  <PerformanceHomeContainer />
+  <EquityGraphContainer />
+  <PerformanceContainer />
+  <CommissionEquityContainer />
+  <LastTradesContainer />
 </template>
 <script setup lang="ts">
 import StatusContainer from '../containers/StatusContainer.vue'
-import EquityGraphHomeContainer from '../containers/EquityGraphHomeContainer.vue'
-import PerformanceHomeContainer from '../containers/PerformanceHomeContainer.vue'
+import EquityGraphContainer from '../containers/EquityGraphContainer.vue'
+import PerformanceContainer from '../containers/PerformanceContainer.vue'
+import CommissionEquityContainer from '../containers/CommissionEquityContainer.vue'
+import LastTradesContainer from '../containers/LastTradesContainer.vue'
 </script>

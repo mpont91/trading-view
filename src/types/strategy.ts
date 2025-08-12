@@ -7,6 +7,5 @@ export interface Strategy {
   side: Side
   sl?: number
   tp?: number
-  leverage?: number
   createdAt: Date
 }

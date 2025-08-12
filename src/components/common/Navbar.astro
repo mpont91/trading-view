@@ -39,22 +39,6 @@ const currentPath: string = Astro.url.pathname
         </li>
         <li>
           <a
-            href="/spot"
-            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath.startsWith('/spot') ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
-          >
-            Spot
-          </a>
-        </li>
-        <li>
-          <a
-            href="/futures"
-            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath.startsWith('/futures') ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
-          >
-            Futures
-          </a>
-        </li>
-        <li>
-          <a
             href="/market"
             class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath.startsWith('/market') ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
           >

@@ -14,10 +14,3 @@ export interface Trade {
   fees: number
   pnl: number
 }
-
-export type TradeSpot = Trade
-
-export interface TradeFutures extends Trade {
-  contractSize: number
-  leverage: number
-}

@@ -9,7 +9,6 @@
             <th class="px-6 py-3">Side</th>
             <th class="px-6 py-3">Take profit</th>
             <th class="px-6 py-3">Stop loss</th>
-            <th class="px-6 py-3">Leverage</th>
             <th class="px-6 py-3">Created at</th>
           </tr>
         </thead>
@@ -31,7 +30,6 @@
             <td class="px-6 py-3">{{ strategy.side.toUpperCase() }}</td>
             <td class="px-6 py-3">{{ formatNumber(strategy.tp) }}</td>
             <td class="px-6 py-3">{{ formatNumber(strategy.sl) }}</td>
-            <td class="px-6 py-3">{{ strategy.leverage }}</td>
             <td class="px-6 py-3">
               {{ formatDate(strategy.createdAt.toString()) }}
             </td>

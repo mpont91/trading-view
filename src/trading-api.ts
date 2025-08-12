@@ -1,7 +1,6 @@
 import type { Equity } from './types/equity.ts'
 import type { TimeInterval } from './types/time-interval.ts'
 import type { Performance } from './types/performance.ts'
-import type { TradingMode } from './types/trading-mode.ts'
 import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './types/commission-equity.ts'
 import type { Strategy } from './types/strategy.ts'
@@ -10,7 +9,7 @@ import type { Signals } from './types/signals.ts'
 export class TradingApi {
   private readonly api: string
 
-  constructor(private readonly tradingMode: TradingMode | null = null) {
+  constructor() {
     this.api = import.meta.env.PUBLIC_API
   }
 
@@ -81,10 +80,6 @@ export class TradingApi {
 
   private createEndpoint(path: string, params: string | null = null): string {
     let endpoint: string = path
-
-    if (this.tradingMode) {
-      endpoint = `${this.tradingMode}/${endpoint}`
-    }
 
     if (params) {
       endpoint += `?${params}`

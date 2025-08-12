@@ -1,10 +1,7 @@
 <template>
-  <SignalsGraphContainer trading-mode="spot" :symbol="symbol" />
-  <LastStrategiesContainer trading-mode="spot" :symbol="symbol" />
-  <LastOpportunitiesContainer trading-mode="spot" :symbol="symbol" />
-  <SignalsGraphContainer trading-mode="futures" :symbol="symbol" />
-  <LastStrategiesContainer trading-mode="futures" :symbol="symbol" />
-  <LastOpportunitiesContainer trading-mode="futures" :symbol="symbol" />
+  <SignalsGraphContainer :symbol="symbol" />
+  <LastStrategiesContainer :symbol="symbol" />
+  <LastOpportunitiesContainer :symbol="symbol" />
 </template>
 <script setup lang="ts">
 import SignalsGraphContainer from '../containers/SignalsGraphContainer.vue'

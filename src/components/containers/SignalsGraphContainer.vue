@@ -1,9 +1,9 @@
 <template>
-  <GraphSkeleton :title="`Signals ${tradingMode}`" v-if="isLoadingSignals" />
-  <CardError :title="`Signals ${tradingMode}`" v-else-if="hasErrorSignals" />
+  <GraphSkeleton title="Signals" v-if="isLoadingSignals" />
+  <CardError title="Signals" v-else-if="hasErrorSignals" />
   <SignalsGraphView
     v-else
-    :title="`Signals ${tradingMode}`"
+    title="Signals"
     v-model="interval"
     :signals="signals"
   />
@@ -11,25 +11,20 @@
 <script setup lang="ts">
 import SignalsGraphView from '../views/SignalsGraphView.vue'
 import { TradingApi } from '../../trading-api.ts'
-import { onMounted, ref, watch, type PropType } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import type { Signals } from '../../types/signals.ts'
 import GraphSkeleton from '../skeletons/GraphSkeleton.vue'
 import CardError from '../errors/CardError.vue'
-import type { TradingMode } from '../../types/trading-mode.ts'
 
 const props = defineProps({
-  tradingMode: {
-    type: String as PropType<TradingMode>,
-    required: true,
-  },
   symbol: {
     type: String,
     required: true,
   },
 })
 
-const api = new TradingApi(props.tradingMode)
+const api = new TradingApi()
 const interval = ref<TimeInterval>('all')
 const signals = ref<Signals>()
 const isLoadingSignals = ref(true)

@@ -14,18 +14,9 @@ import CommissionEquityView from '../views/CommissionEquityView.vue'
 import { onMounted, ref } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
 import { createEmptyCommissionEquity } from '../../helpers/commission-helper.ts'
-import type { TradingMode } from '../../types/trading-mode.ts'
 import type { CommissionEquity as CommissionEquityType } from '../../types/commission-equity.ts'
-import type { PropType } from 'vue'
 
-const props = defineProps({
-  tradingMode: {
-    type: String as PropType<TradingMode>,
-    required: true,
-  },
-})
-
-const api = new TradingApi(props.tradingMode)
+const api = new TradingApi()
 const commissionEquity = ref<CommissionEquityType>(
   createEmptyCommissionEquity(),
 )
@@ -33,9 +24,7 @@ const isLoadingCommissionEquity = ref(true)
 const hasErrorCommissionEquity = ref(false)
 
 onMounted(() => {
-  if (props.tradingMode === 'spot') {
-    fetchCommissionEquity()
-  }
+  fetchCommissionEquity()
 })
 
 async function fetchCommissionEquity() {
