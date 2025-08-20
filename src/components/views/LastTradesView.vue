@@ -5,7 +5,6 @@
         <thead class="text-xs uppercase bg-neutral-700 text-neutral-400">
           <tr>
             <th scope="col" class="px-6 py-3">Symbol</th>
-            <th scope="col" class="px-6 py-3">Side</th>
             <th scope="col" class="px-6 py-3">Entry date</th>
             <th scope="col" class="px-6 py-3">Entry price</th>
             <th scope="col" class="px-6 py-3">Exit date</th>
@@ -23,13 +22,12 @@
               class="px-6 py-4 font-medium whitespace-nowrap text-white"
             >
               <a
-                :href="`/${getFirstSegment()}/${trade.symbol.toLowerCase()}`"
+                :href="`/${trade.symbol.toLowerCase()}`"
                 class="font-medium text-blue-500 hover:underline"
               >
                 {{ trade.symbol }}
               </a>
             </td>
-            <td class="px-6 py-4">{{ trade.side }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.entryAt) }}</td>
             <td class="px-6 py-4">{{ formatNumber(trade.entryPrice) }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.exitAt) }}</td>
