@@ -1,9 +1,6 @@
-import type { Side } from './side.ts'
-
 export interface Trade {
   id: number
   symbol: string
-  side: Side
   quantity: number
   entryOrderId: string
   entryPrice: number
