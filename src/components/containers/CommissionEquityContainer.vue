@@ -29,7 +29,6 @@ async function fetchCommissionEquity() {
   isLoadingCommissionEquity.value = true
   try {
     commissionEquity.value = await api.getCommissionEquity()
-    console.log(commissionEquity.value)
   } catch (error) {
     hasErrorCommissionEquity.value = true
   } finally {

@@ -1,10 +1,10 @@
 <template>
-  <SignalsGraphContainer :symbol="symbol" />
+  <StrategyAnalysisGraphContainer :symbol="symbol" />
   <LastStrategiesContainer :symbol="symbol" />
   <LastOpportunitiesContainer :symbol="symbol" />
 </template>
 <script setup lang="ts">
-import SignalsGraphContainer from '../containers/SignalsGraphContainer.vue'
+import StrategyAnalysisGraphContainer from '../containers/StrategyAnalysisGraphContainer.vue'
 import LastStrategiesContainer from '../containers/LastStrategiesContainer.vue'
 import LastOpportunitiesContainer from '../containers/LastOpportunitiesContainer.vue'
 

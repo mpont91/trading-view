@@ -17,7 +17,7 @@ import {
   whitePointColor,
 } from '../../helpers/graph-helper.ts'
 import type { PropType } from 'vue'
-import type { Signals } from '../../types/signals.ts'
+import type { StrategyAnalysis } from '../../types/strategy-analysis.ts'
 import type { ChartOptions } from 'chart.js'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import { Line } from 'vue-chartjs'
@@ -33,8 +33,8 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  signals: {
-    type: Object as PropType<Signals>,
+  strategyAnalysis: {
+    type: Object as PropType<StrategyAnalysis>,
     required: true,
   },
 })
@@ -71,13 +71,13 @@ const data = computed(() => ({
   ],
 }))
 
-const priceDates = computed(() => props.signals?.prices.map((p) => p.date))
-const priceAmounts = computed(() => props.signals?.prices.map((p) => p.amount))
+const priceDates = computed(() => props.strategyAnalysis?.prices.map((p) => p.date))
+const priceAmounts = computed(() => props.strategyAnalysis?.prices.map((p) => p.amount))
 const longOpportunities = computed(() => {
-  const alignedData = new Array(props.signals?.prices.length).fill(null)
+  const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(null)
 
-  props.signals?.opportunities
-    .filter((o) => o.side === 'long')
+  props.strategyAnalysis?.opportunities
+    .filter((o) => o.signal === Signal.BUY)
     .forEach((o) => {
       const closestIndex = findClosestPriceIndex(o.date)
       alignedData[closestIndex] = priceAmounts.value[closestIndex]
@@ -87,10 +87,10 @@ const longOpportunities = computed(() => {
 })
 
 const shortOpportunities = computed(() => {
-  const alignedData = new Array(props.signals?.prices.length).fill(null)
+  const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(null)
 
-  props.signals?.opportunities
-    .filter((o) => o.side === 'short')
+  props.strategyAnalysis?.opportunities
+    .filter((o) => o.signal === Signal.SELL)
     .forEach((o) => {
       const closestIndex = findClosestPriceIndex(o.date)
       alignedData[closestIndex] = priceAmounts.value[closestIndex]

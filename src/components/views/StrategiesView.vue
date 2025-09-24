@@ -6,7 +6,7 @@
           <tr>
             <th class="px-6 py-3">Symbol</th>
             <th class="px-6 py-3">Price</th>
-            <th class="px-6 py-3">Side</th>
+            <th class="px-6 py-3">Signal</th>
             <th class="px-6 py-3">Take profit</th>
             <th class="px-6 py-3">Stop loss</th>
             <th class="px-6 py-3">Created at</th>
@@ -27,7 +27,7 @@
               </a>
             </td>
             <td class="px-6 py-3">{{ formatNumber(strategy.price) }}</td>
-            <td class="px-6 py-3">{{ strategy.side.toUpperCase() }}</td>
+            <td class="px-6 py-3">{{ strategy.signal.toUpperCase() }}</td>
             <td class="px-6 py-3">{{ formatNumber(strategy.tp) }}</td>
             <td class="px-6 py-3">{{ formatNumber(strategy.sl) }}</td>
             <td class="px-6 py-3">

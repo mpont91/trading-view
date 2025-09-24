@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1">
       <div class="bg-amber-950 text-amber-300 p-4">
         <p>
-          <span v-if="CommissionEquity" class="font-semibold">
+          <span v-if="commissionEquity" class="font-semibold">
             {{ formatNumber(commissionEquity.quantity) }}
             {{ commissionEquity.currency }} ({{
               formatAmount(commissionEquity.amount)

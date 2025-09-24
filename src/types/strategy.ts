@@ -1,10 +1,10 @@
-import type { Side } from './side.ts'
+import { Signal } from './signal'
 
 export interface Strategy {
   id: number
   symbol: string
   price: number
-  side: Side
+  signal: Signal
   sl?: number
   tp?: number
   createdAt: Date

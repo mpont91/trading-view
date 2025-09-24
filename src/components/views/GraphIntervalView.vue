@@ -1,7 +1,7 @@
 <template>
   <div class="inline-flex shadow-sm" role="group">
     <button
-      v-for="option in timeIntervalOptions"
+      v-for="option in TimeInterval"
       :key="option"
       type="button"
       class="px-4 py-2 capitalize text-xs font-medium border bg-neutral-800 border-neutral-700 text-white hover:bg-neutral-700"
@@ -14,7 +14,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { timeIntervalOptions } from '../../types/time-interval.ts'
+import { TimeInterval } from '../../types/time-interval.ts'
 
 const props = defineProps({
   modelValue: {
