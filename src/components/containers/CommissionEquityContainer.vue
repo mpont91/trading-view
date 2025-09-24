@@ -13,13 +13,10 @@ import CardError from '../errors/CardError.vue'
 import CommissionEquityView from '../views/CommissionEquityView.vue'
 import { onMounted, ref } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
-import { createEmptyCommissionEquity } from '../../helpers/commission-helper.ts'
 import type { CommissionEquity as CommissionEquityType } from '../../types/commission-equity.ts'
 
 const api = new TradingApi()
-const commissionEquity = ref<CommissionEquityType>(
-  createEmptyCommissionEquity(),
-)
+const commissionEquity = ref<CommissionEquityType | null>(null)
 const isLoadingCommissionEquity = ref(true)
 const hasErrorCommissionEquity = ref(false)
 
@@ -32,6 +29,7 @@ async function fetchCommissionEquity() {
   isLoadingCommissionEquity.value = true
   try {
     commissionEquity.value = await api.getCommissionEquity()
+    console.log(commissionEquity.value)
   } catch (error) {
     hasErrorCommissionEquity.value = true
   } finally {

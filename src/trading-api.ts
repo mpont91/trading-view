@@ -36,7 +36,7 @@ export class TradingApi {
     return this.fetchJsonData<Performance>(endpoint)
   }
 
-  async getCommissionEquity(): Promise<CommissionEquity> {
+  async getCommissionEquity(): Promise<CommissionEquity | null> {
     const endpoint: string = this.createEndpoint('commission-equity')
     return this.fetchJsonData<CommissionEquity>(endpoint)
   }
