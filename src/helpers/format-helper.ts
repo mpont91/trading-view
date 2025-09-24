@@ -4,6 +4,12 @@ export function formatAmount(amount?: number): string {
   return `$ ${amount.toFixed(2)}`
 }
 
+export function formatPercentage(number?: number): string {
+  if (number === null || number === undefined) return ''
+
+  return `${(number * 100).toFixed(2)}%`
+}
+
 export function formatNumber(number?: number): string {
   if (number === null || number === undefined) return ''
 

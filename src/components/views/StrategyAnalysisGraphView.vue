@@ -18,6 +18,7 @@ import {
 } from '../../helpers/graph-helper.ts'
 import type { PropType } from 'vue'
 import type { StrategyAnalysis } from '../../types/strategy-analysis.ts'
+import { Signal } from '../../types/signal.ts'
 import type { ChartOptions } from 'chart.js'
 import type { TimeInterval } from '../../types/time-interval.ts'
 import { Line } from 'vue-chartjs'
@@ -45,16 +46,16 @@ const data = computed(() => ({
   labels: priceDates.value,
   datasets: [
     {
-      label: 'Long',
-      data: longOpportunities.value,
+      label: 'Buy',
+      data: buyOpportunities.value,
       backgroundColor: greenPointColor,
       borderColor: 'transparent',
       pointRadius: 5,
       pointHoverRadius: 7,
     },
     {
-      label: 'Short',
-      data: shortOpportunities.value,
+      label: 'Sell',
+      data: sellOpportunities.value,
       backgroundColor: redPointColor,
       borderColor: 'transparent',
       pointRadius: 5,
@@ -77,7 +78,7 @@ const priceDates = computed(() =>
 const priceAmounts = computed(() =>
   props.strategyAnalysis?.prices.map((p) => p.amount),
 )
-const longOpportunities = computed(() => {
+const buyOpportunities = computed(() => {
   const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(
     null,
   )
@@ -92,7 +93,7 @@ const longOpportunities = computed(() => {
   return alignedData
 })
 
-const shortOpportunities = computed(() => {
+const sellOpportunities = computed(() => {
   const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(
     null,
   )
