@@ -71,10 +71,16 @@ const data = computed(() => ({
   ],
 }))
 
-const priceDates = computed(() => props.strategyAnalysis?.prices.map((p) => p.date))
-const priceAmounts = computed(() => props.strategyAnalysis?.prices.map((p) => p.amount))
+const priceDates = computed(() =>
+  props.strategyAnalysis?.prices.map((p) => p.date),
+)
+const priceAmounts = computed(() =>
+  props.strategyAnalysis?.prices.map((p) => p.amount),
+)
 const longOpportunities = computed(() => {
-  const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(null)
+  const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(
+    null,
+  )
 
   props.strategyAnalysis?.opportunities
     .filter((o) => o.signal === Signal.BUY)
@@ -87,7 +93,9 @@ const longOpportunities = computed(() => {
 })
 
 const shortOpportunities = computed(() => {
-  const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(null)
+  const alignedData = new Array(props.strategyAnalysis?.prices.length).fill(
+    null,
+  )
 
   props.strategyAnalysis?.opportunities
     .filter((o) => o.signal === Signal.SELL)

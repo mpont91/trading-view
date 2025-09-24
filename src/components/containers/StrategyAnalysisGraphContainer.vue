@@ -42,7 +42,10 @@ async function fetchStrategyAnalysis() {
   hasErrorStrategyAnalysis.value = false
   isLoadingStrategyAnalysis.value = true
   try {
-    strategyAnalysis.value = await api.getStrategyAnalysisGraph(props.symbol, interval.value)
+    strategyAnalysis.value = await api.getStrategyAnalysisGraph(
+      props.symbol,
+      interval.value,
+    )
   } catch (error) {
     hasErrorStrategyAnalysis.value = true
   } finally {

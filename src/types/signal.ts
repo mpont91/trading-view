@@ -1,5 +1,5 @@
-export enum Signal{
-    BUY= 'buy',
-    SELL  = 'sell',
-    HOLD  = 'hold',
+export enum Signal {
+  BUY = 'buy',
+  SELL = 'sell',
+  HOLD = 'hold',
 }

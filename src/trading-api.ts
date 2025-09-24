@@ -63,7 +63,10 @@ export class TradingApi {
     symbol: string,
     interval: TimeInterval,
   ): Promise<StrategyAnalysis> {
-    const path: string = this.createPath('market/graph/strategy-analysis', symbol)
+    const path: string = this.createPath(
+      'market/graph/strategy-analysis',
+      symbol,
+    )
     const endpoint: string = this.createEndpoint(path, `interval=${interval}`)
     return this.fetchJsonData<StrategyAnalysis>(endpoint)
   }

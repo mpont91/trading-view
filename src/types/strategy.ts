@@ -7,5 +7,8 @@ export interface Strategy {
   signal: Signal
   sl?: number
   tp?: number
+  ts?: number
+  tpPrice?: number
+  slPrice?: number
   createdAt: Date
 }

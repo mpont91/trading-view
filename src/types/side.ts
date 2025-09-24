@@ -1,4 +1,4 @@
-export enum Side{
-    LONG= 'long',
-    SHORT  = 'short',
+export enum Side {
+  LONG = 'long',
+  SHORT = 'short',
 }
