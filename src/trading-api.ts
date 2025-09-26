@@ -81,7 +81,7 @@ export class TradingApi {
     | IndicatorBB[]
     | IndicatorSMACross[]
   > {
-    const path = ['market/graph/indicator', symbol, indicator]
+    const path = ['market/graph/indicator', indicator, symbol]
     const params = { interval }
     return this.request<
       | IndicatorSMA[]

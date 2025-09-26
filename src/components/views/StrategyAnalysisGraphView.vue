@@ -62,7 +62,7 @@ const data = computed(() => ({
       pointHoverRadius: 7,
     },
     {
-      label: 'Price ($)',
+      label: 'Price',
       backgroundColor: whitePointColor,
       borderColor: whiteLineColor,
       data: priceAmounts.value,
