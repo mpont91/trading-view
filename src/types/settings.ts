@@ -1,14 +1,30 @@
 import type { KlineInterval } from './kline'
 
-export interface ApiSettings {
-  klineHistoryInterval: KlineInterval
-  klineHistoryLimit: number
-}
-
-export interface TradingSettings {
+export interface Settings {
+  intervalTradingTime: number
+  intervalMarketTime: number
+  intervalAccountTime: number
+  binance: BinanceSettings
   maxPositionsOpened: number
   symbols: string[]
   safetyCapitalMargin: number
+  history: HistorySettings
+  indicators: IndicatorsSettings
+  risk: RiskSettings
+}
+
+export interface BinanceSettings {
+  binanceApiKey: string
+  binanceApiSecret: string
+  bottleneckMaxConcurrent: number
+  bottleneckMinTime: number
+  baseCurrency: string
+  feeCurrency: string
+}
+
+export interface HistorySettings {
+  klineHistoryInterval: KlineInterval
+  klineHistoryLimit: number
 }
 
 export interface IndicatorsSettings {
@@ -26,7 +42,12 @@ export interface IndicatorsSettings {
   }
 }
 
-export interface StopsSettings {
-  tp: number | null
-  sl: number | null
+export interface RiskSettings {
+  strongTrendMin: number
+  bullishMomentumMin: number
+  bullishMomentumMax: number
+  bearishMomentumMax: number
+  minRiskRewardRatio: number
+  slPaddingPercentage: number
+  trailingStopMultiplier: number
 }

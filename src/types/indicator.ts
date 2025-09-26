@@ -50,3 +50,12 @@ export interface IndicatorList {
   bb: IndicatorBB | null
   smaCross: IndicatorSMACross | null
 }
+
+export enum IndicatorName {
+  SMA = 'sma',
+  RSI = 'rsi',
+  ATR = 'atr',
+  ADX = 'adx',
+  BB = 'bb',
+  SMACROSS = 'smacross',
+}

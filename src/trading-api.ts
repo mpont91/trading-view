@@ -5,6 +5,14 @@ import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './types/commission-equity.ts'
 import type { Strategy } from './types/strategy.ts'
 import type { StrategyAnalysis } from './types/strategy-analysis.ts'
+import type {
+  IndicatorADX,
+  IndicatorATR,
+  IndicatorBB,
+  IndicatorRSI,
+  IndicatorSMA,
+  IndicatorSMACross,
+} from './types/indicator'
 
 type QueryParams = Record<string, string | number | boolean>
 
@@ -59,6 +67,30 @@ export class TradingApi {
     const path = ['market/graph/strategy-analysis', symbol]
     const params = { interval }
     return this.request<StrategyAnalysis>(path, params)
+  }
+
+  async getGraphIndicator(
+    symbol: string,
+    indicator: string,
+    interval: TimeInterval,
+  ): Promise<
+    | IndicatorSMA[]
+    | IndicatorRSI[]
+    | IndicatorADX[]
+    | IndicatorATR[]
+    | IndicatorBB[]
+    | IndicatorSMACross[]
+  > {
+    const path = ['market/graph/indicator', symbol, indicator]
+    const params = { interval }
+    return this.request<
+      | IndicatorSMA[]
+      | IndicatorRSI[]
+      | IndicatorADX[]
+      | IndicatorATR[]
+      | IndicatorBB[]
+      | IndicatorSMACross[]
+    >(path, params)
   }
 
   private buildUrl(path: string | string[], params?: QueryParams): string {

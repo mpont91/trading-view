@@ -1,5 +1,8 @@
 <template>
-  <GraphSkeleton title="Strategy analysis" v-if="isLoadingStrategyAnalysis" />
+  <GraphSkeleton
+    title="Strategy analysis"
+    v-if="isLoadingStrategyAnalysis || !strategyAnalysis"
+  />
   <CardError title="Strategy analysis" v-else-if="hasErrorStrategyAnalysis" />
   <StrategyAnalysisGraphView
     v-else
@@ -12,7 +15,7 @@
 import StrategyAnalysisGraphView from '../views/StrategyAnalysisGraphView.vue'
 import { TradingApi } from '../../trading-api.ts'
 import { onMounted, ref, watch } from 'vue'
-import type { TimeInterval } from '../../types/time-interval.ts'
+import { TimeInterval } from '../../types/time-interval.ts'
 import type { StrategyAnalysis } from '../../types/strategy-analysis.ts'
 import GraphSkeleton from '../skeletons/GraphSkeleton.vue'
 import CardError from '../errors/CardError.vue'
@@ -25,7 +28,7 @@ const props = defineProps({
 })
 
 const api = new TradingApi()
-const interval = ref<TimeInterval>('all')
+const interval = ref<TimeInterval>(TimeInterval.ALL)
 const strategyAnalysis = ref<StrategyAnalysis>()
 const isLoadingStrategyAnalysis = ref(true)
 const hasErrorStrategyAnalysis = ref(false)

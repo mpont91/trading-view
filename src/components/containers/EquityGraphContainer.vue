@@ -9,11 +9,11 @@ import GraphSkeleton from '../skeletons/GraphSkeleton.vue'
 import CardError from '../errors/CardError.vue'
 import { onMounted, ref, watch } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
-import type { TimeInterval } from '../../types/time-interval.ts'
+import { TimeInterval } from '../../types/time-interval.ts'
 import type { Equity } from '../../types/equity.ts'
 
 const api = new TradingApi()
-const interval = ref<TimeInterval>('all')
+const interval = ref<TimeInterval>(TimeInterval.ALL)
 const equity = ref<Equity[]>([])
 const isLoadingEquity = ref(true)
 const hasErrorEquity = ref(false)
