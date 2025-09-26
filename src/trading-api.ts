@@ -6,11 +6,17 @@ import type { CommissionEquity } from './types/commission-equity.ts'
 import type { Strategy } from './types/strategy.ts'
 import type { StrategyAnalysis } from './types/strategy-analysis.ts'
 
+type QueryParams = Record<string, string | number | boolean>
+
 export class TradingApi {
   private readonly api: string
 
   constructor() {
     this.api = import.meta.env.PUBLIC_API
+
+    if (this.api.endsWith('/')) {
+      this.api = this.api.slice(0, -1)
+    }
   }
 
   async getHealthCheck(): Promise<boolean> {
@@ -19,81 +25,79 @@ export class TradingApi {
   }
 
   async getUptime(): Promise<number> {
-    const endpoint: string = this.createEndpoint('uptime')
-    return this.fetchJsonData<number>(endpoint)
+    return this.request<number>('uptime')
   }
 
   async getEquityGraph(interval: TimeInterval): Promise<Equity[]> {
-    const endpoint: string = this.createEndpoint(
-      'graph/equity',
-      `interval=${interval}`,
-    )
-    return this.fetchJsonData<Equity[]>(endpoint)
+    return this.request<Equity[]>('graph/equity', { interval })
   }
 
   async getPerformance(): Promise<Performance> {
-    const endpoint: string = this.createEndpoint('performance')
-    return this.fetchJsonData<Performance>(endpoint)
+    return this.request<Performance>('performance')
   }
 
   async getCommissionEquity(): Promise<CommissionEquity | null> {
-    const endpoint: string = this.createEndpoint('commission-equity')
-    return this.fetchJsonData<CommissionEquity>(endpoint)
+    return this.request<CommissionEquity>('commission-equity')
   }
 
   async getLastTrades(symbol: string = ''): Promise<Trade[]> {
-    const path: string = this.createPath('last-trades', symbol)
-    const endpoint: string = this.createEndpoint(path)
-    return this.fetchJsonData<Trade[]>(endpoint)
+    return this.request<Trade[]>(['last-trades', symbol])
   }
 
   async getStrategies(symbol: string = ''): Promise<Strategy[]> {
-    const path: string = this.createPath('market/last-strategies', symbol)
-    const endpoint: string = this.createEndpoint(path)
-    return this.fetchJsonData<Strategy[]>(endpoint)
+    return this.request<Strategy[]>(['market/last-strategies', symbol])
   }
 
   async getLastOpportunities(symbol: string = ''): Promise<Strategy[]> {
-    const path: string = this.createPath('market/last-opportunities', symbol)
-    const endpoint: string = this.createEndpoint(path)
-    return this.fetchJsonData<Strategy[]>(endpoint)
+    return this.request<Strategy[]>(['market/last-opportunities', symbol])
   }
 
   async getStrategyAnalysisGraph(
     symbol: string,
     interval: TimeInterval,
   ): Promise<StrategyAnalysis> {
-    const path: string = this.createPath(
-      'market/graph/strategy-analysis',
-      symbol,
-    )
-    const endpoint: string = this.createEndpoint(path, `interval=${interval}`)
-    return this.fetchJsonData<StrategyAnalysis>(endpoint)
+    const path = ['market/graph/strategy-analysis', symbol]
+    const params = { interval }
+    return this.request<StrategyAnalysis>(path, params)
   }
 
-  private createPath(base: string, param: string): string {
-    let path: string = base
+  private buildUrl(path: string | string[], params?: QueryParams): string {
+    const segments = [path]
+      .flat()
+      .filter((p) => p)
+      .join('/')
 
-    if (param) {
-      path += '/' + param
-    }
-
-    return path
-  }
-
-  private createEndpoint(path: string, params: string | null = null): string {
-    let endpoint: string = path
+    const url = new URL(`${this.api}/${segments}`)
 
     if (params) {
-      endpoint += `?${params}`
+      Object.entries(params).forEach(([key, value]) => {
+        url.searchParams.append(key, String(value))
+      })
     }
 
-    return endpoint
+    return url.toString()
   }
 
-  private async fetchJsonData<T>(endpoint: string): Promise<T> {
-    const response: Response = await fetch(this.api + endpoint)
-    const json = await response.json()
-    return json.data
+  private async request<T>(
+    path: string | string[],
+    params?: QueryParams,
+  ): Promise<T> {
+    const endpoint = this.buildUrl(path, params)
+
+    try {
+      const response = await fetch(endpoint)
+
+      if (!response.ok) {
+        throw new Error(
+          `Error request: ${response.status} ${response.statusText}`,
+        )
+      }
+
+      const json = await response.json()
+      return json.data as T
+    } catch (error) {
+      console.error(`Error fetch ${endpoint}:`, error)
+      throw error
+    }
   }
 }
