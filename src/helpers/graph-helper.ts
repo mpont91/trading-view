@@ -63,6 +63,10 @@ export function getChartOptions(
   }
 }
 
+export const pointRadius: number = 5
+export const pointHoverRadius: number = 7
+export const pointRadiusSmall: number = 2
+export const pointHoverRadiusSmall: number = 5
 export const layoutColor: string = '#525252'
 export const greenPointColor: string = '#22c55e'
 export const greenLineColor: string = '#166534'

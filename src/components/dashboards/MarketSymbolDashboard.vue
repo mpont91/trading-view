@@ -1,6 +1,6 @@
 <template>
   <StrategyAnalysisGraphContainer :symbol="symbol" />
-  <IndicatorSMAGraphContainer :symbol="symbol" />
+  <IndicatorGraphContainer :symbol="symbol" />
   <LastStrategiesContainer :symbol="symbol" />
   <LastOpportunitiesContainer :symbol="symbol" />
 </template>
@@ -8,7 +8,7 @@
 import StrategyAnalysisGraphContainer from '../containers/StrategyAnalysisGraphContainer.vue'
 import LastStrategiesContainer from '../containers/LastStrategiesContainer.vue'
 import LastOpportunitiesContainer from '../containers/LastOpportunitiesContainer.vue'
-import IndicatorSMAGraphContainer from '../containers/IndicatorSMAGraphContainer.vue'
+import IndicatorGraphContainer from '../containers/IndicatorGraphContainer.vue'
 
 defineProps({
   symbol: {

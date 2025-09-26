@@ -1,8 +1,5 @@
 <template>
-  <Card title="Equity">
-    <p class="text-xl font-extrabold text-lime-600">
-      {{ formatAmount(currentEquity) }}
-    </p>
+  <Card :title="title">
     <GraphInterval class="my-4 sm:float-right" v-model="interval" />
     <Line :data="data" :options="options" />
   </Card>
@@ -10,21 +7,24 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PropType } from 'vue'
-import type { Equity } from '../../types/equity.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import Card from '../common/Card.vue'
 import GraphInterval from './GraphIntervalView.vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
-import { formatAmount } from '../../helpers/format-helper.ts'
 import {
+  blueLineColor,
+  bluePointColor,
   getChartOptions,
-  greenLineColor,
-  greenPointColor,
+  orangeLineColor,
+  orangePointColor,
   pointHoverRadiusSmall,
   pointRadiusSmall,
   registerChartJs,
+  yellowLineColor,
+  yellowPointColor,
 } from '../../helpers/graph-helper.ts'
+import type { IndicatorADX } from '../../types/indicator.ts'
 
 registerChartJs()
 
@@ -33,8 +33,12 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  equity: {
-    type: Array as PropType<Equity[]>,
+  title: {
+    type: String,
+    required: true,
+  },
+  adx: {
+    type: Object as PropType<IndicatorADX[]>,
     required: true,
   },
 })
@@ -45,10 +49,26 @@ const data = computed(() => ({
   labels: dates.value,
   datasets: [
     {
-      label: 'Amount',
-      backgroundColor: greenPointColor,
-      borderColor: greenLineColor,
-      data: amounts.value,
+      label: 'ADX',
+      backgroundColor: bluePointColor,
+      borderColor: blueLineColor,
+      data: adxValue.value,
+      pointRadius: pointRadiusSmall,
+      pointHoverRadius: pointHoverRadiusSmall,
+    },
+    {
+      label: 'PDI',
+      backgroundColor: yellowPointColor,
+      borderColor: yellowLineColor,
+      data: pdi.value,
+      pointRadius: pointRadiusSmall,
+      pointHoverRadius: pointHoverRadiusSmall,
+    },
+    {
+      label: 'MDI',
+      backgroundColor: orangePointColor,
+      borderColor: orangeLineColor,
+      data: mdi.value,
       pointRadius: pointRadiusSmall,
       pointHoverRadius: pointHoverRadiusSmall,
     },
@@ -60,21 +80,13 @@ const interval = computed({
   set: (value) => emit('update:modelValue', value),
 })
 
-const dates = computed(() =>
-  props.equity.map((equity: Equity) => equity.createdAt),
-)
+const dates = computed(() => props.adx.map((a: IndicatorADX) => a.createdAt))
 
-const amounts = computed(() =>
-  props.equity.map((equity: Equity) => equity.amount),
-)
+const adxValue = computed(() => props.adx.map((a: IndicatorADX) => a.adx))
 
-const currentEquity = computed(() => {
-  if (props.equity.length === 0) {
-    return 0
-  }
+const pdi = computed(() => props.adx.map((a: IndicatorADX) => a.pdi))
 
-  return props.equity[props.equity.length - 1].amount
-})
+const mdi = computed(() => props.adx.map((a: IndicatorADX) => a.mdi))
 
 const options = computed<ChartOptions<'line'>>(() =>
   getChartOptions(dates.value, interval.value as TimeInterval),

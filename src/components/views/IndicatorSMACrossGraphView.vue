@@ -1,8 +1,5 @@
 <template>
-  <Card title="Equity">
-    <p class="text-xl font-extrabold text-lime-600">
-      {{ formatAmount(currentEquity) }}
-    </p>
+  <Card :title="title">
     <GraphInterval class="my-4 sm:float-right" v-model="interval" />
     <Line :data="data" :options="options" />
   </Card>
@@ -10,21 +7,24 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { PropType } from 'vue'
-import type { Equity } from '../../types/equity.ts'
 import type { ChartOptions } from 'chart.js'
 import { Line } from 'vue-chartjs'
 import Card from '../common/Card.vue'
 import GraphInterval from './GraphIntervalView.vue'
 import type { TimeInterval } from '../../types/time-interval.ts'
-import { formatAmount } from '../../helpers/format-helper.ts'
 import {
+  blueLineColor,
+  bluePointColor,
   getChartOptions,
-  greenLineColor,
-  greenPointColor,
   pointHoverRadiusSmall,
   pointRadiusSmall,
   registerChartJs,
+  whiteLineColor,
+  whitePointColor,
+  yellowLineColor,
+  yellowPointColor,
 } from '../../helpers/graph-helper.ts'
+import type { IndicatorSMACross } from '../../types/indicator.ts'
 
 registerChartJs()
 
@@ -33,8 +33,12 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  equity: {
-    type: Array as PropType<Equity[]>,
+  title: {
+    type: String,
+    required: true,
+  },
+  smaCross: {
+    type: Object as PropType<IndicatorSMACross[]>,
     required: true,
   },
 })
@@ -45,10 +49,26 @@ const data = computed(() => ({
   labels: dates.value,
   datasets: [
     {
-      label: 'Amount',
-      backgroundColor: greenPointColor,
-      borderColor: greenLineColor,
-      data: amounts.value,
+      label: 'Price',
+      backgroundColor: whitePointColor,
+      borderColor: whiteLineColor,
+      data: price.value,
+      pointRadius: 0,
+      pointHoverRadius: 0,
+    },
+    {
+      label: 'SMA long',
+      backgroundColor: yellowPointColor,
+      borderColor: yellowLineColor,
+      data: smaLong.value,
+      pointRadius: pointRadiusSmall,
+      pointHoverRadius: pointHoverRadiusSmall,
+    },
+    {
+      label: 'SMA short',
+      backgroundColor: bluePointColor,
+      borderColor: blueLineColor,
+      data: smaShort.value,
       pointRadius: pointRadiusSmall,
       pointHoverRadius: pointHoverRadiusSmall,
     },
@@ -61,20 +81,20 @@ const interval = computed({
 })
 
 const dates = computed(() =>
-  props.equity.map((equity: Equity) => equity.createdAt),
+  props.smaCross.map((s: IndicatorSMACross) => s.createdAt),
 )
 
-const amounts = computed(() =>
-  props.equity.map((equity: Equity) => equity.amount),
+const price = computed(() =>
+  props.smaCross.map((s: IndicatorSMACross) => s.price),
 )
 
-const currentEquity = computed(() => {
-  if (props.equity.length === 0) {
-    return 0
-  }
+const smaLong = computed(() =>
+  props.smaCross.map((s: IndicatorSMACross) => s.smaLong),
+)
 
-  return props.equity[props.equity.length - 1].amount
-})
+const smaShort = computed(() =>
+  props.smaCross.map((s: IndicatorSMACross) => s.smaShort),
+)
 
 const options = computed<ChartOptions<'line'>>(() =>
   getChartOptions(dates.value, interval.value as TimeInterval),
