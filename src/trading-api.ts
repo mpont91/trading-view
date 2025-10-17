@@ -3,7 +3,6 @@ import type { TimeInterval } from './types/time-interval.ts'
 import type { Performance } from './types/performance.ts'
 import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './types/commission-equity.ts'
-import type { Strategy } from './types/strategy.ts'
 import type { StrategyAnalysis } from './types/strategy-analysis.ts'
 import type {
   IndicatorADX,
@@ -50,14 +49,6 @@ export class TradingApi {
 
   async getLastTrades(symbol: string = ''): Promise<Trade[]> {
     return this.request<Trade[]>(['last-trades', symbol])
-  }
-
-  async getStrategies(symbol: string = ''): Promise<Strategy[]> {
-    return this.request<Strategy[]>(['market/last-strategies', symbol])
-  }
-
-  async getLastOpportunities(symbol: string = ''): Promise<Strategy[]> {
-    return this.request<Strategy[]>(['market/last-opportunities', symbol])
   }
 
   async getStrategyAnalysisGraph(
