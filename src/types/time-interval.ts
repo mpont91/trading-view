@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export enum TimeInterval {
   DAY = 'day',
   WEEK = 'week',
@@ -5,3 +7,5 @@ export enum TimeInterval {
   YEAR = 'year',
   ALL = 'all',
 }
+
+export const timeIntervalSchema = z.enum(TimeInterval)

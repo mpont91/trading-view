@@ -4,14 +4,6 @@ import type { Performance } from './types/performance.ts'
 import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './types/commission-equity.ts'
 import type { StrategyAnalysis } from './types/strategy-analysis.ts'
-import type {
-  IndicatorADX,
-  IndicatorATR,
-  IndicatorBB,
-  IndicatorRSI,
-  IndicatorSMA,
-  IndicatorSMACross,
-} from './types/indicator'
 
 type QueryParams = Record<string, string | number | boolean>
 
@@ -36,7 +28,7 @@ export class TradingApi {
   }
 
   async getEquityGraph(interval: TimeInterval): Promise<Equity[]> {
-    return this.request<Equity[]>('graph/equity', { interval })
+    return this.request<Equity[]>('equity/graph', { interval })
   }
 
   async getPerformance(symbol: string = ''): Promise<Performance> {
@@ -55,33 +47,9 @@ export class TradingApi {
     symbol: string,
     interval: TimeInterval,
   ): Promise<StrategyAnalysis> {
-    const path = ['market/graph/strategy-analysis', symbol]
+    const path = ['strategy-analysis', symbol]
     const params = { interval }
     return this.request<StrategyAnalysis>(path, params)
-  }
-
-  async getGraphIndicator(
-    symbol: string,
-    indicator: string,
-    interval: TimeInterval,
-  ): Promise<
-    | IndicatorSMA[]
-    | IndicatorRSI[]
-    | IndicatorADX[]
-    | IndicatorATR[]
-    | IndicatorBB[]
-    | IndicatorSMACross[]
-  > {
-    const path = ['market/graph/indicator', indicator, symbol]
-    const params = { interval }
-    return this.request<
-      | IndicatorSMA[]
-      | IndicatorRSI[]
-      | IndicatorADX[]
-      | IndicatorATR[]
-      | IndicatorBB[]
-      | IndicatorSMACross[]
-    >(path, params)
   }
 
   private buildUrl(path: string | string[], params?: QueryParams): string {
