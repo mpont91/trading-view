@@ -1,21 +1,22 @@
 ---
 import IndexLayout from '../layouts/IndexLayout.astro'
 import SymbolDashboard from '../components/dashboards/SymbolDashboard.vue'
+import { z } from 'zod'
+import { symbolSchema } from '../types/symbol'
 
-const symbolParam: string | undefined = Astro.params.symbol
+export const requestSchema = z.object({
+  params: z.object({
+    symbol: symbolSchema,
+  }),
+})
 
-if (!symbolParam) {
-  throw new Error('Symbol is required')
-}
-
-const symbol: string = symbolParam as string
+const { params } = requestSchema.parse(Astro)
+const symbol = params.symbol
 ---
 
 <IndexLayout>
   <header>
-    <h1>
-      Trading - {symbol.toUpperCase()}
-    </h1>
-    <SymbolDashboard symbol={symbol} client:load />
+    <h1>{symbol.label}</h1>
+    <SymbolDashboard symbol={symbol.key} client:load />
   </header>
 </IndexLayout>

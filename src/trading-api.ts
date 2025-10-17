@@ -40,8 +40,8 @@ export class TradingApi {
     return this.request<Equity[]>('graph/equity', { interval })
   }
 
-  async getPerformance(): Promise<Performance> {
-    return this.request<Performance>('performance')
+  async getPerformance(symbol: string = ''): Promise<Performance> {
+    return this.request<Performance>(['performance', symbol])
   }
 
   async getCommissionEquity(): Promise<CommissionEquity | null> {

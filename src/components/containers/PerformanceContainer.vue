@@ -11,6 +11,13 @@ import { onMounted, ref } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
 import type { Performance as PerformanceType } from '../../types/performance.ts'
 
+const props = defineProps({
+  symbol: {
+    type: String,
+    default: '',
+  },
+})
+
 const api = new TradingApi()
 const performance = ref<PerformanceType>()
 const isLoadingPerformance = ref(true)
@@ -24,7 +31,7 @@ async function fetchPerformance() {
   hasErrorPerformance.value = false
   isLoadingPerformance.value = true
   try {
-    performance.value = await api.getPerformance()
+    performance.value = await api.getPerformance(props.symbol)
   } catch (error) {
     hasErrorPerformance.value = true
   } finally {
