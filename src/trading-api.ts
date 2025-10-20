@@ -4,6 +4,8 @@ import type { Performance } from './types/performance.ts'
 import type { Trade } from './types/trade.ts'
 import type { CommissionEquity } from './types/commission-equity.ts'
 import type { StrategyAnalysis } from './types/strategy-analysis.ts'
+import type { Position } from './types/position.ts'
+import type { Trailing } from './types/trailing.ts'
 
 type QueryParams = Record<string, string | number | boolean>
 
@@ -41,6 +43,14 @@ export class TradingApi {
 
   async getLastTrades(symbol: string = ''): Promise<Trade[]> {
     return this.request<Trade[]>(['last-trades', symbol])
+  }
+
+  async getPositions(): Promise<Position[]> {
+    return this.request<Position[]>('positions')
+  }
+
+  async getTrailing(): Promise<Trailing[]> {
+    return this.request<Trailing[]>('trailing')
   }
 
   async getStrategyAnalysisGraph(
