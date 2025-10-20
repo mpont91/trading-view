@@ -1,15 +1,15 @@
 <template>
-  <LastTradesSkeleton v-if="isLoadingLastTrades" />
+  <TableSkeleton title="Last trades" v-if="isLoadingLastTrades" />
   <CardError title="Last trades" v-else-if="hasErrorLastTrades" />
   <LastTradesView v-else :trades="lastTrades" />
 </template>
 <script setup lang="ts">
-import LastTradesSkeleton from '../skeletons/LastTradesSkeleton.vue'
 import LastTradesView from '../views/LastTradesView.vue'
 import CardError from '../errors/CardError.vue'
 import { onMounted, ref } from 'vue'
 import { TradingApi } from '../../trading-api.ts'
 import type { Trade } from '../../types/trade.ts'
+import TableSkeleton from '../skeletons/TableSkeleton.vue'
 
 const props = defineProps({
   symbol: {

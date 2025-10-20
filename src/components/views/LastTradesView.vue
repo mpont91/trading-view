@@ -17,17 +17,7 @@
             v-for="trade in trades"
             class="border-b bg-neutral-800 border-neutral-700"
           >
-            <td
-              scope="row"
-              class="px-6 py-4 font-medium whitespace-nowrap text-white"
-            >
-              <a
-                :href="`/${trade.symbol.toLowerCase()}`"
-                class="font-medium text-blue-500 hover:underline"
-              >
-                {{ trade.symbol }}
-              </a>
-            </td>
+            <td class="px-6 py-4">{{ trade.symbol }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.entryAt) }}</td>
             <td class="px-6 py-4">{{ formatNumber(trade.entryPrice) }}</td>
             <td class="px-6 py-4">{{ formatDate(trade.exitAt) }}</td>
@@ -48,7 +38,6 @@ import {
   formatNumber,
   formatDate,
 } from '../../helpers/format-helper.ts'
-import { getFirstSegment } from '../../helpers/url-helper.ts'
 
 defineProps({
   trades: {
