@@ -1,30 +1,33 @@
 {
   "name": "trading-view",
-  "type": "module",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
     "astro": "astro",
+    "build": "astro check && astro build",
+    "dev": "astro dev",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/tailwind": "^5.1.4",
-    "@astrojs/vercel": "^8.0.1",
-    "@astrojs/vue": "^5.0.3",
-    "astro": "^5.1.1",
-    "chart.js": "^4.4.7",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.2",
-    "vue": "^3.5.13",
-    "vue-chartjs": "^5.3.2",
-    "zod": "^4.1.11"
+    "@astrojs/vercel": "^9.0.4",
+    "@astrojs/vue": "^5.1.4",
+    "astro": "^5.17.1",
+    "chart.js": "^4.5.1",
+    "vue": "^3.5.27",
+    "vue-chartjs": "^5.3.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
-    "prettier": "^3.4.2",
-    "prettier-plugin-astro": "^0.14.1"
+    "@astrojs/check": "^0.9.6",
+    "@tailwindcss/vite": "^4.1.18",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=25.0.0"
   }
 }

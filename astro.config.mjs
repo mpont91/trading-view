@@ -1,12 +1,14 @@
 import { defineConfig } from 'astro/config'
-
-import tailwind from '@astrojs/tailwind'
-import vercel from '@astrojs/vercel'
 import vue from '@astrojs/vue'
+import vercel from '@astrojs/vercel'
+import tailwind from '@tailwindcss/vite'
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), vue()],
+  integrations: [vue()],
+  vite: {
+    plugins: [tailwind()],
+  },
   output: 'server',
   adapter: vercel(),
 })
