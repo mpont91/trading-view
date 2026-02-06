@@ -1,104 +1,64 @@
-import type { Equity } from './types/equity.ts'
-import type { TimeInterval } from './types/time-interval.ts'
-import type { Performance } from './types/performance.ts'
-import type { Trade } from './types/trade.ts'
-import type { CommissionEquity } from './types/commission-equity.ts'
-import type { StrategyAnalysis } from './types/strategy-analysis.ts'
-import type { Position } from './types/position.ts'
-import type { Trailing } from './types/trailing.ts'
-
-type QueryParams = Record<string, string | number | boolean>
+import { z } from 'zod'
 
 export class TradingApi {
-  private readonly api: string
+  private readonly baseUrl: string
 
   constructor() {
-    this.api = import.meta.env.PUBLIC_API
-
-    if (this.api.endsWith('/')) {
-      this.api = this.api.slice(0, -1)
-    }
+    const apiUrl: string = import.meta.env.PUBLIC_API
+    this.baseUrl = apiUrl.endsWith('/') ? apiUrl.slice(0, -1) : apiUrl
   }
 
-  async getHealthCheck(): Promise<boolean> {
-    const response: Response = await fetch(this.api)
-    return response.ok
+  async getHealth(): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.baseUrl}/uptime`)
+      return res.ok
+    } catch {
+      return false
+    }
   }
 
   async getUptime(): Promise<number> {
-    return this.request<number>('uptime')
+    const json = await this.request('/uptime')
+    const UptimeSchema = z.object({
+      data: z.number(),
+    })
+    const result = UptimeSchema.parse(json)
+
+    return result.data
   }
 
-  async getEquityGraph(interval: TimeInterval): Promise<Equity[]> {
-    return this.request<Equity[]>('equity/graph', { interval })
-  }
-
-  async getPerformance(symbol: string = ''): Promise<Performance> {
-    return this.request<Performance>(['performance', symbol])
-  }
-
-  async getCommissionEquity(): Promise<CommissionEquity | null> {
-    return this.request<CommissionEquity>('commission-equity')
-  }
-
-  async getLastTrades(symbol: string = ''): Promise<Trade[]> {
-    return this.request<Trade[]>(['last-trades', symbol])
-  }
-
-  async getPositions(): Promise<Position[]> {
-    return this.request<Position[]>('positions')
-  }
-
-  async getTrailing(): Promise<Trailing[]> {
-    return this.request<Trailing[]>('trailing')
-  }
-
-  async getStrategyAnalysisGraph(
-    symbol: string,
-    interval: TimeInterval,
-  ): Promise<StrategyAnalysis> {
-    const path = ['strategy-analysis', symbol]
-    const params = { interval }
-    return this.request<StrategyAnalysis>(path, params)
-  }
-
-  private buildUrl(path: string | string[], params?: QueryParams): string {
-    const segments = [path]
-      .flat()
-      .filter((p) => p)
-      .join('/')
-
-    const url = new URL(`${this.api}/${segments}`)
+  private async request(
+    endpoint: string,
+    params?: URLSearchParams,
+  ): Promise<unknown> {
+    const url = new URL(`${this.baseUrl}${endpoint}`)
 
     if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        url.searchParams.append(key, String(value))
-      })
+      url.search = params.toString()
     }
 
-    return url.toString()
+    const response = await fetch(url.toString())
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`)
+    }
+
+    return await response.json()
   }
 
-  private async request<T>(
-    path: string | string[],
-    params?: QueryParams,
-  ): Promise<T> {
-    const endpoint = this.buildUrl(path, params)
+  private toQueryParams(filters: Record<string, any>): URLSearchParams {
+    const params = new URLSearchParams()
 
-    try {
-      const response = await fetch(endpoint)
-
-      if (!response.ok) {
-        throw new Error(
-          `Error request: ${response.status} ${response.statusText}`,
-        )
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (value instanceof Date) {
+          params.append(key, value.toISOString())
+        } else {
+          params.append(key, String(value))
+        }
       }
+    })
 
-      const json = await response.json()
-      return json.data as T
-    } catch (error) {
-      console.error(`Error fetch ${endpoint}:`, error)
-      throw error
-    }
+    return params
   }
 }

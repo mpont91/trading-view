@@ -8,6 +8,8 @@
     "dev": "astro dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "preview": "astro preview"
   },
   "dependencies": {
@@ -21,11 +23,19 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
+    "@eslint/js": "^9.39.2",
     "@tailwindcss/vite": "^4.1.18",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-vue": "^10.7.0",
+    "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
+    "vue-eslint-parser": "^10.2.0"
   },
   "engines": {
     "node": ">=25.0.0"
