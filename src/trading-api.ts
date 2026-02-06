@@ -46,7 +46,7 @@ export class TradingApi {
     return await response.json()
   }
 
-  private toQueryParams(filters: Record<string, any>): URLSearchParams {
+  private toQueryParams(filters: Record<string, unknown>): URLSearchParams {
     const params = new URLSearchParams()
 
     Object.entries(filters).forEach(([key, value]) => {

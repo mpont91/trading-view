@@ -42,5 +42,12 @@ export default [
       },
     },
   },
+  {
+    files: ['src/env.d.ts', '**/*.d.ts'],
+    rules: {
+      '@typescript-eslint/triple-slash-reference': 'off',
+      'spaced-comment': 'off',
+    },
+  },
   eslintConfigPrettier,
 ]

@@ -1,6 +1,6 @@
 <template>
   <StatusSkeleton v-if="isLoadingUptime" />
-  <CardError title="Status" v-else-if="hasErrorUptime" />
+  <CardError v-else-if="hasErrorUptime" title="Status" />
   <StatusView v-else :uptime="uptime" />
 </template>
 <script setup lang="ts">
@@ -25,6 +25,7 @@ async function fetchUptime() {
   try {
     uptime.value = await api.getUptime()
   } catch (error) {
+    console.log(error)
     hasErrorUptime.value = true
   } finally {
     isLoadingUptime.value = false
