@@ -1,15 +1,17 @@
 import { z } from 'zod'
-import { timeFrameSchema } from './time-frame.ts'
 import { adviceSchema } from './advice.ts'
+import { createPaginatedSchema } from './paginated.ts'
 
 export const evaluationSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   ...adviceSchema.shape,
   symbol: z.string(),
   price: z.number(),
-  timeFrame: timeFrameSchema,
   model: z.string(),
   createdAt: z.coerce.date(),
 })
+
+export const evaluationPaginatedSchemaSchema =
+  createPaginatedSchema(evaluationSchema)
 
 export type Evaluation = z.infer<typeof evaluationSchema>

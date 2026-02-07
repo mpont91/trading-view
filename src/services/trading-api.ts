@@ -1,4 +1,10 @@
 import { z } from 'zod'
+import type { EvaluationFilter } from '../filters/evaluation-filter.ts'
+import type { Paginated } from '../schemas/paginated.ts'
+import {
+  type Evaluation,
+  evaluationPaginatedSchemaSchema,
+} from '../schemas/evaluation.ts'
 
 export class TradingApi {
   private readonly baseUrl: string
@@ -25,6 +31,18 @@ export class TradingApi {
     const result = UptimeSchema.parse(json)
 
     return result.data
+  }
+
+  async getEvaluations(
+    filters?: EvaluationFilter,
+  ): Promise<Paginated<Evaluation>> {
+    const params = filters
+      ? this.toQueryParams(filters as Record<string, unknown>)
+      : undefined
+
+    const json = await this.request('/evaluations', params)
+
+    return evaluationPaginatedSchemaSchema.parse(json)
   }
 
   private async request(

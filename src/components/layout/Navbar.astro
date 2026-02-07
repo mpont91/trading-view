@@ -1,7 +1,13 @@
 ---
 import { Image } from 'astro:assets'
 
-import { LayoutDashboard, Menu, X } from 'lucide-vue-next'
+import {
+  LayoutDashboard,
+  LineChart,
+  ListOrdered,
+  Menu,
+  X,
+} from 'lucide-vue-next'
 
 import IconHolder from '../ui/IconHolder.vue'
 
@@ -15,6 +21,8 @@ const currentPath = Astro.url.pathname
 
 const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Evaluations', href: '/evaluations', icon: LineChart },
+  { name: 'Orders', href: '/orders', icon: ListOrdered },
 ]
 
 const isActive = (path: string) => {

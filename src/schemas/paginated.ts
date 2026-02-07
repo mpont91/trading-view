@@ -10,3 +10,9 @@ export const metaSchema = z.object({
 export type Paginated<T> = z.infer<typeof metaSchema> & {
   data: T[]
 }
+
+export function createPaginatedSchema<T extends z.ZodTypeAny>(itemSchema: T) {
+  return metaSchema.extend({
+    data: z.array(itemSchema),
+  })
+}
