@@ -1,55 +1,127 @@
 ---
 import { Image } from 'astro:assets'
-import { Menu } from 'lucide-vue-next'
 
-const currentPath: string = Astro.url.pathname
+import { LayoutDashboard, Menu, X } from 'lucide-vue-next'
+
+import IconHolder from '../ui/IconHolder.vue'
+
+interface NavItem {
+  name: string
+  href: string
+  icon: object
+}
+
+const currentPath = Astro.url.pathname
+
+const navItems: NavItem[] = [
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+]
+
+const isActive = (path: string) => {
+  if (path === '/') return currentPath === '/'
+  return currentPath.startsWith(path)
+}
 ---
 
-<nav class="bg-gray-800 border-gray-700">
-  <div
-    class="container flex flex-wrap items-center justify-between mx-auto p-4"
-  >
-    <div class="flex items-center">
-      <a href="/public">
-        <Image src="/logo.webp" alt="Trading bot logo" width="50" height="50" />
+<nav
+  class="sticky top-0 z-50 w-full border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md"
+>
+  <div class="container mx-auto px-4">
+    <div class="flex h-16 items-center justify-between">
+      <a href="/" class="flex items-center gap-3 group">
+        <div class="relative transition-transform group-hover:scale-105">
+          <Image
+            src="/logo.webp"
+            alt="Logo"
+            width={40}
+            height={40}
+            class="rounded-full"
+          />
+        </div>
+        <span class="text-lg font-bold text-zinc-100 tracking-tight">
+          Trading<span class="text-emerald-400">Bot</span>
+        </span>
       </a>
+
+      <div class="hidden md:flex items-center space-x-1">
+        {
+          navItems.map((item) => {
+            const active = isActive(item.href)
+
+            return (
+              <a
+                href={item.href}
+                class:list={[
+                  'flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200',
+                  active
+                    ? 'bg-zinc-800 text-white shadow-sm ring-1 ring-zinc-700'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50',
+                ]}
+              >
+                <IconHolder icon={item.icon} class="w-4 h-4" />
+
+                {item.name}
+              </a>
+            )
+          })
+        }
+      </div>
+
+      <div class="flex md:hidden">
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          class="text-zinc-400 hover:text-white focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          <Menu id="icon-menu" class="w-6 h-6" />
+          <X id="icon-close" class="hidden w-6 h-6" />
+        </button>
+      </div>
     </div>
-    <button
-      data-collapse-toggle="navbar-solid-bg"
-      type="button"
-      class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm md:hidden focus:outline-none text-gray-400 hover:bg-gray-700"
-      aria-controls="navbar-solid-bg"
-      aria-expanded="false"
-      id="navbar-toggle"
-    >
-      <span class="sr-only">Open main menu</span>
-      <Menu />
-    </button>
-    <div class="hidden w-full md:block md:w-auto" id="navbar-menu">
-      <ul
-        class="flex flex-col font-medium mt-4 md:space-x-8 md:flex-row md:mt-0 md:border-0 bg-gray-800 md:bg-transparent border-gray-700"
-      >
-        <li>
-          <a
-            href="/public"
-            class={`block py-2 px-3 md:p-0  text-white md:border-0 md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent ${currentPath === '/' ? 'md:text-blue-500 hover:bg-blue-600 bg-blue-600 md:bg-transparent' : ''}`}
-          >
-            Home
-          </a>
-        </li>
-      </ul>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-zinc-800 bg-zinc-950"
+  >
+    <div class="px-4 py-3 space-y-1">
+      {
+        navItems.map((item) => {
+          const active = isActive(item.href)
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                'flex items-center gap-3 px-3 py-3 rounded-md text-base font-medium transition-colors',
+                active
+                  ? 'bg-zinc-800 text-white'
+                  : 'text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-100',
+              ]}
+            >
+              <IconHolder icon={item.icon} class="w-5 h-5" />
+
+              {item.name}
+            </a>
+          )
+        })
+      }
     </div>
   </div>
 </nav>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.getElementById('navbar-toggle')
-    const menu = document.getElementById('navbar-menu')
 
-    if (toggleButton && menu) {
-      toggleButton.addEventListener('click', () => {
-        menu.classList.toggle('hidden')
-      })
-    }
-  })
+<script>
+  const btn = document.getElementById('mobile-menu-btn')
+  const menu = document.getElementById('mobile-menu')
+  const iconMenu = document.getElementById('icon-menu')
+  const iconClose = document.getElementById('icon-close')
+
+  if (btn && menu && iconMenu && iconClose) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden')
+
+      iconMenu.classList.toggle('hidden')
+      iconClose.classList.toggle('hidden')
+    })
+  }
 </script>

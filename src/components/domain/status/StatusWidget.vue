@@ -1,34 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { TradingApi } from '../../../services/trading-api'
 import { formatTime } from '../../../utils/format'
 import { Activity, Clock } from 'lucide-vue-next'
+import { useAsync } from '../../../composables/use-async'
 
 import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
 
 const api = new TradingApi()
-const uptime = ref<number>(0)
-const loading = ref(true)
-const error = ref(false)
 
-const fetchUptime = async () => {
-  loading.value = true
-  error.value = false
-  try {
-    uptime.value = await api.getUptime()
-  } catch (e) {
-    console.error(e)
-    error.value = true
-  } finally {
-    loading.value = false
-  }
+const fetchStatus = async () => {
+  const [health, uptime] = await Promise.all([api.getHealth(), api.getUptime()])
+  return { health, uptime }
 }
 
-onMounted(() => {
-  fetchUptime()
-})
+const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
 </script>
 
 <template>
@@ -49,22 +36,34 @@ onMounted(() => {
       v-else-if="error"
       message="Unable to connect to the bot."
       retry
-      @retry="fetchUptime"
+      @retry="retry"
     />
 
-    <div v-else class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+    <div v-else-if="status" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div
-        class="bg-emerald-950/30 border border-emerald-900/50 p-3 rounded flex items-center gap-3"
+        class="border p-3 rounded flex items-center gap-3 transition-colors"
+        :class="
+          status.health
+            ? 'bg-emerald-950/30 border-emerald-900/50'
+            : 'bg-red-950/30 border-red-900/50'
+        "
       >
         <div class="relative flex h-3 w-3">
           <span
+            v-if="status.health"
             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
           ></span>
           <span
-            class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+            class="relative inline-flex rounded-full h-3 w-3"
+            :class="status.health ? 'bg-emerald-500' : 'bg-red-500'"
           ></span>
         </div>
-        <span class="text-emerald-300 font-medium text-sm">Bot Running</span>
+        <span
+          class="font-medium text-sm"
+          :class="status.health ? 'text-emerald-300' : 'text-red-300'"
+        >
+          {{ status.health ? 'Bot Running' : 'Bot Stopped' }}
+        </span>
       </div>
 
       <div
@@ -72,7 +71,7 @@ onMounted(() => {
       >
         <Clock class="w-4 h-4 text-sky-400" />
         <span class="text-sky-300 font-medium text-sm">
-          {{ formatTime(uptime) }}
+          {{ formatTime(status.uptime) }}
         </span>
       </div>
     </div>
