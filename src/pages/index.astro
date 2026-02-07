@@ -1,11 +1,16 @@
 ---
-import IndexLayout from '../layouts/IndexLayout.astro'
-import HomeDashboard from '../components/dashboards/HomeDashboard.vue'
+import Layout from '../layouts/Layout.astro'
+import StatusWidget from '../components/domain/status/StatusWidget.vue'
 ---
 
-<IndexLayout>
-  <header>
-    <h1>Trading bot</h1>
-  </header>
-  <HomeDashboard client:load />
-</IndexLayout>
+<Layout title="Dashboard - Trading Bot">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <header>
+      <h1 class="text-3xl font-bold text-white">Dashboard</h1>
+    </header>
+
+    <section>
+      <StatusWidget client:idle />
+    </section>
+  </div>
+</Layout>
