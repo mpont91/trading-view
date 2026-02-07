@@ -7,6 +7,13 @@ import type { EvaluationFilter } from '../../../filters/evaluation-filter'
 import { usePaginatedList } from '../../../composables/use-paginated-list'
 
 import DataTable from '../../ui/DataTable.vue'
+import {
+  formatCurrency,
+  formatDate,
+  formatTime,
+} from '../../../utils/format.ts'
+import TableFilter from '../../ui/TableFilter.vue'
+import Badge from '../../ui/Badge.vue'
 
 const api = new TradingApi()
 
@@ -22,18 +29,24 @@ const { data, loading, error, retry, changePage } = usePaginatedList(
   filters,
 )
 
-const getActionClass = (action: string) => {
-  switch (action) {
-    case 'BUY':
-      return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-    case 'HOLD':
-      return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
-    case 'SELL':
-      return 'bg-red-500/10 text-red-500 border-red-500/20'
-    default:
-      return 'bg-zinc-500/10 text-zinc-500 border-zinc-500/20'
-  }
+const getVariant = (action: string) => {
+  if (action === 'BUY') return 'success'
+  if (action === 'SELL') return 'error'
+  if (action === 'HOLD') return 'warning'
+  return 'neutral'
 }
+
+const symbolOptions = [
+  { value: 'BTCUSDC', label: 'BTCUSDC' },
+  { value: 'ETHUSDC', label: 'ETHUSDC' },
+  { value: 'SOLUSDC', label: 'SOLUSDC' },
+]
+
+const actionOptions = [
+  { value: 'BUY', label: 'Buy' },
+  { value: 'SELL', label: 'Sell' },
+  { value: 'HOLD', label: 'Hold' },
+]
 </script>
 
 <template>
@@ -46,35 +59,17 @@ const getActionClass = (action: string) => {
     @page-change="changePage"
   >
     <template #filters>
-      <div class="relative">
-        <Filter
-          class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500"
-        />
-        <select
-          v-model="filters.symbol"
-          class="pl-9 pr-8 py-1.5 bg-zinc-950 border border-zinc-700 rounded-md text-sm text-white focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer w-full sm:w-auto transition-colors"
-        >
-          <option :value="undefined">All symbols</option>
-          <option value="BTCUSDC">BTCUSDC</option>
-          <option value="ETHUSDC">ETHUSDC</option>
-          <option value="SOLUSDC">SOLUSDC</option>
-        </select>
-      </div>
+      <TableFilter
+        v-model="filters.symbol"
+        placeholder="All symbols"
+        :options="symbolOptions"
+      />
 
-      <div class="relative">
-        <Filter
-          class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500"
-        />
-        <select
-          v-model="filters.action"
-          class="pl-9 pr-8 py-1.5 bg-zinc-950 border border-zinc-700 rounded-md text-sm text-white focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer w-full sm:w-auto transition-colors"
-        >
-          <option :value="undefined">All actions</option>
-          <option value="BUY">Buy</option>
-          <option value="SELL">Sell</option>
-          <option value="HOLD">Hold</option>
-        </select>
-      </div>
+      <TableFilter
+        v-model="filters.action"
+        placeholder="All actions"
+        :options="actionOptions"
+      />
     </template>
 
     <template #columns>
@@ -88,15 +83,10 @@ const getActionClass = (action: string) => {
       <td class="py-3 pl-4 text-zinc-300">
         <div class="flex flex-col">
           <span class="text-white">
-            {{ item.createdAt.toLocaleDateString() }}
+            {{ formatDate(item.createdAt) }}
           </span>
           <span class="text-xs text-zinc-500">
-            {{
-              item.createdAt.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit',
-              })
-            }}
+            {{ formatTime(item.createdAt) }}
           </span>
         </div>
       </td>
@@ -106,21 +96,13 @@ const getActionClass = (action: string) => {
       </td>
 
       <td class="py-3">
-        <span
-          class="px-2.5 py-0.5 rounded text-xs font-semibold border"
-          :class="getActionClass(item.action)"
-        >
+        <Badge :variant="getVariant(item.action)">
           {{ item.action }}
-        </span>
+        </Badge>
       </td>
 
       <td class="py-3 pr-4 text-right text-zinc-300 font-mono">
-        ${{
-          item.price.toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 4,
-          })
-        }}
+        {{ formatCurrency(item.price) }}
       </td>
     </template>
   </DataTable>

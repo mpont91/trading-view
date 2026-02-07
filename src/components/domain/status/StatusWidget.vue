@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TradingApi } from '../../../services/trading-api'
-import { formatTime } from '../../../utils/format'
+import { formatDuration } from '../../../utils/format'
 import { Activity, Clock } from 'lucide-vue-next'
 import { useAsync } from '../../../composables/use-async'
 
@@ -71,7 +71,7 @@ const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
       >
         <Clock class="w-4 h-4 text-sky-400" />
         <span class="text-sky-300 font-medium text-sm">
-          {{ formatTime(status.uptime) }}
+          {{ formatDuration(status.uptime) }}
         </span>
       </div>
     </div>
