@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import Card from '../common/Card.vue'
-import { formatTime } from '../../helpers/format-helper.ts'
+import { formatTime } from '../../utils/format.ts'
 
 defineProps({
   uptime: {

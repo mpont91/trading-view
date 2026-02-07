@@ -8,7 +8,7 @@ import StatusSkeleton from '../skeletons/StatusSkeleton.vue'
 import StatusView from '../views/StatusView.vue'
 import CardError from '../errors/CardError.vue'
 import { onMounted, ref } from 'vue'
-import { TradingApi } from '../../trading-api.ts'
+import { TradingApi } from '../../services/trading-api.ts'
 
 const api = new TradingApi()
 const uptime = ref<number>(0)
