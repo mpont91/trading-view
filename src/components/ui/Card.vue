@@ -13,7 +13,7 @@ defineProps<{
       class="px-4 py-3 border-b border-zinc-800 bg-zinc-900/50"
     >
       <slot name="header">
-        <h3 class="font-semibold text-zinc-100">{{ title }}</h3>
+        <h2>{{ title }}</h2>
       </slot>
     </div>
 

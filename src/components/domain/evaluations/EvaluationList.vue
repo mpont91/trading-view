@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Filter } from 'lucide-vue-next'
 
 import { TradingApi } from '../../../services/trading-api'
 import type { EvaluationFilter } from '../../../filters/evaluation-filter'
@@ -73,14 +72,14 @@ const actionOptions = [
     </template>
 
     <template #columns>
-      <th class="py-3 pl-4 font-medium text-zinc-400">Date</th>
-      <th class="py-3 font-medium text-zinc-400">Symbol</th>
-      <th class="py-3 font-medium text-zinc-400">Action</th>
-      <th class="py-3 pr-4 text-right font-medium text-zinc-400">Price</th>
+      <th class="py-3 pl-4">Date</th>
+      <th class="py-3">Symbol</th>
+      <th class="py-3">Action</th>
+      <th class="py-3 pr-4 text-right">Price</th>
     </template>
 
     <template #row="{ item }">
-      <td class="py-3 pl-4 text-zinc-300">
+      <td class="py-3 pl-4">
         <div class="flex flex-col">
           <span class="text-white">
             {{ formatDate(item.createdAt) }}
@@ -101,7 +100,7 @@ const actionOptions = [
         </Badge>
       </td>
 
-      <td class="py-3 pr-4 text-right text-zinc-300 font-mono">
+      <td class="py-3 pr-4 text-right font-mono">
         {{ formatCurrency(item.price) }}
       </td>
     </template>

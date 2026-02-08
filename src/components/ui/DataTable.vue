@@ -30,7 +30,7 @@ const errorMessage = computed(() => {
       <div
         class="flex flex-col md:flex-row gap-4 justify-between md:items-center"
       >
-        <h2 class="font-semibold text-lg text-white">{{ title }}</h2>
+        <h2>{{ title }}</h2>
 
         <div class="flex flex-col sm:flex-row gap-2">
           <slot name="filters" />

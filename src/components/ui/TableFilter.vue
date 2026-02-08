@@ -19,7 +19,7 @@ defineEmits<{
     />
     <select
       :value="modelValue"
-      class="pl-9 pr-8 py-1.5 bg-zinc-950 border border-zinc-700 rounded-md text-sm text-white focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer w-full sm:w-auto transition-colors"
+      class="pl-9 pr-8 w-full"
       @input="
         $emit(
           'update:modelValue',
