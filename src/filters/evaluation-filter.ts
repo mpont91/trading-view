@@ -6,10 +6,7 @@ import { adviceActionSchema } from '../schemas/advice.ts'
 export const evaluationFilterSchema = z.object({
   ...paginationQuerySchema.shape,
   ...dateQuerySchema.shape,
-  symbol: z
-    .string()
-    .optional()
-    .transform((val) => val?.toUpperCase()),
+  symbol: z.string().optional(),
   action: adviceActionSchema.optional(),
 })
 

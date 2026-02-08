@@ -3,7 +3,6 @@ import { Filter } from 'lucide-vue-next'
 
 defineProps<{
   modelValue: string | undefined
-  placeholder?: string
   options: { value: string; label: string }[]
 }>()
 
@@ -27,7 +26,6 @@ defineEmits<{
         )
       "
     >
-      <option :value="undefined">{{ placeholder || 'Select...' }}</option>
       <option v-for="opt in options" :key="opt.value" :value="opt.value">
         {{ opt.label }}
       </option>

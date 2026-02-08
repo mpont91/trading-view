@@ -9,3 +9,4 @@ export const adviceSchema = z.object({
 })
 
 export type Advice = z.infer<typeof adviceSchema>
+export type AdviceAction = z.infer<typeof adviceActionSchema>

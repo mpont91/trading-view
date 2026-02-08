@@ -13,6 +13,11 @@ import {
 } from '../../../utils/format.ts'
 import TableFilter from '../../ui/TableFilter.vue'
 import Badge from '../../ui/Badge.vue'
+import {
+  getActionOptions,
+  getSymbolLabel,
+  getSymbolOptions,
+} from '../../../utils/options.ts'
 
 const api = new TradingApi()
 
@@ -34,18 +39,6 @@ const getVariant = (action: string) => {
   if (action === 'HOLD') return 'warning'
   return 'neutral'
 }
-
-const symbolOptions = [
-  { value: 'BTCUSDC', label: 'BTCUSDC' },
-  { value: 'ETHUSDC', label: 'ETHUSDC' },
-  { value: 'SOLUSDC', label: 'SOLUSDC' },
-]
-
-const actionOptions = [
-  { value: 'BUY', label: 'Buy' },
-  { value: 'SELL', label: 'Sell' },
-  { value: 'HOLD', label: 'Hold' },
-]
 </script>
 
 <template>
@@ -58,17 +51,9 @@ const actionOptions = [
     @page-change="changePage"
   >
     <template #filters>
-      <TableFilter
-        v-model="filters.symbol"
-        placeholder="All symbols"
-        :options="symbolOptions"
-      />
+      <TableFilter v-model="filters.symbol" :options="getSymbolOptions()" />
 
-      <TableFilter
-        v-model="filters.action"
-        placeholder="All actions"
-        :options="actionOptions"
-      />
+      <TableFilter v-model="filters.action" :options="getActionOptions()" />
     </template>
 
     <template #columns>
@@ -81,7 +66,7 @@ const actionOptions = [
     <template #row="{ item }">
       <td class="py-3 pl-4">
         <div class="flex flex-col">
-          <span class="text-white">
+          <span class="font-bold">
             {{ formatDate(item.createdAt) }}
           </span>
           <span class="text-xs text-zinc-500">
@@ -90,8 +75,8 @@ const actionOptions = [
         </div>
       </td>
 
-      <td class="py-3 font-bold text-white">
-        {{ item.symbol }}
+      <td class="py-3 font-bold">
+        {{ getSymbolLabel(item.symbol) }}
       </td>
 
       <td class="py-3">

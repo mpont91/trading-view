@@ -1,24 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-type Variant = 'success' | 'error' | 'warning' | 'neutral'
+import { BADGE_STYLES, type Variant } from '../../utils/variant.ts'
 
 const props = withDefaults(defineProps<{ variant?: Variant }>(), {
   variant: 'neutral',
 })
 
-const classes = computed(() => {
-  switch (props.variant) {
-    case 'success':
-      return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-    case 'error':
-      return 'bg-red-500/10 text-red-500 border-red-500/20'
-    case 'warning':
-      return 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
-    default:
-      return 'bg-zinc-500/10 text-zinc-500 border-zinc-500/20'
-  }
-})
+const classes = BADGE_STYLES[props.variant] || BADGE_STYLES.neutral
 </script>
 
 <template>

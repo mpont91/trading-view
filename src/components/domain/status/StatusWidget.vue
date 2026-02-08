@@ -7,6 +7,12 @@ import { useAsync } from '../../../composables/use-async'
 import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
+import {
+  PANEL_STYLES,
+  TEXT_STYLES,
+  type Variant,
+} from '../../../utils/variant.ts'
+import { computed } from 'vue'
 
 const api = new TradingApi()
 
@@ -16,6 +22,11 @@ const fetchStatus = async () => {
 }
 
 const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
+
+const healthVariant = computed<Variant>(() => {
+  if (!status.value) return 'neutral'
+  return status.value.health ? 'success' : 'error'
+})
 </script>
 
 <template>
@@ -42,11 +53,7 @@ const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
     <div v-else-if="status" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div
         class="border p-3 rounded flex items-center gap-3 transition-colors"
-        :class="
-          status.health
-            ? 'bg-emerald-950/30 border-emerald-900/50'
-            : 'bg-red-950/30 border-red-900/50'
-        "
+        :class="PANEL_STYLES[healthVariant]"
       >
         <div class="relative flex h-3 w-3">
           <span
@@ -58,19 +65,17 @@ const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
             :class="status.health ? 'bg-emerald-500' : 'bg-red-500'"
           ></span>
         </div>
-        <span
-          class="font-medium text-sm"
-          :class="status.health ? 'text-emerald-300' : 'text-red-300'"
-        >
+        <span class="font-medium text-sm" :class="TEXT_STYLES[healthVariant]">
           {{ status.health ? 'Bot Running' : 'Bot Stopped' }}
         </span>
       </div>
 
       <div
-        class="bg-sky-950/30 border border-sky-900/50 p-3 rounded flex items-center gap-3"
+        class="border p-3 rounded flex items-center gap-3"
+        :class="PANEL_STYLES.info"
       >
         <Clock class="w-4 h-4 text-sky-400" />
-        <span class="text-sky-300 font-medium text-sm">
+        <span class="font-medium text-sm" :class="TEXT_STYLES.info">
           {{ formatDuration(status.uptime) }}
         </span>
       </div>
