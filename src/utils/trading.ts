@@ -1,3 +1,5 @@
+import type { Variant } from './variant.ts'
+
 export type Option = { value: string; label: string }
 
 export const SYMBOL_OPTIONS = {
@@ -59,4 +61,17 @@ export function getActionOptions() {
   options.unshift({ value: '', label: 'All actions' })
 
   return options
+}
+
+export function getActionVariant(action: string): Variant {
+  switch (action) {
+    case 'BUY':
+      return 'success'
+    case 'SELL':
+      return 'error'
+    case 'HOLD':
+      return 'warning'
+    default:
+      return 'neutral'
+  }
 }
