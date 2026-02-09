@@ -3,7 +3,7 @@ export const formatTime = (date: Date | string | number) => {
   return new Intl.DateTimeFormat('es-ES', {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false, // 24h format
+    hour12: false,
   }).format(d)
 }
 

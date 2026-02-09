@@ -15,6 +15,14 @@ export const SYMBOL_OPTIONS = {
     label: 'Solana',
     decimals: 3,
   },
+  PAXGUSDC: {
+    label: 'PAX Gold',
+    decimals: 2,
+  },
+  TRXUSDC: {
+    label: 'Tron',
+    decimals: 4,
+  },
 } as const
 
 export type SymbolKey = keyof typeof SYMBOL_OPTIONS
