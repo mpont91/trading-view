@@ -49,3 +49,10 @@ export const formatCurrency = (value: number) => {
     maximumFractionDigits: 4,
   }).format(value)
 }
+
+export function formatQuantity(value: number, decimals: number = 4) {
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: decimals,
+  }).format(value)
+}

@@ -3,25 +3,29 @@ import type { Variant } from './variant.ts'
 export type Option = { value: string; label: string }
 
 export const SYMBOL_OPTIONS = {
-  BTCUSDC: {
-    label: 'Bitcoin',
-    decimals: 2,
+  AVAXUSDC: {
+    label: 'Avalanche',
   },
-  ETHUSDC: {
-    label: 'Ethereum',
-    decimals: 2,
+  POLUSDC: {
+    label: 'Polygon',
   },
-  SOLUSDC: {
-    label: 'Solana',
-    decimals: 3,
+  UNIUSDC: {
+    label: 'Uniswap',
   },
   PAXGUSDC: {
     label: 'PAX Gold',
-    decimals: 2,
   },
-  TRXUSDC: {
-    label: 'Tron',
-    decimals: 4,
+  AAVEUSDC: {
+    label: 'Aave',
+  },
+  DOGEUSDC: {
+    label: 'Dogecoin',
+  },
+  BCHUSDC: {
+    label: 'Bitcoin Cash',
+  },
+  ETCUSDC: {
+    label: 'Ethereum Classic',
   },
 } as const
 
@@ -71,6 +75,26 @@ export function getActionOptions() {
   return options
 }
 
+export const SIDE_OPTIONS = {
+  BUY: {
+    label: 'Buy',
+  },
+  SELL: {
+    label: 'Sell',
+  },
+} as const
+
+export function getSideOptions() {
+  const options: Option[] = Object.entries(SIDE_OPTIONS).map(([key, item]) => ({
+    value: key,
+    label: item.label,
+  }))
+
+  options.unshift({ value: '', label: 'All sides' })
+
+  return options
+}
+
 export function getActionVariant(action: string): Variant {
   switch (action) {
     case 'BUY':
@@ -79,6 +103,17 @@ export function getActionVariant(action: string): Variant {
       return 'error'
     case 'HOLD':
       return 'warning'
+    default:
+      return 'neutral'
+  }
+}
+
+export function getSideVariant(side: string): Variant {
+  switch (side) {
+    case 'BUY':
+      return 'success'
+    case 'SELL':
+      return 'error'
     default:
       return 'neutral'
   }

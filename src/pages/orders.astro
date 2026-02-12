@@ -1,13 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import OrderList from '../components/domain/orders/OrderList.vue'
 ---
 
 <Layout title="Orders - Trading Bot">
-  <div class="max-w-4xl mx-auto space-y-6">
-    <header>
-      <h1>Orders</h1>
+  <div class="space-y-6">
+    <header class="flex justify-between items-end">
+      <div>
+        <h1>Orders</h1>
+        <p class="text-zinc-400 mt-1">History of orders made by the bot.</p>
+      </div>
     </header>
 
-    <section></section>
+    <section>
+      <OrderList client:load />
+    </section>
   </div>
 </Layout>

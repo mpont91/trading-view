@@ -11,7 +11,6 @@ export const evaluationSchema = z.object({
   createdAt: z.coerce.date(),
 })
 
-export const evaluationPaginatedSchemaSchema =
-  createPaginatedSchema(evaluationSchema)
+export const evaluationPaginatedSchema = createPaginatedSchema(evaluationSchema)
 
 export type Evaluation = z.infer<typeof evaluationSchema>

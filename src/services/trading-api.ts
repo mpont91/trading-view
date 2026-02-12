@@ -3,8 +3,10 @@ import type { EvaluationFilter } from '../filters/evaluation-filter.ts'
 import type { Paginated } from '../schemas/paginated.ts'
 import {
   type Evaluation,
-  evaluationPaginatedSchemaSchema,
+  evaluationPaginatedSchema,
 } from '../schemas/evaluation.ts'
+import type { OrderFilter } from '../filters/order-filter.ts'
+import { type Order, orderPaginatedSchema } from '../schemas/order.ts'
 
 export class TradingApi {
   private readonly baseUrl: string
@@ -42,7 +44,17 @@ export class TradingApi {
 
     const json = await this.request('/evaluations', params)
 
-    return evaluationPaginatedSchemaSchema.parse(json)
+    return evaluationPaginatedSchema.parse(json)
+  }
+
+  async getOrders(filters?: OrderFilter): Promise<Paginated<Order>> {
+    const params = filters
+      ? this.toQueryParams(filters as Record<string, unknown>)
+      : undefined
+
+    const json = await this.request('/orders', params)
+    console.log(json)
+    return orderPaginatedSchema.parse(json)
   }
 
   private async request(
