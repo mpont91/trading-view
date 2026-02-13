@@ -12,9 +12,6 @@ export const SYMBOL_OPTIONS = {
   UNIUSDC: {
     label: 'Uniswap',
   },
-  PAXGUSDC: {
-    label: 'PAX Gold',
-  },
   AAVEUSDC: {
     label: 'Aave',
   },
