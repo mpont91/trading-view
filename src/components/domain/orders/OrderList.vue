@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { X } from 'lucide-vue-next'
-import { TradingApi } from '../../../services/trading-api'
+import { TradingApiService } from '../../../services/trading-api-service.ts'
 import type { OrderFilter } from '../../../filters/order-filter'
 import { usePaginatedList } from '../../../composables/use-paginated-list'
 import DataTable from '../../ui/DataTable.vue'
@@ -10,18 +10,18 @@ import {
   formatDate,
   formatQuantity,
   formatTime,
-} from '../../../utils/format.ts'
+} from '../../../helpers/format-helper.ts'
 import TableFilter from '../../ui/TableFilter.vue'
 import Badge from '../../ui/Badge.vue'
 import {
-  getSideOptions,
   getSymbolLabel,
   getSymbolOptions,
-  getSideVariant,
-} from '../../../utils/trading.ts'
+} from '../../../helpers/symbol-helper.ts'
 import DateRangeFilter from '../../ui/DateRangeFilter.vue'
+import { getOrderSideOptions } from '../../../helpers/option-helper.ts'
+import { getOrderSideVariant } from '../../../helpers/variant-helper.ts'
 
-const api = new TradingApi()
+const api = new TradingApiService()
 
 const filters = ref<OrderFilter>({
   page: 1,
@@ -85,7 +85,7 @@ const clearFilters = () => {
 
       <TableFilter v-model="filters.symbol" :options="getSymbolOptions()" />
 
-      <TableFilter v-model="filters.side" :options="getSideOptions()" />
+      <TableFilter v-model="filters.side" :options="getOrderSideOptions()" />
     </template>
 
     <template #columns>
@@ -115,7 +115,7 @@ const clearFilters = () => {
       </td>
 
       <td class="py-3">
-        <Badge :variant="getSideVariant(item.side)">
+        <Badge :variant="getOrderSideVariant(item.side)">
           {{ item.side }}
         </Badge>
       </td>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { TradingApi } from '../../../services/trading-api'
-import { formatDuration } from '../../../utils/format'
+import { TradingApiService } from '../../../services/trading-api-service.ts'
+import { formatDuration } from '../../../helpers/format-helper.ts'
 import { Activity, Clock } from 'lucide-vue-next'
 import { useAsync } from '../../../composables/use-async'
 
@@ -8,13 +8,12 @@ import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
 import {
+  getHealthVariant,
   PANEL_STYLES,
   TEXT_STYLES,
-  type Variant,
-} from '../../../utils/variant.ts'
-import { computed } from 'vue'
+} from '../../../helpers/variant-helper.ts'
 
-const api = new TradingApi()
+const api = new TradingApiService()
 
 const fetchStatus = async () => {
   const [health, uptime] = await Promise.all([api.getHealth(), api.getUptime()])
@@ -22,11 +21,6 @@ const fetchStatus = async () => {
 }
 
 const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
-
-const healthVariant = computed<Variant>(() => {
-  if (!status.value) return 'neutral'
-  return status.value.health ? 'success' : 'error'
-})
 </script>
 
 <template>
@@ -53,7 +47,7 @@ const healthVariant = computed<Variant>(() => {
     <div v-else-if="status" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div
         class="border p-3 rounded flex items-center gap-3 transition-colors"
-        :class="PANEL_STYLES[healthVariant]"
+        :class="PANEL_STYLES[getHealthVariant(status.health)]"
       >
         <div class="relative flex h-3 w-3">
           <span
@@ -65,7 +59,10 @@ const healthVariant = computed<Variant>(() => {
             :class="status.health ? 'bg-emerald-500' : 'bg-red-500'"
           ></span>
         </div>
-        <span class="font-medium text-sm" :class="TEXT_STYLES[healthVariant]">
+        <span
+          class="font-medium text-sm"
+          :class="TEXT_STYLES[getHealthVariant(status.health)]"
+        >
           {{ status.health ? 'Bot Running' : 'Bot Stopped' }}
         </span>
       </div>

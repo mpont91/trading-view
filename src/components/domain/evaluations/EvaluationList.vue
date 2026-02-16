@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { X, FileText } from 'lucide-vue-next'
-import { TradingApi } from '../../../services/trading-api'
+import { TradingApiService } from '../../../services/trading-api-service.ts'
 import type { EvaluationFilter } from '../../../filters/evaluation-filter'
 import { usePaginatedList } from '../../../composables/use-paginated-list'
 import DataTable from '../../ui/DataTable.vue'
@@ -9,19 +9,19 @@ import {
   formatCurrency,
   formatDate,
   formatTime,
-} from '../../../utils/format.ts'
+} from '../../../helpers/format-helper.ts'
 import TableFilter from '../../ui/TableFilter.vue'
 import Badge from '../../ui/Badge.vue'
 import {
-  getActionOptions,
-  getActionVariant,
   getSymbolLabel,
   getSymbolOptions,
-} from '../../../utils/trading.ts'
+} from '../../../helpers/symbol-helper.ts'
 import DateRangeFilter from '../../ui/DateRangeFilter.vue'
 import Modal from '../../ui/Modal.vue'
+import { getAdviceActionOptions } from '../../../helpers/option-helper.ts'
+import { getAdviceActionVariant } from '../../../helpers/variant-helper.ts'
 
-const api = new TradingApi()
+const api = new TradingApiService()
 
 const filters = ref<EvaluationFilter>({
   page: 1,
@@ -94,7 +94,10 @@ const closeReasoningModal = () => {
 
       <TableFilter v-model="filters.symbol" :options="getSymbolOptions()" />
 
-      <TableFilter v-model="filters.action" :options="getActionOptions()" />
+      <TableFilter
+        v-model="filters.action"
+        :options="getAdviceActionOptions()"
+      />
     </template>
 
     <template #columns>
@@ -122,7 +125,7 @@ const closeReasoningModal = () => {
       </td>
 
       <td class="py-3">
-        <Badge :variant="getActionVariant(item.action)">
+        <Badge :variant="getAdviceActionVariant(item.action)">
           {{ item.action }}
         </Badge>
       </td>

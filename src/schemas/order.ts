@@ -19,3 +19,4 @@ export const orderPaginatedSchema = createPaginatedSchema(orderSchema)
 
 export type Order = z.infer<typeof orderSchema>
 export type OrderSide = z.infer<typeof orderSideSchema>
+export const OrderSide = orderSideSchema.enum

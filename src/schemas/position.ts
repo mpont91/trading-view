@@ -23,3 +23,4 @@ export const positionPaginatedSchema = createPaginatedSchema(positionSchema)
 
 export type Position = z.infer<typeof positionSchema>
 export type PositionStatus = z.infer<typeof positionStatusSchema>
+export const PositionStatus = positionStatusSchema.enum

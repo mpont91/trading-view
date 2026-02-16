@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BADGE_STYLES, type Variant } from '../../utils/variant.ts'
+import { BADGE_STYLES, type Variant } from '../../helpers/variant-helper.ts'
 
 const props = withDefaults(defineProps<{ variant?: Variant }>(), {
   variant: 'neutral',

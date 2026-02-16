@@ -1,27 +1,32 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { X, ArrowRight, Clock, TrendingUp, TrendingDown } from 'lucide-vue-next'
-import { TradingApi } from '../../../services/trading-api'
+import { TradingApiService } from '../../../services/trading-api-service.ts'
 import { usePaginatedList } from '../../../composables/use-paginated-list'
 import DataTable from '../../ui/DataTable.vue'
 import {
   formatCurrency,
   formatDate,
+  formatDurationRange,
   formatPercentage,
   formatQuantity,
   formatTime,
-} from '../../../utils/format.ts'
+} from '../../../helpers/format-helper.ts'
 import TableFilter from '../../ui/TableFilter.vue'
 import {
-  getPositionStatusVariant,
   getSymbolLabel,
   getSymbolOptions,
-} from '../../../utils/trading.ts'
+} from '../../../helpers/symbol-helper.ts'
 import DateRangeFilter from '../../ui/DateRangeFilter.vue'
 import type { PositionFilter } from '../../../filters/position-filter.ts'
 import Badge from '../../ui/Badge.vue'
+import {
+  getPnLVariant,
+  getPositionStatusVariant,
+  TEXT_STYLES,
+} from '../../../helpers/variant-helper.ts'
 
-const api = new TradingApi()
+const api = new TradingApiService()
 
 const filters = ref<PositionFilter>({
   page: 1,
@@ -50,23 +55,6 @@ const clearFilters = () => {
   filters.value.endDate = undefined
   filters.value.page = 1
 }
-
-const getDurationLabel = (start: string | Date, end?: string | Date | null) => {
-  if (!end) return 'Active'
-  const diff = new Date(end).getTime() - new Date(start).getTime()
-
-  const hours = Math.floor(diff / (1000 * 60 * 60))
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-
-  if (hours > 24) return `${Math.floor(hours / 24)}d ${hours % 24}h`
-  if (hours > 0) return `${hours}h ${minutes}m`
-  return `${minutes}m`
-}
-
-const getPnLColor = (value?: number) => {
-  if (!value) return 'text-zinc-400'
-  return value > 0 ? 'text-emerald-400' : 'text-red-400'
-}
 </script>
 
 <template>
@@ -88,10 +76,7 @@ const getPnLColor = (value?: number) => {
         <X class="w-3.5 h-3.5" />
       </button>
 
-      <div
-        v-if="hasFilters"
-        class="h-6 w-px bg-zinc-800 mr-2 hidden sm:block"
-      ></div>
+      <div v-if="hasFilters" class="h-6 w-px mr-2"></div>
       <DateRangeFilter
         v-model:start-date="filters.startDate"
         v-model:end-date="filters.endDate"
@@ -142,7 +127,7 @@ const getPnLColor = (value?: number) => {
             <ArrowRight class="w-3 h-3 opacity-50" />
             {{ formatCurrency(item.exitPrice) }}
           </div>
-          <div v-else class="text-xs text-blue-400/50 italic">Active</div>
+          <div v-else class="text-xs text-blue-400/70 italic">Active</div>
         </div>
       </td>
 
@@ -150,7 +135,7 @@ const getPnLColor = (value?: number) => {
         <div
           v-if="item.pnl && item.pnlPercent"
           class="flex flex-col items-end"
-          :class="getPnLColor(item.pnl)"
+          :class="TEXT_STYLES[getPnLVariant(item.pnl)]"
         >
           <span class="font-bold font-mono">
             {{ item.pnl > 0 ? '+' : '' }}{{ formatCurrency(item.pnl) }}
@@ -178,7 +163,7 @@ const getPnLColor = (value?: number) => {
 
             <span class="flex items-center gap-1 text-zinc-400">
               <Clock class="w-3 h-3" />
-              {{ getDurationLabel(item.entryTime, item.exitTime) }}
+              {{ formatDurationRange(item.entryTime, item.exitTime) }}
             </span>
           </div>
         </div>

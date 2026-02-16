@@ -10,7 +10,7 @@ import { type Order, orderPaginatedSchema } from '../schemas/order.ts'
 import { type Position, positionPaginatedSchema } from '../schemas/position.ts'
 import type { PositionFilter } from '../filters/position-filter.ts'
 
-export class TradingApi {
+export class TradingApiService {
   private readonly baseUrl: string
 
   constructor() {
