@@ -115,3 +115,14 @@ export function getSideVariant(side: string): Variant {
       return 'neutral'
   }
 }
+
+export function getPositionStatusVariant(status: string): Variant {
+  switch (status) {
+    case 'OPEN':
+      return 'info'
+    case 'CLOSE':
+      return 'neutral'
+    default:
+      return 'neutral'
+  }
+}

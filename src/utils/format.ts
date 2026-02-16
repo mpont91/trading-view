@@ -56,3 +56,12 @@ export function formatQuantity(value: number, decimals: number = 4) {
     maximumFractionDigits: decimals,
   }).format(value)
 }
+
+export const formatPercentage = (value: number, decimals: number = 2) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'percent',
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+    signDisplay: 'exceptZero',
+  }).format(value / 100)
+}
