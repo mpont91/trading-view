@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { X, ArrowRight, Clock, TrendingUp, TrendingDown } from 'lucide-vue-next'
-import { TradingApiService } from '../../../services/trading-api-service.ts'
-import { usePaginatedList } from '../../../composables/use-paginated-list'
 import DataTable from '../../ui/DataTable.vue'
 import {
   formatCurrency,
@@ -25,8 +23,7 @@ import {
   getPositionStatusVariant,
   TEXT_STYLES,
 } from '../../../helpers/variant-helper.ts'
-
-const api = new TradingApiService()
+import { useLivePositions } from '../../../composables/use-live-positions.ts'
 
 const filters = ref<PositionFilter>({
   page: 1,
@@ -36,10 +33,7 @@ const filters = ref<PositionFilter>({
   endDate: undefined,
 })
 
-const { data, loading, error, retry, changePage } = usePaginatedList(
-  (f) => api.getPositions(f),
-  filters,
-)
+const { data, loading, error, retry, changePage } = useLivePositions(filters)
 
 const hasFilters = computed(() => {
   return !!(
