@@ -1,6 +1,6 @@
 ---
+import Dashboard from '../views/Dashboard.vue'
 import Layout from '../layouts/Layout.astro'
-import StatusWidget from '../components/domain/status/StatusWidget.vue'
 ---
 
 <Layout title="Dashboard - Trading Bot">
@@ -10,7 +10,7 @@ import StatusWidget from '../components/domain/status/StatusWidget.vue'
     </header>
 
     <section>
-      <StatusWidget client:idle />
+      <Dashboard client:idle />
     </section>
   </div>
 </Layout>

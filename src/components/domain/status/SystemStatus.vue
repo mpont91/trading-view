@@ -2,11 +2,13 @@
 import { TradingApiService } from '../../../services/trading-api-service.ts'
 import { formatDuration } from '../../../helpers/format-helper.ts'
 import { Activity, Clock } from 'lucide-vue-next'
+
 import { useAsync } from '../../../composables/use-async'
 
 import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
+
 import {
   getHealthVariant,
   PANEL_STYLES,
@@ -28,7 +30,7 @@ const { data: status, loading, error, execute: retry } = useAsync(fetchStatus)
     <template #header>
       <div class="flex items-center gap-2 text-white">
         <Activity class="w-5 h-5 text-emerald-400" />
-        <h2 class="font-semibold text-lg">System Status</h2>
+        <h2>System Status</h2>
       </div>
     </template>
 
