@@ -24,6 +24,8 @@ import {
   TEXT_STYLES,
 } from '../../../helpers/variant-helper.ts'
 import { useLivePositions } from '../../../composables/use-live-positions.ts'
+import { PositionStatus } from '../../../schemas/position.ts'
+import Skeleton from '../../ui/Skeleton.vue'
 
 const filters = ref<PositionFilter>({
   page: 1,
@@ -94,6 +96,7 @@ const clearFilters = () => {
             {{ getSymbolLabel(item.symbol) }}
           </span>
           <Badge
+            v-if="item.status === PositionStatus.OPEN"
             :variant="getPositionStatusVariant(item.status)"
             class="font-bold tracking-wider w-fit"
           >
@@ -108,7 +111,7 @@ const clearFilters = () => {
         </div>
       </td>
 
-      <td class="py-3 text-right">
+      <td class="py-3 pr-4 text-right">
         <div class="flex flex-col items-end gap-0.5">
           <span class="font-mono">
             {{ formatCurrency(item.entryPrice) }}
@@ -121,11 +124,10 @@ const clearFilters = () => {
             <ArrowRight class="w-3 h-3 opacity-50" />
             {{ formatCurrency(item.exitPrice) }}
           </div>
-          <div v-else class="text-xs text-blue-400/70 italic">Active</div>
         </div>
       </td>
 
-      <td class="py-3 px-2 text-right">
+      <td class="py-3 pr-4 text-right">
         <div
           v-if="item.pnl && item.pnlPercent"
           class="flex flex-col items-end"
@@ -142,7 +144,11 @@ const clearFilters = () => {
             {{ formatPercentage(item.pnlPercent) }}
           </div>
         </div>
-        <div v-else class="text-zinc-600 text-sm">--</div>
+        <div v-else class="flex flex-col items-end">
+          <Skeleton class="h-4 w-20 mb-1.5" />
+
+          <Skeleton class="h-5 w-16" />
+        </div>
       </td>
 
       <td class="py-3 pr-4 text-right">
