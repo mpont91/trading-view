@@ -8,6 +8,7 @@ import {
 import type { OrderFilter } from '../filters/order-filter.ts'
 import { type Order, orderPaginatedSchema } from '../schemas/order.ts'
 import { type Position, positionPaginatedSchema } from '../schemas/position.ts'
+import { type Performance, performanceSchema } from '../schemas/performance.ts'
 import type { PositionFilter } from '../filters/position-filter.ts'
 
 export class TradingApiService {
@@ -29,11 +30,8 @@ export class TradingApiService {
 
   async getUptime(): Promise<number> {
     const json = await this.request('/uptime')
-    const UptimeSchema = z.object({
-      data: z.number(),
-    })
-    const result = UptimeSchema.parse(json)
-
+    const responseSchema = this.createApiResponseSchema(z.number())
+    const result = responseSchema.parse(json)
     return result.data
   }
 
@@ -65,6 +63,13 @@ export class TradingApiService {
 
     const json = await this.request('/positions', params)
     return positionPaginatedSchema.parse(json)
+  }
+
+  async getPerformance(): Promise<Performance> {
+    const json = await this.request('/performance')
+    const responseSchema = this.createApiResponseSchema(performanceSchema)
+    const result = responseSchema.parse(json)
+    return result.data
   }
 
   private async request(
@@ -100,5 +105,11 @@ export class TradingApiService {
     })
 
     return params
+  }
+
+  private createApiResponseSchema<T extends z.ZodTypeAny>(schema: T) {
+    return z.object({
+      data: schema,
+    })
   }
 }
