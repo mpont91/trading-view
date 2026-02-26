@@ -11,7 +11,12 @@ import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
 
-import { TEXT_STYLES, getPnLVariant } from '../../../helpers/variant-helper.ts'
+import {
+  TEXT_STYLES,
+  getPnLVariant,
+  PANEL_STYLES,
+} from '../../../helpers/variant-helper.ts'
+import PnL from '../../ui/PnL.vue'
 
 const api = new TradingApiService()
 const {
@@ -46,19 +51,18 @@ const {
       <div
         class="border border-zinc-800 p-3 rounded-lg bg-zinc-900/50 flex flex-col justify-center"
       >
-        <div class="flex items-center gap-1.5 text-zinc-400 mb-1">
+        <div class="flex items-center gap-1.5 text-zinc-400 mb-2">
           <DollarSign class="w-3.5 h-3.5" />
           <span class="text-xs font-medium uppercase tracking-wider">
             Total PnL
           </span>
         </div>
-        <span
-          class="font-mono text-lg font-bold"
-          :class="TEXT_STYLES[getPnLVariant(performance.totalPnl)]"
-        >
-          {{ performance.totalPnl > 0 ? '+' : '' }}
-          {{ formatCurrency(performance.totalPnl) }}
-        </span>
+        <PnL
+          :pnl="performance.totalPnl"
+          :pnl-percent="performance.totalPnlPercent"
+          align="left"
+          lg
+        />
       </div>
 
       <div

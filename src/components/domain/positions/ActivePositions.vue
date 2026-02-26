@@ -22,6 +22,7 @@ import {
   TEXT_STYLES,
   getPnLVariant,
 } from '../../../helpers/variant-helper.ts'
+import PnL from '../../ui/PnL.vue'
 
 const filter = ref<PositionFilter>({
   page: 1,
@@ -86,27 +87,7 @@ const { data: openPositions, loading, error, retry } = useLivePositions(filter)
         </div>
 
         <div class="flex flex-col items-end min-w-25">
-          <template v-if="item.pnl != null && item.pnlPercent != null">
-            <span
-              class="font-bold font-mono text-lg leading-none mb-1"
-              :class="TEXT_STYLES[getPnLVariant(item.pnl)]"
-            >
-              {{ item.pnl > 0 ? '+' : '' }}{{ formatCurrency(item.pnl) }}
-            </span>
-            <div
-              class="flex items-center gap-1 text-xs px-1.5 py-0.5 rounded"
-              :class="PANEL_STYLES[getPnLVariant(item.pnl)]"
-            >
-              <TrendingUp v-if="item.pnl > 0" class="w-3 h-3" />
-              <TrendingDown v-else class="w-3 h-3" />
-              {{ formatPercentage(item.pnlPercent) }}
-            </div>
-          </template>
-
-          <template v-else>
-            <Skeleton class="h-5 w-20 mb-1.5" />
-            <Skeleton class="h-5 w-16" />
-          </template>
+          <PnL :pnl="item.pnl" :pnl-percent="item.pnlPercent" lg />
         </div>
       </div>
     </div>

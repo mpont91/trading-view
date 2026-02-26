@@ -26,6 +26,7 @@ import {
 import { useLivePositions } from '../../../composables/use-live-positions.ts'
 import { PositionStatus } from '../../../schemas/position.ts'
 import Skeleton from '../../ui/Skeleton.vue'
+import PnL from '../../ui/PnL.vue'
 
 const filters = ref<PositionFilter>({
   page: 1,
@@ -128,27 +129,7 @@ const clearFilters = () => {
       </td>
 
       <td class="py-3 pr-4 text-right">
-        <div
-          v-if="item.pnl && item.pnlPercent"
-          class="flex flex-col items-end"
-          :class="TEXT_STYLES[getPnLVariant(item.pnl)]"
-        >
-          <span class="font-bold font-mono">
-            {{ item.pnl > 0 ? '+' : '' }}{{ formatCurrency(item.pnl) }}
-          </span>
-          <div
-            class="flex items-center gap-1 text-xs bg-zinc-900/50 px-1.5 py-0.5 rounded"
-          >
-            <TrendingUp v-if="item.pnl > 0" class="w-3 h-3" />
-            <TrendingDown v-else class="w-3 h-3" />
-            {{ formatPercentage(item.pnlPercent) }}
-          </div>
-        </div>
-        <div v-else class="flex flex-col items-end">
-          <Skeleton class="h-4 w-20 mb-1.5" />
-
-          <Skeleton class="h-5 w-16" />
-        </div>
+        <PnL :pnl="item.pnl" :pnl-percent="item.pnlPercent" />
       </td>
 
       <td class="py-3 pr-4 text-right">
