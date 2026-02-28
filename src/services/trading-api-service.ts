@@ -10,6 +10,7 @@ import { type Order, orderPaginatedSchema } from '../schemas/order.ts'
 import { type Position, positionPaginatedSchema } from '../schemas/position.ts'
 import { type Performance, performanceSchema } from '../schemas/performance.ts'
 import type { PositionFilter } from '../filters/position-filter.ts'
+import { type Portfolio, portfolioSchema } from '../schemas/portfolio.ts'
 
 export class TradingApiService {
   private readonly baseUrl: string
@@ -68,6 +69,13 @@ export class TradingApiService {
   async getPerformance(): Promise<Performance> {
     const json = await this.request('/performance')
     const responseSchema = this.createApiResponseSchema(performanceSchema)
+    const result = responseSchema.parse(json)
+    return result.data
+  }
+
+  async getPortfolio(): Promise<Portfolio> {
+    const json = await this.request('/portfolio')
+    const responseSchema = this.createApiResponseSchema(portfolioSchema)
     const result = responseSchema.parse(json)
     return result.data
   }

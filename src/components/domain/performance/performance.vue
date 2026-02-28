@@ -10,12 +10,6 @@ import { useAsync } from '../../../composables/use-async'
 import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
-
-import {
-  TEXT_STYLES,
-  getPnLVariant,
-  PANEL_STYLES,
-} from '../../../helpers/variant-helper.ts'
 import PnL from '../../ui/PnL.vue'
 
 const api = new TradingApiService()

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { X, ArrowRight, Clock, TrendingUp, TrendingDown } from 'lucide-vue-next'
+import { X, ArrowRight, Clock } from 'lucide-vue-next'
 import DataTable from '../../ui/DataTable.vue'
 import {
   formatCurrency,
   formatDate,
   formatDurationRange,
-  formatPercentage,
   formatQuantity,
   formatTime,
 } from '../../../helpers/format-helper.ts'
@@ -18,14 +17,9 @@ import {
 import DateRangeFilter from '../../ui/DateRangeFilter.vue'
 import type { PositionFilter } from '../../../filters/position-filter.ts'
 import Badge from '../../ui/Badge.vue'
-import {
-  getPnLVariant,
-  getPositionStatusVariant,
-  TEXT_STYLES,
-} from '../../../helpers/variant-helper.ts'
+import { getPositionStatusVariant } from '../../../helpers/variant-helper.ts'
 import { useLivePositions } from '../../../composables/use-live-positions.ts'
 import { PositionStatus } from '../../../schemas/position.ts'
-import Skeleton from '../../ui/Skeleton.vue'
 import PnL from '../../ui/PnL.vue'
 
 const filters = ref<PositionFilter>({

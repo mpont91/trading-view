@@ -41,12 +41,12 @@ export function formatDuration(seconds: number): string {
   return `${daysStr} ${hoursStr} ${minutesStr} ${remainingSeconds} seconds`
 }
 
-export function formatCurrency(value: number) {
+export function formatCurrency(value: number, maxDecimals: number = 4) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 4,
+    maximumFractionDigits: maxDecimals,
   }).format(value)
 }
 

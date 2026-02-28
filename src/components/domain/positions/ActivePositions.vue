@@ -1,27 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Briefcase, TrendingUp, TrendingDown } from 'lucide-vue-next'
-
+import { Briefcase } from 'lucide-vue-next'
 import { useLivePositions } from '../../../composables/use-live-positions.ts'
 import type { PositionFilter } from '../../../filters/position-filter.ts'
-
 import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
-
 import {
   formatCurrency,
-  formatPercentage,
   formatQuantity,
   formatDate,
   formatTime,
 } from '../../../helpers/format-helper.ts'
 import { getSymbolLabel } from '../../../helpers/symbol-helper.ts'
-import {
-  PANEL_STYLES,
-  TEXT_STYLES,
-  getPnLVariant,
-} from '../../../helpers/variant-helper.ts'
 import PnL from '../../ui/PnL.vue'
 
 const filter = ref<PositionFilter>({
