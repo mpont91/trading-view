@@ -11,6 +11,12 @@ import { type Position, positionPaginatedSchema } from '../schemas/position.ts'
 import { type Performance, performanceSchema } from '../schemas/performance.ts'
 import type { PositionFilter } from '../filters/position-filter.ts'
 import { type Portfolio, portfolioSchema } from '../schemas/portfolio.ts'
+import {
+  type Activity,
+  activityPaginatedSchema,
+  activitySchema,
+} from '../schemas/activity.ts'
+import type { ActivityFilter } from '../filters/activity-filter.ts'
 
 export class TradingApiService {
   private readonly baseUrl: string
@@ -78,6 +84,15 @@ export class TradingApiService {
     const responseSchema = this.createApiResponseSchema(portfolioSchema)
     const result = responseSchema.parse(json)
     return result.data
+  }
+
+  async getActivities(filters?: ActivityFilter): Promise<Paginated<Activity>> {
+    const params = filters
+      ? this.toQueryParams(filters as Record<string, unknown>)
+      : undefined
+
+    const json = await this.request('/activities', params)
+    return activityPaginatedSchema.parse(json)
   }
 
   private async request(
