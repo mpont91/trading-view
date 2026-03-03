@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro'
+import ActivityList from '../components/domain/activity/ActivityList.vue'
+---
+
+<Layout title="Activity - Trading Bot">
+  <div class="space-y-6">
+    <header class="flex justify-between items-end">
+      <div>
+        <h1>Activity</h1>
+        <p class="text-zinc-400 mt-1">History of activity from the bot.</p>
+      </div>
+    </header>
+
+    <section>
+      <ActivityList client:load />
+    </section>
+  </div>
+</Layout>
