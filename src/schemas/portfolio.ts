@@ -2,7 +2,8 @@ import { z } from 'zod'
 
 export const portfolioSchema = z.object({
   timestamp: z.coerce.date(),
-  equity: z.number(),
+  totalEquity: z.number(),
+  tradingEquity: z.number(),
   bnb: z.number(),
 })
 

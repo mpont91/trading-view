@@ -57,7 +57,7 @@ const {
           </span>
         </div>
         <span class="text-3xl font-mono font-bold text-white">
-          {{ formatCurrency(portfolio.equity, 2) }}
+          {{ formatCurrency(portfolio.totalEquity, 2) }}
         </span>
       </div>
 
