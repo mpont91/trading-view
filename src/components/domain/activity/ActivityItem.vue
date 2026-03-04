@@ -23,27 +23,29 @@ const getLevelConfig = (level: string) => {
 </script>
 <template>
   <li
-    class="flex gap-3 items-center whitespace-nowrap hover:bg-zinc-800/40 px-1.5 py-0.5 rounded transition-colors"
+    class="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3 hover:bg-zinc-800/40 px-2 py-1.5 sm:py-1 rounded transition-colors"
   >
-    <span class="text-zinc-600 shrink-0 select-none">
-      [{{ formatTime(activity.createdAt) }}]
-    </span>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+      <span class="text-zinc-600 shrink-0 select-none">
+        [{{ formatTime(activity.createdAt) }}]
+      </span>
 
-    <span class="text-zinc-500 shrink-0 w-52 select-none">
-      [{{ activity.context }}]
-    </span>
+      <span class="text-zinc-500 shrink-0 w-auto sm:w-52 select-none truncate">
+        [{{ activity.context }}]
+      </span>
+
+      <span
+        :class="[
+          'font-bold shrink-0 select-none w-5 text-center text-base',
+          getLevelConfig(activity.level).color,
+        ]"
+      >
+        {{ getLevelConfig(activity.level).icon }}
+      </span>
+    </div>
 
     <span
-      :class="[
-        'font-bold shrink-0 select-none w-5 text-center text-base',
-        getLevelConfig(activity.level).color,
-      ]"
-    >
-      {{ getLevelConfig(activity.level).icon }}
-    </span>
-
-    <span
-      class="truncate"
+      class="flex-1 whitespace-normal wrap-break-word leading-relaxed sm:leading-normal"
       :class="
         activity.level === 'ERROR'
           ? 'text-red-400 font-medium'
