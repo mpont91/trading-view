@@ -6,12 +6,14 @@ import {
   formatCurrency,
   formatQuantity,
 } from '../../../helpers/format-helper.ts'
-
 import Card from '../../ui/Card.vue'
 import Skeleton from '../../ui/Skeleton.vue'
 import Error from '../../ui/Error.vue'
+import { BinanceApiService } from '../../../services/binance-api-service.ts'
+import { computed, ref, watch } from 'vue'
 
 const api = new TradingApiService()
+const binanceApi = new BinanceApiService()
 
 const {
   data: portfolio,
@@ -19,6 +21,31 @@ const {
   error,
   execute: retry,
 } = useAsync(() => api.getPortfolio())
+
+const bnbPrice = ref<number | null>(null)
+
+watch(
+  portfolio,
+  async (newPortfolio) => {
+    if (newPortfolio && newPortfolio.bnb > 0) {
+      try {
+        const prices = await binanceApi.getPrices(['BNBUSDC'])
+        bnbPrice.value = prices['BNBUSDC'] || 0
+      } catch (err) {
+        console.error('Error getting the price of BNB from Binance', err)
+        bnbPrice.value = null
+      }
+    }
+  },
+  { immediate: true },
+)
+
+const bnbUsdValue = computed(() => {
+  if (portfolio.value && bnbPrice.value) {
+    return portfolio.value.bnb * bnbPrice.value
+  }
+  return null
+})
 </script>
 
 <template>
@@ -78,6 +105,13 @@ const {
               {{ formatQuantity(portfolio.bnb) }}
             </span>
             <span class="text-sm font-medium text-zinc-500">BNB</span>
+
+            <span
+              v-if="bnbUsdValue !== null"
+              class="text-sm font-mono text-zinc-400 ml-2 bg-zinc-800/50 px-2 py-0.5 rounded animate-fade-in"
+            >
+              ~{{ formatCurrency(bnbUsdValue, 2) }}
+            </span>
           </div>
         </div>
       </div>
